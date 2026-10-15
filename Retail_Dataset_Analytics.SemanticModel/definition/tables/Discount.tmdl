@@ -1,0 +1,48 @@
+table Discount
+	lineageTag: f2d5cf98-8fa9-4dfb-b39f-c473e753663c
+
+	measure 'Total Discount Given' =
+			
+			SUMX(
+			    Fact_Sales_GPMargin,
+			    Fact_Sales_GPMargin[RETAIL_DISC] + Fact_Sales_GPMargin[COUPON_DISC] + Fact_Sales_GPMargin[COUPON_MATCH_DISC]
+			)
+		lineageTag: f67c7c0c-ef62-46fe-8ac8-2dd423345b9c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Foregone Profit from Discounting' = ```
+			
+			SUMX(
+			    Fact_Sales_GPMargin,
+			    Fact_Sales_GPMargin[RETAIL_DISC] + Fact_Sales_GPMargin[COUPON_DISC] + Fact_Sales_GPMargin[COUPON_MATCH_DISC]
+			)
+			
+			// Foregone Profit from Discounting = 
+			// SUMX(
+			//     Fact_Sales_GPMargin,
+			//     ( Fact_Sales_GPMargin[RETAIL_DISC] + Fact_Sales_GPMargin[COUPON_DISC] + Fact_Sales_GPMargin[COUPON_MATCH_DISC] )
+			//     * RELATED( Dim_Department_Margin[AssumedMargin] )
+			// )
+			```
+		lineageTag: 9e072264-fde5-4819-83a1-f82b58e65dae
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Column
+		formatString: 0
+		lineageTag: d1ba1c38-b54c-4561-8ee3-ffd86c0f7917
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Discount = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = fe8f8b902e5a44c59e53aced64434857
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "652da4fe06bd75ad0a50",
+  "position": {
+    "x": 469.60509554140128,
+    "y": 30.980891719745223,
+    "z": 3000,
+    "height": 352,
+    "width": 297,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "advancedSlicerVisual",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Demographic Selector"
+                    }
+                  },
+                  "Property": "Demographic Selector"
+                }
+              },
+              "queryRef": "Demographic Selector.Demographic Selector",
+              "nativeQueryRef": "Demographic Selector"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "isHidden": true
+}

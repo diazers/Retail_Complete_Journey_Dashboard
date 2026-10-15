@@ -1,0 +1,225 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "1a6b852f6f7e912d4ef7",
+  "position": {
+    "x": 825.39211662313346,
+    "y": 171.13682330984904,
+    "z": 4000,
+    "height": 497.94132355687969,
+    "width": 534.31581894081853,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_Sales_GPMargin"
+                    }
+                  },
+                  "Property": "DEPARTMENT"
+                }
+              },
+              "queryRef": "Fact_Sales_GPMargin.DEPARTMENT",
+              "nativeQueryRef": "DEPARTMENT",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Pareto1"
+                    }
+                  },
+                  "Property": "_1 Rank"
+                }
+              },
+              "queryRef": "Pareto1._1 Rank",
+              "nativeQueryRef": "Rank",
+              "displayName": "Rank"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Pareto1"
+                    }
+                  },
+                  "Property": "__1 Vertical Pareto Chart"
+                }
+              },
+              "queryRef": "Pareto1.__1 Vertical Pareto Chart",
+              "nativeQueryRef": "Pareto Chart",
+              "displayName": "Pareto Chart"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Pareto1"
+                    }
+                  },
+                  "Property": "_1 Revenue"
+                }
+              },
+              "queryRef": "Pareto1._1 Revenue",
+              "nativeQueryRef": "Value",
+              "displayName": "Value"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Pareto1"
+                    }
+                  },
+                  "Property": "_1 Cumulative Revenue"
+                }
+              },
+              "queryRef": "Pareto1._1 Cumulative Revenue",
+              "nativeQueryRef": "Cumulative Value",
+              "displayName": "Cumulative Value"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Pareto1"
+                  }
+                },
+                "Property": "_1 Rank"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "grid": [
+        {
+          "properties": {
+            "imageHeight": {
+              "expr": {
+                "Literal": {
+                  "Value": "30D"
+                }
+              }
+            },
+            "imageWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "200D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "194.69636995220213D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Pareto1.__1 Vertical Pareto Chart"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "98.71428571428572D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Fact_Sales_GPMargin.DEPARTMENT"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "visualTooltip": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "100D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "stylePreset": [
+        {
+          "properties": {
+            "name": {
+              "expr": {
+                "Literal": {
+                  "Value": "'None'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

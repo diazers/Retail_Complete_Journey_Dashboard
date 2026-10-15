@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "e7a7c1ec84456945380c",
+  "position": {
+    "x": 790.2770780856423,
+    "y": 342.77078085642319,
+    "z": 8000,
+    "height": 291.08312342569269,
+    "width": 957.58186397984889,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6855",
+    "query": {
+      "queryState": {
+        "content": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasureGroup"
+                    }
+                  },
+                  "Property": "HTML_SalesWaterfall"
+                }
+              },
+              "queryRef": "MeasureGroup.HTML_SalesWaterfall",
+              "nativeQueryRef": "HTML_SalesWaterfall"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

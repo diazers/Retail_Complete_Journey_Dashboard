@@ -1,0 +1,440 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "8c1b81a43a8ee38496a5",
+  "position": {
+    "x": 1011.4285714285714,
+    "y": 608.57142857142856,
+    "z": 2000,
+    "height": 431.42857142857144,
+    "width": 751.42857142857144,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Aisle Mapping"
+                    }
+                  },
+                  "Property": "Display Code"
+                }
+              },
+              "queryRef": "Aisle Mapping.Display Code",
+              "nativeQueryRef": "Display Code",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_Causal"
+                    }
+                  },
+                  "Property": "Redeemed Purchases by Display"
+                }
+              },
+              "queryRef": "Dim_Causal.Redeemed Purchases by Display",
+              "nativeQueryRef": "Redeemed Purchases by Display"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_Causal"
+                    }
+                  },
+                  "Property": "Households Contributing"
+                }
+              },
+              "queryRef": "Dim_Causal.Households Contributing",
+              "nativeQueryRef": "Households Contributing"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Redeem"
+                    }
+                  },
+                  "Property": "Redeemed Value ($)"
+                }
+              },
+              "queryRef": "Table.Redeemed Value ($)",
+              "nativeQueryRef": "Redeemed Value ($)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_Causal"
+                    }
+                  },
+                  "Property": "% of Total Redeemed"
+                }
+              },
+              "queryRef": "Dim_Causal.% of Total Redeemed",
+              "nativeQueryRef": "% of Total Redeemed"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Aisle Mapping"
+                  }
+                },
+                "Property": "Display Code"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "188.22659898477158D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Dim_Causal.Redeemed Purchases by Display"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "121.88D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Dim_Causal.Households Contributing"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "132.41830622681584D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Dim_Causal.% of Total Redeemed"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Redeem"
+                        }
+                      },
+                      "Property": "Row Highlight"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "Dim_Causal.% of Total Redeemed"
+          }
+        },
+        {
+          "properties": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Redeem"
+                        }
+                      },
+                      "Property": "Row Highlight"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "Table.Redeemed Value ($)"
+          }
+        },
+        {
+          "properties": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Redeem"
+                        }
+                      },
+                      "Property": "Row Highlight"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "Dim_Causal.Households Contributing"
+          }
+        },
+        {
+          "properties": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Redeem"
+                        }
+                      },
+                      "Property": "Row Highlight"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "Dim_Causal.Redeemed Purchases by Display"
+          }
+        },
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "13D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "textSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "13D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "stylePreset": [
+        {
+          "properties": {
+            "name": {
+              "expr": {
+                "Literal": {
+                  "Value": "'None'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "20463b01f3162dc67462",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Aisle Mapping"
+              }
+            },
+            "Property": "Display Code"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "a",
+              "Entity": "Aisle Mapping",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "Comparison": {
+                      "ComparisonKind": 0,
+                      "Left": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Source": "a"
+                            }
+                          },
+                          "Property": "Display Code"
+                        }
+                      },
+                      "Right": {
+                        "Literal": {
+                          "Value": "null"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "962ff017e72e7075fd52",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim_Causal"
+              }
+            },
+            "Property": "Redeemed Purchases by Display"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "5f13ae3da547d6058903",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim_Causal"
+              }
+            },
+            "Property": "Households Contributing"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "1a7b9834019de8446cca",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Redeem"
+              }
+            },
+            "Property": "Redeemed Value ($)"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "5fa893a752a9de107563",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim_Causal"
+              }
+            },
+            "Property": "% of Total Redeemed"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

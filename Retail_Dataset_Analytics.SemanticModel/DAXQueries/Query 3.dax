@@ -1,0 +1,206 @@
+DEFINE
+    FUNCTION PowerofBI.IBCS.BarChart.RelativeVariance = /// Creates a bar chart that shows the relative (%) variance between two values
+/// @param {scalar} valueMain
+/// @param {string} dataLabel
+/// @param {boolean} isTotalRow
+/// @param {scalar} valueMax - Maximum value in the dataset for proper scaling
+/// @returns SVG image
+(
+    // Actual value
+    valueMain: SCALAR VAL,
+    // Data label
+    dataLabel: STRING VAL,  
+    // is it a total row: TRUE() or FALSE(); ; use NOT ( ISINSCOPE () )
+    isTotalRow: BOOLEAN VAL,
+    // Maximum value from all rows (for scaling)
+    valueMax: SCALAR VAL
+) 
+=> 
+//=================================================================================================
+//Project: an UDF for generating IBCS-styled charts (as SVG images)
+//  The visualization design follows IBCS guidelines https://www.ibcs.com/ibcs-standards-1-2/
+//  Although it is not produced, not certified, not authorized, not endorsed by IBCS® https://www.ibcs.com/
+//  The charts can be embedded into Table, Matrix, and New Card core Power BI visuals
+//=================================================================================================
+//Author: Andrzej Leszkiewicz, an IBCS® Certified Analyst
+//  For more information, visit https://powerofbi.org/
+//  Connect on LinkedIn at https://www.linkedin.com/in/avatorl/
+//  Contact via email at andrzej@powerofbi.org
+//=================================================================================================
+//License: MIT Expat License https://en.wikipedia.org/wiki/MIT_License (free)
+//=================================================================================================
+//Returns an SVG image code with a pin chart
+//Relative variance, for example ΔPY% = ((AC+FC)-PY)/PY in %
+//red pins - negative values, green pins - positive values
+//grey axis Y (PY)
+//
+//======================================================================================
+//CONFIG - ADJUST THESE VALUES TO CONTROL OUTLIER TRUNCATION
+//======================================================================================
+VAR _outlierCap = 2 
+    --Maximum value to display in DECIMAL format (e.g., 1.5 = 150%, 2.0 = 200%)
+    --Values larger than this will be truncated and marked with a triangle
+    --ADJUST THIS VALUE based on your data: 
+    --  For values like 43.7 (4,370%), try: 1.5 to 3.0
+    --  1.0 = 100%, 1.5 = 150%, 2.0 = 200%, 2.5 = 250%, 3.0 = 300%
+//======================================================================================
+VAR _minDelta = 0
+VAR _Rank =
+    1000000000000
+        + ROUND ( valueMain + 100, 0 ) --row value converted to a string that allows correct column sorting
+VAR _IsOutlier = 
+    NOT( ISBLANK( valueMain ) ) && ABS( valueMain ) > _outlierCap --Check if value exceeds the cap
+        
+VAR _ValueForDisplay =
+    --Truncate values that exceed the outlier cap
+    IF( 
+        ABS( valueMain ) > _outlierCap,
+        _outlierCap * IF( valueMain < 0, -1, 1 ),
+        valueMain
+    )
+    
+VAR _ColorGrey = "#A6A6A6"
+VAR _ColorRed = "#FF0000"
+VAR _ColorGreen = "#8CB400"
+
+//======================================================================================
+// TRIANGLE MARKER OPTIONS - Choose one by uncommenting:
+//======================================================================================
+VAR _OutlinerTriangle = UNICHAR(9654)   -- ► Black Right-Pointing Pointer (recommended)
+// VAR _OutlinerTriangle = UNICHAR(9656)   -- ▸ Black Right-Pointing Small Triangle
+// VAR _OutlinerTriangle = UNICHAR(9658)   -- ► Black Right-Pointing Triangle
+// VAR _OutlinerTriangle = UNICHAR(8227)   -- ‣ Triangular Bullet
+// VAR _OutlinerTriangle = UNICHAR(9205)   -- ⏵ Medium Right-Pointing Triangle
+// VAR _OutlinerTriangle = "►"             -- Direct character (may work better in some fonts)
+//======================================================================================
+
+VAR _Em = 16 * 4 / 3 --px
+VAR _FontWeight =
+    --'normal' font for sales persons, 'bold' font for total row (average)
+    IF (
+        isTotalRow,
+        "bold",
+        "normal"
+    )
+//Use the smaller of: the outlier cap or the max value from dataset
+VAR _maxValue = MIN( _outlierCap, ABS( valueMax ) )
+VAR _SVG_Width = 400
+VAR _SVG_Height = _Em * 1.62
+VAR _SVG_LeftPadding = 150 
+VAR _SVG_RightPadding = 150
+VAR _SVG_ColumnWidth = _SVG_Width - _SVG_LeftPadding - _SVG_RightPadding 
+//SCALING
+VAR _AxisYPosition =
+    _SVG_LeftPadding
+        + IF (
+            _minDelta >= 0,
+            0,
+            ROUND ( DIVIDE ( ABS ( _minDelta ), _maxValue ) * _SVG_ColumnWidth, 0 )
+        )
+        
+VAR _WidthValue =
+    --bar width (numeric value) - use the display value (capped)
+    ROUND (
+        DIVIDE ( ABS ( _ValueForDisplay ), _maxValue ) * _SVG_ColumnWidth,
+        0
+    )
+    
+VAR _barColor =
+    --green or red
+    IF ( valueMain > 0, _ColorGreen, _ColorRed )
+    
+VAR _X =
+    --x position of a bar
+    SWITCH (
+        TRUE (),
+        _ValueForDisplay >= 0, _AxisYPosition,
+        _ValueForDisplay < 0, _AxisYPosition - _WidthValue
+    )
+    
+VAR _XPinhead =
+    --x position of a bar (pinhead)
+    SWITCH (
+        TRUE (),
+        _ValueForDisplay >= 0,
+            _AxisYPosition + _WidthValue - _Em * 0.4,
+        _ValueForDisplay < 0,
+            _AxisYPosition - _WidthValue - _Em * 0.3
+    )
+    
+VAR _Anchor =
+    --text anchor
+    IF (
+        isTotalRow,
+        "middle",
+        IF ( _ValueForDisplay >= 0, "start", "end" )
+    )
+    
+VAR _DX =
+    --text offset along axis X
+    SWITCH (
+        TRUE (),
+        _ValueForDisplay >= 0,
+            IF ( _IsOutlier, _Em * 0.3, _Em * 0.7 ) + 5,
+        _ValueForDisplay < 0, - 5
+    ) 
+VAR _LabelLength = 
+    --Approximate label width in pixels (average character width * number of characters)
+    LEN(dataLabel) * _Em * 0.5
+VAR _XTriangle = 
+    --x position for outlier triangle marker (to the right of data label)
+    IF(
+        _ValueForDisplay >= 0,
+        _XPinhead + _DX + _LabelLength + 15,
+        _XPinhead + _DX - 15
+    )
+    
+//=================================================================================================    
+//GENERATE SVG: concatenating parts of the SVG image
+//=================================================================================================
+VAR _SVG_Header = "data:image/svg+xml;utf8,"
+VAR _SVG_Open = "<svg xmlns='http://www.w3.org/2000/svg' width='" & _SVG_Width & "' height='" & _SVG_Height & "' >"
+VAR _SVG_Style = "<style>
+      text{
+        font-family: Inter, sans-serif;
+        font-size: " & _Em & "px;
+        font-weight: " & _FontWeight & ";
+        dominant-baseline: central;
+        text-anchor: " & _Anchor & ";
+      }
+      #markoutlier{
+        dominant-baseline: middle;
+        font-size: " & _Em * 1 & "px;
+      }
+  </style>"
+VAR _SVG_Close = "</svg>"
+VAR _SVG_SortBy = "/*SortBy:" & _Rank & "*/"
+VAR _SVG_AxisY = "<line id='line-axisy' x1='" & _AxisYPosition & "' x2='" & _AxisYPosition & "' y1='0%' y2='100%' stroke='" & _ColorGrey & "' stroke-width='" & _Em * 0.2 & "'></line >"
+VAR _SVG_BarDeltaPY = "<rect id='rect-variancepin' x='" & _X & "' width='" & _WidthValue & "' y='" & _Em * 0.6 & "' height='" & _Em * 0.3 & "' fill='" & _barColor & "' stroke='" & _barColor & "' stroke-width='0.5'></rect>"
+VAR _SVG_PinHead = "<rect id='rect-pinhead' x='" & _XPinhead & "' width='" & _Em * 0.7 & "' y='" & _Em * 0.3 & "' height='" & _Em * 0.9 & "' fill='#000000'></rect>"
+VAR _SVG_TextDeltaPYLabel = "<text id='text-label' text-anchor='" & _Anchor & "' x='" & _XPinhead & "' dx='" & _DX & "' y='50%' >" & dataLabel & "</text>"
+VAR _SVG_Outliner =
+    "<text id='markoutlier' text-anchor='start' x='" & _XTriangle & "' fill='" & _barColor & "' y='50%'>" & _OutlinerTriangle & "</text>"
+VAR _SVG_PinHeadX =
+    IF ( _IsOutlier, "", _SVG_PinHead )
+    
+VAR _SVG_OutlierMarker =
+    IF ( _IsOutlier, _SVG_Outliner, "" )
+    
+VAR _SVG_Debug = "<!--IsOutlier:" & _IsOutlier & " Value:" & valueMain & " Cap:" & _outlierCap & "-->"
+VAR _SVG_TextDeltaPYLabelTotal = "<text id='text-labeltotal' x='" & _AxisYPosition & "' y='50%' >" & dataLabel & "</text>"
+VAR _SVG_Total = _SVG_Header & _SVG_Open & _SVG_TextDeltaPYLabelTotal & _SVG_Style & _SVG_Close
+VAR _SVG_Row = _SVG_Header & _SVG_Open & _SVG_Debug & _SVG_SortBy & _SVG_AxisY & _SVG_PinHeadX & _SVG_BarDeltaPY & _SVG_TextDeltaPYLabel & _SVG_OutlierMarker & _SVG_Style & _SVG_Close
+VAR _SVG =
+    IF ( isTotalRow, _SVG_Total, _SVG_Row )
+RETURN
+    _SVG
+
+EVALUATE
+    {
+        PowerofBI.IBCS.BarChart.RelativeVariance(
+			    0.15,        -- 1. valueMain: Decimal variance (0.15 = +15%)
+    "+15.0%",    -- 2. dataLabel: Text to display next to the bar
+    FALSE,       -- 3. isTotalRow: FALSE for regular row, TRUE for subtotal/total
+    0.50         -- 4. valueMax: Max scale cap for bar width (0.50 = 50%)
+		)
+    }

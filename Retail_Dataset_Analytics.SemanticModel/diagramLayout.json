@@ -1,0 +1,491 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 930.39762030746488,
+            "y": 0
+          },
+          "nodeIndex": "campaign_desc",
+          "nodeLineageTag": "1120fd50-0eb3-4cfb-8376-4cfa5ae3bceb",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 26
+        },
+        {
+          "location": {
+            "x": 1305.6362373467443,
+            "y": 57.822954182022357
+          },
+          "nodeIndex": "campaign_table",
+          "nodeLineageTag": "f8dcdc6b-d9cf-4972-b9de-b6431462fd51",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 33
+        },
+        {
+          "location": {
+            "x": 620.33514032504047,
+            "y": 5.50095983575352
+          },
+          "nodeIndex": "coupon",
+          "nodeLineageTag": "cba6d6df-0849-4cb8-83db-8039e7182306",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 27
+        },
+        {
+          "location": {
+            "x": 1212.4113014930169,
+            "y": 320.21620044187694
+          },
+          "nodeIndex": "coupon_redempt",
+          "nodeLineageTag": "b51e74d7-2ec8-4f27-8303-6b3965064d18",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 34
+        },
+        {
+          "location": {
+            "x": 995.69407020268545,
+            "y": 651.91124577262394
+          },
+          "nodeIndex": "Dim_Date",
+          "nodeLineageTag": "a86936c8-8172-4314-9c8d-f82dff89c4f0",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 37
+        },
+        {
+          "location": {
+            "x": 267.96232580405888,
+            "y": 532.20328871739162
+          },
+          "nodeIndex": "Dim_Department_Margin",
+          "nodeLineageTag": "6a171c96-d3ec-4d04-978e-04627c73198a",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 32
+        },
+        {
+          "location": {
+            "x": 341.86646582550588,
+            "y": 173.85732374346071
+          },
+          "nodeIndex": "Dim_Product",
+          "nodeLineageTag": "71edbdec-e9cc-4b2c-846a-237f84f78d79",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 28
+        },
+        {
+          "location": {
+            "x": 628.36010851372282,
+            "y": 418.61848345960453
+          },
+          "nodeIndex": "Fact_Sales_GPMargin",
+          "nodeLineageTag": "e3e84e68-a415-4616-8dd8-c38ec80e679a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 29
+        },
+        {
+          "location": {
+            "x": 871.27480769965359,
+            "y": 210.12107936430328
+          },
+          "nodeIndex": "hh_demographic",
+          "nodeLineageTag": "f6bef4a9-74bc-48d2-a154-8feb1a333500",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 36
+        },
+        {
+          "location": {
+            "x": 398.47557555871924,
+            "y": 720.06398280851454
+          },
+          "nodeIndex": "Dim_Causal",
+          "nodeLineageTag": "713ff4a9-d09b-42b4-b8a4-7a43fbdd89ff",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 30
+        },
+        {
+          "location": {
+            "x": 52.082961024368387,
+            "y": 113.29512111051099
+          },
+          "nodeIndex": "MeasureGroup",
+          "nodeLineageTag": "3ccb7abd-36c7-4e59-93bf-b6afab01f9fa",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 22
+        },
+        {
+          "location": {
+            "x": 1257.2622581810306,
+            "y": 615.87020658281085
+          },
+          "nodeIndex": "Theme",
+          "nodeLineageTag": "c31a0bfe-37f0-4bf9-8499-636014a38eea",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 23
+        },
+        {
+          "location": {
+            "x": 9.9940855740917414,
+            "y": 604.55701989502393
+          },
+          "nodeIndex": "Table_Waterfall",
+          "nodeLineageTag": "5b2a5c51-8433-4823-bde3-c5295adc0dca",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 31
+        },
+        {
+          "location": {
+            "x": 46.751282587823425,
+            "y": 251.56740285012972
+          },
+          "nodeIndex": "IBCSWaterfall",
+          "nodeLineageTag": "4384a5ad-f7c1-4ef6-93c2-dccfcb1af7bc",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 24
+        },
+        {
+          "location": {
+            "x": 22.260697540770707,
+            "y": 394.75116168075959
+          },
+          "nodeIndex": "PHierarchy",
+          "nodeLineageTag": "e16e27ad-7ff4-424e-b662-b945019d6ebb",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 25
+        },
+        {
+          "location": {
+            "x": 1579.6421517726526,
+            "y": 444.03199140425727
+          },
+          "nodeIndex": "MultiTierBarCharts",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 1853.6480661985609,
+            "y": 444.03199140425727
+          },
+          "nodeIndex": "RFM",
+          "nodeLineageTag": "336fc035-f968-40f1-985d-643a01136c05",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 13
+        },
+        {
+          "location": {
+            "x": 2127.6539806244691,
+            "y": 432.03199140425727
+          },
+          "nodeIndex": "Date Selection",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 14
+        },
+        {
+          "location": {
+            "x": 2401.6598950503776,
+            "y": 432.03199140425727
+          },
+          "nodeIndex": "Measure Sel",
+          "nodeLineageTag": "24650109-62db-423c-abb7-dcbf8c831156",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 15
+        },
+        {
+          "location": {
+            "x": 2675.6658094762861,
+            "y": 444.03199140425727
+          },
+          "nodeIndex": "Moving Average",
+          "nodeLineageTag": "6fdc0e2a-0819-4520-a340-50181af866ad",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 16
+        },
+        {
+          "location": {
+            "x": 2949.6717239021946,
+            "y": 396.03199140425727
+          },
+          "nodeIndex": "WaterfallSteps",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 17
+        },
+        {
+          "location": {
+            "x": 3223.6776383281031,
+            "y": 444.03199140425727
+          },
+          "nodeIndex": "Pareto1",
+          "nodeLineageTag": "b5a8e55c-e5f1-4fd0-bd72-86503f5a8eb2",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 18
+        },
+        {
+          "location": {
+            "x": 3497.6835527540115,
+            "y": 396.03199140425727
+          },
+          "nodeIndex": "Parameter",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 19
+        },
+        {
+          "location": {
+            "x": 3771.68946717992,
+            "y": 420.03199140425727
+          },
+          "nodeIndex": "Demographic Selector",
+          "nodeLineageTag": "263affd7-9b2f-449b-8bf0-06e3bd4a7682",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 20
+        },
+        {
+          "location": {
+            "x": 690.71073111549367,
+            "y": 941.57813852688616
+          },
+          "nodeIndex": "Basket Summary",
+          "nodeLineageTag": "03ca4714-155d-4ce5-8932-e381b1c32286",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 21
+        },
+        {
+          "location": {
+            "x": 1298.0042706058291,
+            "y": 922.53712426344282
+          },
+          "nodeIndex": "Aisle Mapping",
+          "nodeLineageTag": "6ab3afaf-6f9b-403f-9d4a-efaae745bd90",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 35
+        },
+        {
+          "location": {
+            "x": 4319.701296031737,
+            "y": 470.789069263443
+          },
+          "nodeIndex": "Highlight Selector",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 4045.6953816058285,
+            "y": 518.789069263443
+          },
+          "nodeIndex": "Redeem",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 4593.7072104576455,
+            "y": 470.789069263443
+          },
+          "nodeIndex": "RFM Segments",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 4867.713124883554,
+            "y": 494.789069263443
+          },
+          "nodeIndex": "Granularity",
+          "nodeLineageTag": "15efb298-5b2a-42c1-aab1-5718f8e93e9c",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 5141.7190393094625,
+            "y": 470.789069263443
+          },
+          "nodeIndex": "Metric Selector",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 5415.7249537353709,
+            "y": 470.789069263443
+          },
+          "nodeIndex": "Discount",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 1619.9024284729649,
+            "y": 106.04220482104677
+          },
+          "nodeIndex": "campaign_level_results",
+          "nodeLineageTag": "82e3c18c-b683-49b8-83b8-8ae2962886d0",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 5963.7367825871879,
+            "y": 470.789069263443
+          },
+          "nodeIndex": "RFM Metric Selector",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 6237.7426970130964,
+            "y": 470.789069263443
+          },
+          "nodeIndex": "Disconnected Year Table",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 118.6415983437405,
+            "y": 884.09744884131362
+          },
+          "nodeIndex": "Customer Cohort",
+          "nodeLineageTag": "8f2db83c-2093-4acd-860a-1e95cfb5ac44",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 6785.7545258649134,
+            "y": 470.789069263443
+          },
+          "nodeIndex": "Cohort Offset",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 11
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 59.412823804071238,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

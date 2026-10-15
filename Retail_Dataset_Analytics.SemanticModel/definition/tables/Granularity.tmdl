@@ -1,0 +1,49 @@
+table Granularity
+	lineageTag: 15efb298-5b2a-42c1-aab1-5718f8e93e9c
+
+	column Granularity
+		lineageTag: af6f945b-ddcf-49a4-81a7-77b0309cb699
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Granularity Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Granularity Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Granularity Fields'
+		isHidden
+		lineageTag: 05792dec-661a-4ee8-a7cd-a50bbc382e2e
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Granularity Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Granularity Order'
+		isHidden
+		formatString: 0
+		lineageTag: 5db61247-af95-4d2a-908e-f07cc9502a65
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Granularity = calculated
+		mode: import
+		source =
+				{
+				    ("CalendarDate", NAMEOF('Dim_Date'[CalendarDate]), 0),
+				    ("WeekOfYear", NAMEOF('Dim_Date'[WeekOfYear]), 1),
+				    ("YearMonth", NAMEOF('Dim_Date'[YearMonth]), 2)
+				}
+
+	annotation PBI_Id = befe2c3c55d84c3a8b374b134359087d
+

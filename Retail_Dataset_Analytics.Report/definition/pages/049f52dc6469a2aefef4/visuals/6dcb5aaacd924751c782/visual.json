@@ -1,0 +1,152 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "6dcb5aaacd924751c782",
+  "position": {
+    "x": 1148.0100755667506,
+    "y": 92.493702770780857,
+    "z": 5000,
+    "height": 404.43324937027705,
+    "width": 228.51385390428209,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results"
+                    }
+                  },
+                  "Property": "Total NonRedeemer Discount"
+                }
+              },
+              "queryRef": "campaign_level_results.Total NonRedeemer Discount",
+              "nativeQueryRef": "Total NonRedeemer Discount"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results"
+                    }
+                  },
+                  "Property": "Total Redeemer Discount"
+                }
+              },
+              "queryRef": "campaign_level_results.Total Redeemer Discount",
+              "nativeQueryRef": "Total Redeemer Discount"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "campaign_level_results"
+                  }
+                },
+                "Property": "Total NonRedeemer Discount"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'NonRedeemer Discount VS Redeemer'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "a9dd9a9404737c9f2eb7",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "campaign_level_results"
+              }
+            },
+            "Property": "Total NonRedeemer Discount"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "729788366b377c10e686",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "campaign_level_results"
+              }
+            },
+            "Property": "Total Redeemer Discount"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

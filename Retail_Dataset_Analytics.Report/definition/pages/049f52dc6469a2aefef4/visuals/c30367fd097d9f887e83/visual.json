@@ -1,0 +1,150 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "c30367fd097d9f887e83",
+  "position": {
+    "x": 894.34650455927056,
+    "y": 396.838905775076,
+    "z": 6000,
+    "height": 646.322188449848,
+    "width": 866.62613981762922,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results"
+                    }
+                  },
+                  "Property": "CAMPAIGN"
+                }
+              },
+              "queryRef": "campaign_level_results.CAMPAIGN",
+              "nativeQueryRef": "CAMPAIGN",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results"
+                    }
+                  },
+                  "Property": "Avg Redeemer DiD"
+                }
+              },
+              "queryRef": "campaign_level_results.Avg Redeemer DiD",
+              "nativeQueryRef": "Avg Redeemer DiD"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results"
+                    }
+                  },
+                  "Property": "Avg NonRedeemer DiD"
+                }
+              },
+              "queryRef": "campaign_level_results.Avg NonRedeemer DiD",
+              "nativeQueryRef": "Avg NonRedeemer DiD"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "campaign_level_results"
+                  }
+                },
+                "Property": "Avg Redeemer DiD"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "divider": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "23cd72227365ece12f10",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "campaign_level_results"
+              }
+            },
+            "Property": "CAMPAIGN"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "530faec4787aba11ff96",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "campaign_level_results"
+              }
+            },
+            "Property": "Avg Redeemer DiD"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f5812943c96788d369da",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "campaign_level_results"
+              }
+            },
+            "Property": "Avg NonRedeemer DiD"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

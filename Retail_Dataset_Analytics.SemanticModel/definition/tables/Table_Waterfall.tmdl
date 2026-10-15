@@ -1,0 +1,108 @@
+table Table_Waterfall
+	lineageTag: 5b2a5c51-8433-4823-bde3-c5295adc0dca
+
+	column 'Hierarchy 1'
+		lineageTag: b97e57b1-39b4-44ce-831f-1c89d355fc72
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Hierarchy 1]
+		sortByColumn: 'Sort Order 1'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sort Order 1'
+		formatString: 0
+		lineageTag: b9a426e9-f299-4c8c-99c0-e0c855582570
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Sort Order 1]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quarter Number'
+		formatString: 0
+		lineageTag: b4cb8272-01ab-4ad0-803e-b1c85bc6729e
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Quarter Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Category 1'
+		lineageTag: be6a9f11-d7a0-4338-9b5d-0941701b7bd9
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Category 1]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hierarchy 2'
+		lineageTag: 4d0d2563-5373-4928-a1b5-61ddee6bcee8
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Hierarchy 2]
+		sortByColumn: 'Sort Order 2'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sort Order 2'
+		formatString: 0
+		lineageTag: 7792a26c-e210-4706-867a-6e26b29cc687
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Sort Order 2]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		formatString: 0
+		lineageTag: aab5cc78-9ebc-423c-9c45-0373521a1d7f
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Month Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Category 2'
+		lineageTag: 74305aa0-9a5f-496f-9320-9605e63f9bfa
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Category 2]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Table_Waterfall = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "Hierarchy 1", STRING,
+				    "Sort Order 1", INTEGER,
+				    "Quarter Number", INTEGER,
+				    "Category 1", STRING,
+				    "Hierarchy 2", STRING,
+				    "Sort Order 2", INTEGER,
+				    "Month Number", INTEGER,
+				    "Category 2", STRING,
+				    {
+				        {"PY",        0,      0,      "Previous Year",    "PY",      0,      0,      "Previous Year"},
+				        {"Q1",        1,      1,      "Quarterly YoY",     "J",      1,      1,      "Monthly YoY"},
+				        {"Q1",        1,      1,      "Quarterly YoY",     "F",      2,      2,      "Monthly YoY"},
+				        {"Q1",        1,      1,      "Quarterly YoY",     "M",      3,      3,      "Monthly YoY"},
+				        {"Q2",        2,      2,      "Quarterly YoY",     "A",      4,      4,      "Monthly YoY"},
+				        {"Q2",        2,      2,      "Quarterly YoY",     "M",     5,      5,      "Monthly YoY"},
+				        {"Q2",        2,      2,      "Quarterly YoY",     "J",     6,      6,      "Monthly YoY"},
+				        {"Q3",        3,      3,      "Quarterly YoY",     "J",    7,      7,      "Monthly YoY"},
+				        {"Q3",        3,      3,      "Quarterly YoY",     "A",     8,      8,      "Monthly YoY"},
+				        {"Q3",        3,      3,      "Quarterly YoY",     "S",      9,      9,      "Monthly YoY"},
+				        {"Q4",        4,      4,      "Quarterly YoY",     "O",      10,     10,     "Monthly YoY"},
+				        {"Q4",        4,      4,      "Quarterly YoY",     "N",      11,     11,     "Monthly YoY"},
+				        {"Q4",        4,      4,      "Quarterly YoY",     "D",      12,     12,     "Monthly YoY"},
+				        {"AC",        5,      0,      "Current Year",      "AC  ",     13,      0,     "Current Year"},    
+				        {"△PY",      6,       0,     "Total YoY",        "△PY",     14,      0,     "Total YoY"}
+				    }
+				)
+				```
+
+	annotation PBI_Id = 9e830f7c1f1a46a88c7ce077905b1154
+

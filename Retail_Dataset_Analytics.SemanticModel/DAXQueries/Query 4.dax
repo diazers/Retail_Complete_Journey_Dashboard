@@ -1,0 +1,61 @@
+DEFINE
+    FUNCTION Time_Intelligence = (
+        measureExpr : expr,
+        returnType : string  -- "PY", "AC", "YoY", "YoY%"
+    ) =>
+    VAR CurrentValue =
+        CALCULATE ( measureExpr )
+    VAR PreviousYearValue =
+        IF (
+            HASONEVALUE ( Dim_Date[Year] ),
+            CALCULATE (
+                measureExpr,
+                SAMEPERIODLASTYEAR ( Dim_Date[CalendarDate] )
+            ),
+            BLANK ()
+        )
+    -- YoY absolute logic
+    VAR YoYValue =
+        SWITCH (
+            TRUE (),
+            -- If either PY or CY is blank, return BLANK
+            ISBLANK ( PreviousYearValue ) || ISBLANK ( CurrentValue ),
+                BLANK (),
+            -- Normal YoY (both values exist)
+            TRUE (),
+                CurrentValue - PreviousYearValue
+        )
+    -- YoY percentage logic
+    VAR YoYPercentage =
+        SWITCH (
+            TRUE (),
+            -- New customer: no PY but has CY → 100%
+            ISBLANK ( PreviousYearValue ) && NOT ISBLANK ( CurrentValue ),
+                1,
+            -- Lost customer: has PY but no CY → -100%
+            NOT ISBLANK ( PreviousYearValue ) && ISBLANK ( CurrentValue ),
+                -1,
+            -- Both blank
+            ISBLANK ( PreviousYearValue ) && ISBLANK ( CurrentValue ),
+                BLANK (),
+            -- Prevent divide by zero
+            PreviousYearValue = 0,
+                BLANK (),
+            -- Normal YoY% (both values exist)
+            TRUE (),
+                DIVIDE (
+                    CurrentValue - PreviousYearValue,
+                    ABS ( PreviousYearValue )
+                )
+        )
+    VAR Result =
+        SWITCH (
+            returnType,
+            "PY", PreviousYearValue,
+            "AC", CurrentValue,
+            "YoY", YoYValue,
+            "YoY%", YoYPercentage,
+            BLANK ()
+        )
+    RETURN
+        Result

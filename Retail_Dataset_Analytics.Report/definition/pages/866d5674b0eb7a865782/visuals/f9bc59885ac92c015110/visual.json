@@ -1,0 +1,154 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "f9bc59885ac92c015110",
+  "position": {
+    "x": 43.802281368821291,
+    "y": 440.94296577946767,
+    "z": 1000,
+    "height": 279.361216730038,
+    "width": 1045.4144486692014,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_Sales_GPMargin"
+                    }
+                  },
+                  "Property": "Retail Discount Band"
+                }
+              },
+              "queryRef": "Fact_Sales_GPMargin.Retail Discount Band",
+              "nativeQueryRef": "Retail Discount Band",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasureGroup"
+                    }
+                  },
+                  "Property": "Profit Margin %"
+                }
+              },
+              "queryRef": "MeasureGroup.Profit Margin %",
+              "nativeQueryRef": "Profit Margin %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Discount"
+                    }
+                  },
+                  "Property": "Total Discount Given"
+                }
+              },
+              "queryRef": "Discount.Total Discount Given",
+              "nativeQueryRef": "Total Discount Given"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Discount"
+                    }
+                  },
+                  "Property": "Foregone Profit from Discounting"
+                }
+              },
+              "queryRef": "Discount.Foregone Profit from Discounting",
+              "nativeQueryRef": "Foregone Profit from Discounting"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasureGroup"
+                    }
+                  },
+                  "Property": "Total_Sales"
+                }
+              },
+              "queryRef": "MeasureGroup.Total_Sales",
+              "nativeQueryRef": "Total_Sales"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasureGroup"
+                    }
+                  },
+                  "Property": "Total_Gross_Profit"
+                }
+              },
+              "queryRef": "MeasureGroup.Total_Gross_Profit",
+              "nativeQueryRef": "Total_Gross_Profit"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Fact_Sales_GPMargin"
+                        }
+                      },
+                      "Property": "Retail Discount Band Sort"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Sum(Fact_Sales_GPMargin.Retail Discount Band Sort)",
+              "nativeQueryRef": "Min of Retail Discount Band Sort"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "Fact_Sales_GPMargin"
+                      }
+                    },
+                    "Property": "Retail Discount Band Sort"
+                  }
+                },
+                "Function": 3
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

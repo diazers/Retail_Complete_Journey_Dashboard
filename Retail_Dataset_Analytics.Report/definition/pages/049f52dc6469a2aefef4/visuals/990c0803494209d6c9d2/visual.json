@@ -1,0 +1,289 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "990c0803494209d6c9d2",
+  "position": {
+    "x": 1422.8571428571429,
+    "y": 225.71428571428572,
+    "z": 0,
+    "height": 682.56,
+    "width": 497.28,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_desc"
+                    }
+                  },
+                  "Property": "DESCRIPTION"
+                }
+              },
+              "queryRef": "campaign_desc.DESCRIPTION",
+              "nativeQueryRef": "DESCRIPTION",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_desc"
+                    }
+                  },
+                  "Property": "CAMPAIGN"
+                }
+              },
+              "queryRef": "campaign_desc.CAMPAIGN",
+              "nativeQueryRef": "CAMPAIGN",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Redeem"
+                    }
+                  },
+                  "Property": "Households Targeted"
+                }
+              },
+              "queryRef": "Table.Households Targeted",
+              "nativeQueryRef": "Households Targeted"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Redeem"
+                    }
+                  },
+                  "Property": "HouseholdsRedeemed"
+                }
+              },
+              "queryRef": "Table.HouseholdsRedeemed",
+              "nativeQueryRef": "HouseholdsRedeemed"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "coupon_redempt"
+                    }
+                  },
+                  "Property": "Household Redemption Rate"
+                }
+              },
+              "queryRef": "coupon_redempt.Household Redemption Rate",
+              "nativeQueryRef": "Household Redemption Rate"
+            }
+          ]
+        }
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "campaign_desc.DESCRIPTION"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_desc"
+                    }
+                  },
+                  "Property": "DESCRIPTION"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "campaign_desc.CAMPAIGN"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_desc"
+                    }
+                  },
+                  "Property": "CAMPAIGN"
+                }
+              }
+            ],
+            "isPinned": true
+          }
+        ],
+        "root": {
+          "children": [
+            {
+              "identityValues": [
+                {
+                  "Literal": {
+                    "Value": "'TypeA'"
+                  }
+                }
+              ],
+              "isToggled": true,
+              "children": [
+                {
+                  "identityValues": [
+                    {
+                      "Literal": {
+                        "Value": "8L"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "identityValues": [
+                {
+                  "Literal": {
+                    "Value": "'TypeC'"
+                  }
+                }
+              ],
+              "isToggled": true
+            },
+            {
+              "identityValues": [
+                {
+                  "Literal": {
+                    "Value": "'TypeB'"
+                  }
+                }
+              ],
+              "isToggled": true
+            }
+          ]
+        }
+      }
+    ],
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "138.84000166666738D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Table.Households Targeted"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "451e125fcdff3efa4570",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "campaign_desc"
+              }
+            },
+            "Property": "DESCRIPTION"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "df33d142c87fe25896e7",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "campaign_desc"
+              }
+            },
+            "Property": "CAMPAIGN"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9da3d76c24988d3a6b68",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Redeem"
+              }
+            },
+            "Property": "Households Targeted"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f2b222115f41b67d9c64",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Redeem"
+              }
+            },
+            "Property": "HouseholdsRedeemed"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "a52639b1c71884601d51",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "coupon_redempt"
+              }
+            },
+            "Property": "Household Redemption Rate"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

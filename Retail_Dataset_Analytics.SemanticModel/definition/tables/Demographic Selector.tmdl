@@ -1,0 +1,53 @@
+table 'Demographic Selector'
+	lineageTag: 263affd7-9b2f-449b-8bf0-06e3bd4a7682
+
+	column 'Demographic Selector'
+		lineageTag: 02f14897-d870-4163-ae3f-2ad58202e9d4
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Demographic Selector Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Demographic Selector Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Demographic Selector Fields'
+		isHidden
+		lineageTag: 281f15cb-9954-40f0-a2b1-94cd5d595757
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Demographic Selector Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Demographic Selector Order'
+		isHidden
+		formatString: 0
+		lineageTag: 931df290-5c7f-4279-9aab-a2a9f07c48f6
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Demographic Selector' = calculated
+		mode: import
+		source =
+				{
+				    ("AGE_DESC", NAMEOF('hh_demographic'[AGE_DESC]), 0),
+				    ("HH_COMP_DESC", NAMEOF('hh_demographic'[HH_COMP_DESC]), 1),
+				    ("HOMEOWNER_DESC", NAMEOF('hh_demographic'[HOMEOWNER_DESC]), 2),
+				    ("HOUSEHOLD_SIZE_DESC", NAMEOF('hh_demographic'[HOUSEHOLD_SIZE_DESC]), 3),
+				    ("INCOME_DESC", NAMEOF('hh_demographic'[INCOME_DESC]), 4),
+				    ("KID_CATEGORY_DESC", NAMEOF('hh_demographic'[KID_CATEGORY_DESC]), 5),
+				    ("MARITAL_STATUS_CODE", NAMEOF('hh_demographic'[MARITAL_STATUS_CODE]), 6)
+				}
+
+	annotation PBI_Id = a262486ada164a03b142c999f902933f
+

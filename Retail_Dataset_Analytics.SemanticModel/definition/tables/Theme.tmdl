@@ -1,0 +1,17 @@
+table Theme
+	lineageTag: c31a0bfe-37f0-4bf9-8499-636014a38eea
+
+	column Mode
+		lineageTag: 5cd1af5a-fe91-4e0f-94d8-9bb772c8b9fb
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Mode]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Theme = calculated
+		mode: import
+		source = DATATABLE("Mode", STRING, {{"Dark"}, {"Light"}})
+
+	annotation PBI_Id = a77d7473a313469a8b48bb5db05a7a8c
+

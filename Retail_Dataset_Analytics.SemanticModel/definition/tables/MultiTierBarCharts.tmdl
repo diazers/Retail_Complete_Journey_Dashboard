@@ -1,0 +1,307 @@
+table MultiTierBarCharts
+	lineageTag: a98c96d4-9842-4587-9ed2-bf37529aa114
+
+	measure '_01 Total Net Sales BC' = SUM(Fact_Sales_GPMargin[SALES_VALUE]) / 1000
+		lineageTag: 8db1d30e-73c3-44d0-b554-62c49ba7d76d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_02 PY Net Sales BC' =
+			
+			IF(
+			    HASONEVALUE(Dim_Date[Year]),
+			    CALCULATE(
+			        [_01 Total Net Sales BC],
+			        SAMEPERIODLASTYEAR(Dim_Date[CalendarDate])
+			    ),
+			    BLANK()
+			)
+		lineageTag: 52f3812c-3bc0-478f-9c48-46123b7e9e6a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_03 △PY Net Sales BC' = ```
+			
+			VAR _AC = [_01 Total Net Sales BC]
+			VAR _PY = [_02 PY Net Sales BC]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        -- Both blank: no variance
+			        ISBLANK(_AC) && ISBLANK(_PY), BLANK(),
+			        
+			        -- AC exists, PY blank: full AC as variance (new state)
+			        NOT(ISBLANK(_AC)) && ISBLANK(_PY), _AC,
+			        
+			        -- AC blank, PY exists: negative PY as variance (closed state)
+			        ISBLANK(_AC) && NOT(ISBLANK(_PY)), -_PY,
+			        
+			        -- Both exist: normal calculation
+			        _AC - _PY
+			    )
+			```
+		lineageTag: 658e05be-e299-4767-8e93-ca52e368ffd4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_04 △PY% Net Sales BC' = ```
+			
+			VAR _AC = [_01 Total Net Sales BC]
+			VAR _PY = [_02 PY Net Sales BC]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        -- Both blank: no comparison
+			        ISBLANK(_AC) && ISBLANK(_PY), BLANK(),
+			        
+			        -- AC exists, PY blank: treat as +100% (new state)
+			        NOT(ISBLANK(_AC)) && ISBLANK(_PY), 1,
+			        
+			        -- AC blank, PY exists: -100% (closed state)
+			        ISBLANK(_AC) && NOT(ISBLANK(_PY)), -1,
+			        
+			        -- Both exist: normal calculation
+			        DIVIDE(_AC - _PY, _PY, BLANK())
+			    )
+			```
+		lineageTag: 122817c4-b919-4e59-a35e-e19d2fade64a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_01 Grouped Bar (AC & PY)' = ```
+			
+			VAR _AC = [_01 Total Net Sales BC]
+			VAR _PY = [_02 PY Net Sales BC]
+			VAR _HasData = NOT(ISBLANK(_AC)) || NOT(ISBLANK(_PY))
+			
+			VAR _SVG = 
+			    IF(
+			        _HasData,
+			        PowerofBI.IBCS.BarChart.AbsoluteValues(
+			            _AC,                                                     -- 1. valueMain
+			            0,                                                       -- 2. valueSecond
+			            _PY,                                                     -- 3. valueBase
+			            "grey",                                                  -- 4. baseType
+			            FORMAT(_AC, "#,##0.0"),                                  -- 5. dataLabel
+			            NOT(ISINSCOPE(Dim_Product[DEPARTMENT])),                  -- 6. isTotalRow
+			            MAX(
+			                MAXX(ALLSELECTED(Dim_Product[DEPARTMENT]), [_01 Total Net Sales BC]),
+			                MAXX(ALLSELECTED(Dim_Product[DEPARTMENT]), [_02 PY Net Sales BC])
+			            )                                                        -- 7. valueMax
+			        ),
+			        BLANK()
+			    )
+			
+			RETURN
+			    IF(
+			        NOT ISBLANK(_SVG),
+			        -- Forcefully inject the new font-size before </style>
+			        SUBSTITUTE(
+			            _SVG,
+			            "</style>",
+			            "text { font-size: 15px !important; } </style>"
+			        ),
+			        BLANK()
+			    )
+			
+			
+			// _01 Grouped Bar (AC & PY) = 
+			// VAR _AC = [_01 Total Net Sales BC]
+			// VAR _PY = [_02 PY Net Sales BC]
+			// VAR _HasData = NOT(ISBLANK(_AC)) || NOT(ISBLANK(_PY))
+			// RETURN
+			// IF(
+			//     _HasData,
+			//     PowerofBI.IBCS.BarChart.AbsoluteValues(
+			//         _AC,                                                    -- 1. valueMain
+			//         0,                                                       -- 2. valueSecond
+			//         _PY,                                                     -- 3. valueBase
+			//         "grey",                                                  -- 4. baseType
+			//         FORMAT(_AC, "#,##0.0"),                                   -- 5. dataLabel
+			//         NOT(ISINSCOPE(Dim_Product[DEPARTMENT])),                  -- 6. isTotalRow
+			//         MAX(
+			//             MAXX(ALLSELECTED(Dim_Product[DEPARTMENT]), [_01 Total Net Sales BC]),
+			//             MAXX(ALLSELECTED(Dim_Product[DEPARTMENT]), [_02 PY Net Sales BC])
+			//         )                                                        -- 7. valueMax
+			//     ),
+			//     BLANK()
+			// )
+			```
+		lineageTag: e338c135-5169-4ab9-b93c-164ce0a19c2b
+		dataCategory: ImageUrl
+
+	measure '_02 Absolute Variance Bar (△PY)' = ```
+			
+			VAR _HasVariance = NOT(ISBLANK([_03 △PY Net Sales BC]))
+			VAR _HasAnyPYData = 
+			    CALCULATE(
+			        COUNTROWS(
+			            FILTER(
+			                ALLSELECTED(Dim_Product[DEPARTMENT]),
+			                NOT(ISBLANK([_02 PY Net Sales BC]))
+			            )
+			        )
+			    ) > 0
+			
+			VAR _SVG = 
+			    IF(
+			        _HasVariance && _HasAnyPYData,
+			        PowerofBI.IBCS.BarChart.AbsoluteVariance (
+			            [_03 △PY Net Sales BC],
+			            FORMAT ( [_03 △PY Net Sales BC], "+0.0;-0.0;0" ),
+			            NOT ( ISINSCOPE ( Dim_Product[DEPARTMENT] ) ),
+			            MAXX ( ALLSELECTED ( Dim_Product ), [_03 △PY Net Sales BC] ),
+			            MINX ( ALLSELECTED ( Dim_Product ), [_03 △PY Net Sales BC] ),
+			            MAX (
+			                MAXX ( SUMMARIZE ( ALLSELECTED ( Dim_Product ), Dim_Product[DEPARTMENT] ), [_01 Total Net Sales BC] ),
+			                MAXX ( SUMMARIZE ( ALLSELECTED ( Dim_Product ), Dim_Product[DEPARTMENT] ), [_02 PY Net Sales BC] )
+			            ) * 1.15    -- headroom, now actually active
+			        ),
+			        BLANK()
+			    )
+			
+			RETURN
+			    IF(
+			        NOT ISBLANK(_SVG),
+			        SUBSTITUTE(
+			            _SVG,
+			            "</style>",
+			            "text { font-size: 15px !important; } </style>"
+			        ),
+			        BLANK()
+			    )
+			
+			
+			
+			// _02 Absolute Variance Bar (△PY) = 
+			// VAR _HasVariance = NOT(ISBLANK([_03 △PY Net Sales BC]))
+			// VAR _HasAnyPYData = 
+			//     CALCULATE(
+			//         COUNTROWS(
+			//             FILTER(
+			//                 ALLSELECTED(Dim_Product[DEPARTMENT]),
+			//                 NOT(ISBLANK([_02 PY Net Sales BC]))
+			//             )
+			//         )
+			//     ) > 0
+			// RETURN
+			//     IF(
+			//         _HasVariance && _HasAnyPYData,  -- Show only if variance exists AND at least one state has PY data
+			//         PowerofBI.IBCS.BarChart.AbsoluteVariance (
+			//             [_03 △PY Net Sales BC],
+			//             FORMAT ( [_03 △PY Net Sales BC], "+0.0;-0.0;0" ),
+			//             NOT ( ISINSCOPE ( Dim_Product[DEPARTMENT] ) ),
+			//             MAXX ( ALLSELECTED ( Dim_Product ), [_03 △PY Net Sales BC] ),
+			//             MINX ( ALLSELECTED ( Dim_Product ), [_03 △PY Net Sales BC] ),
+			//             MAX (
+			//                 MAXX ( ALLSELECTED ( Dim_Product ), [_01 Total Net Sales BC] ),
+			//                 MAXX ( ALLSELECTED ( Dim_Product ), [_02 PY Net Sales BC] )
+			//             )    
+			//         ),
+			//         BLANK()
+			//     )
+			
+			```
+		lineageTag: af22df65-b4f8-444f-85e9-dc0d76207581
+		dataCategory: ImageUrl
+
+	measure '_03 Relative Variance Bar (△PY%)' = ```
+			
+			VAR _HasVariance = NOT(ISBLANK([_04 △PY% Net Sales BC]))
+			VAR _HasAnyPYData = 
+			    CALCULATE(
+			        COUNTROWS(
+			            FILTER(
+			                ALLSELECTED(Dim_Product[DEPARTMENT]),
+			                NOT(ISBLANK([_02 PY Net Sales BC]))
+			            )
+			        )
+			    ) > 0
+			VAR _MaxValue =
+			    MAXX (
+			        ALLSELECTED ( Dim_Product[DEPARTMENT] ),
+			        ABS ( [_04 △PY% Net Sales BC] )
+			    )
+			
+			VAR _SVG = 
+			    IF(
+			        _HasVariance && _HasAnyPYData,
+			        PowerofBI.IBCS.BarChart.RelativeVariance (
+			            [_04 △PY% Net Sales BC],
+			            IF (
+			                ABS ( [_04 △PY% Net Sales_Formatted BC] ) >= 1000,
+			                FORMAT ( [_04 △PY% Net Sales_Formatted BC], "+# ##0.0;-# ##0.0;0" ),
+			                FORMAT ( [_04 △PY% Net Sales_Formatted BC], "+0.0;-0.0;0" )
+			            ),
+			            NOT ( ISINSCOPE ( Dim_Product[DEPARTMENT] ) ),
+			            _MaxValue
+			        ),
+			        BLANK()
+			    )
+			
+			RETURN
+			    IF(
+			        NOT ISBLANK(_SVG),
+			        SUBSTITUTE(
+			            _SVG,
+			            "</style>",
+			            "text { font-size: 15px !important; } </style>" -- Adjust px size as needed
+			        ),
+			        BLANK()
+			    )
+			
+			
+			// _03 Relative Variance Bar (△PY%) = 
+			// VAR _HasVariance = NOT(ISBLANK([_04 △PY% Net Sales BC]))
+			// VAR _HasAnyPYData = 
+			//     CALCULATE(
+			//         COUNTROWS(
+			//             FILTER(
+			//                 ALLSELECTED(Dim_Product[DEPARTMENT]),
+			//                 NOT(ISBLANK([_02 PY Net Sales BC]))
+			//             )
+			//         )
+			//     ) > 0
+			// VAR _MaxValue =
+			//     MAXX (
+			//         ALLSELECTED ( Dim_Product[DEPARTMENT] ),
+			//         ABS ( [_04 △PY% Net Sales BC] )
+			//     )
+			// RETURN
+			//     IF(
+			//         _HasVariance && _HasAnyPYData,
+			//         PowerofBI.IBCS.BarChart.RelativeVariance (
+			//             [_04 △PY% Net Sales BC],
+			//             IF (
+			//                 ABS ( [_04 △PY% Net Sales_Formatted BC] ) >= 1000,
+			//                 FORMAT ( [_04 △PY% Net Sales_Formatted BC], "+# ##0.0;-# ##0.0;0" ),
+			//                 FORMAT ( [_04 △PY% Net Sales_Formatted BC], "+0.0;-0.0;0" )
+			//             ),
+			//             NOT ( ISINSCOPE ( Dim_Product[DEPARTMENT] ) ),
+			//             _MaxValue
+			//         ),
+			//         BLANK()
+			//     )
+			```
+		lineageTag: 6a63053e-d68a-49f7-bb9b-0dac4f38d348
+		dataCategory: ImageUrl
+
+	measure '_04 △PY% Net Sales_Formatted BC' =
+			
+			[_04 △PY% Net Sales BC] * 100
+		lineageTag: 0208f3ec-ec4a-41ab-b241-dd0e0a19bf75
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition MultiTierBarCharts = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

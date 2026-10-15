@@ -1,0 +1,48 @@
+table PHierarchy
+	lineageTag: e16e27ad-7ff4-424e-b662-b945019d6ebb
+
+	column PHierarchy
+		lineageTag: 89fc2adb-3608-4a60-9e8a-f2af9d0191d8
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'PHierarchy Order'
+
+		relatedColumnDetails
+			groupByColumn: 'PHierarchy Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PHierarchy Fields'
+		isHidden
+		lineageTag: dfac7334-203a-4997-a217-62083f37d85c
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'PHierarchy Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PHierarchy Order'
+		isHidden
+		formatString: 0
+		lineageTag: 4a9d7f30-95d4-46f3-9781-3f623461b9f4
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition PHierarchy = calculated
+		mode: import
+		source =
+				{
+				    ("Quarter", NAMEOF('Table_Waterfall'[Hierarchy 1]), 0),
+				    ("Month", NAMEOF('Table_Waterfall'[Hierarchy 2]), 1)
+				}
+
+	annotation PBI_Id = c56023db466f48f193f363300e41b264
+

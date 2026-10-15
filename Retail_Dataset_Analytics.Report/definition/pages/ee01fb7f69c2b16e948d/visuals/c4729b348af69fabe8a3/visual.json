@@ -1,0 +1,56 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "c4729b348af69fabe8a3",
+  "position": {
+    "x": 63.67227505486467,
+    "y": 32.772494513533289,
+    "z": 0,
+    "height": 147.0080468178493,
+    "width": 247.19824433065108,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customer Cohort"
+                    }
+                  },
+                  "Property": "Latest Month Retention Rate %"
+                }
+              },
+              "queryRef": "Customer Cohort.Latest Month Retention Rate %",
+              "nativeQueryRef": "Latest Month Retention Rate %"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Customer Cohort"
+                  }
+                },
+                "Property": "Latest Month Retention Rate %"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

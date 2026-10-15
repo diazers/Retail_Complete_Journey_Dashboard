@@ -1,0 +1,1887 @@
+table MeasureGroup
+	lineageTag: 3ccb7abd-36c7-4e59-93bf-b6afab01f9fa
+
+	measure 'Selected Year' = ```
+			
+			VAR _MaxDate = CALCULATE(MAX(Fact_Sales_GPMargin[CalendarDate])) 
+			RETURN YEAR(_MaxDate)
+			```
+		formatString: 0
+		lineageTag: e457ea3e-3402-4fcf-b7c4-a998e2b15bcf
+
+		changedProperty = IsHidden
+
+	measure Last_Year_Sales = ```
+			
+			VAR _TY = [Selected Year]
+			RETURN 
+			CALCULATE(
+			    [Total_Sales], 
+			    REMOVEFILTERS(Dim_Date), 
+			    Dim_Date[Year] = _TY - 1
+			)
+			
+			// Last_Year_Sales = 
+			// VAR _TY = [Selected Year]
+			// VAR _MaxDate = CALCULATE(MAX(Fact_Sales_GPMargin[CalendarDate]))
+			// VAR _M = MONTH(_MaxDate)
+			// VAR _D = DAY(_MaxDate)
+			// RETURN CALCULATE([Total_Sales], REMOVEFILTERS(Dim_Date), Dim_Date[Year] = _TY - 1, Dim_Date[CalendarDate] <= DATE(_TY - 1, _M, _D))
+			```
+		formatString: 0
+		lineageTag: ca534801-8047-4494-8995-cf8580def280
+
+		changedProperty = IsHidden
+
+	measure Total_Sales = ```
+			
+			SUM(Fact_Sales_GPMargin[SALES_VALUE])
+			
+			```
+		lineageTag: f13def28-3e0b-4e95-b146-cdb7fdac3872
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure HTML_DataCard3b =
+			
+			VAR ThisYear     = [Total_Sales]
+			VAR LastYear     = [Last_Year_Sales]
+			VAR YoYDiff      = ThisYear - LastYear
+			VAR YoYPct       = DIVIDE(YoYDiff, LastYear) * 100
+			VAR YoYProgress  = DIVIDE(ThisYear, LastYear) * 100
+			VAR PctOfLY      = DIVIDE(ThisYear, LastYear) * 100
+			
+			VAR CurrentQtr   = CALCULATE([Total_Sales], DATESQTD('Dim_Date'[CalendarDate]))
+			VAR PrevQtr      = CALCULATE([Total_Sales], DATESQTD(DATEADD('Dim_Date'[CalendarDate], -1, QUARTER)))
+			VAR QoQDiff      = CurrentQtr - PrevQtr
+			VAR QoQPct       = DIVIDE(QoQDiff, PrevQtr) * 100
+			VAR QoQProgress  = DIVIDE(CurrentQtr, PrevQtr) * 100
+			
+			VAR ThemeMode = SELECTEDVALUE('Theme'[Mode], "Dark")
+			VAR IsDark    = ThemeMode = "Dark"
+			VAR BgColor   = IF(IsDark, "#1e1e1e", "#ffffff")
+			VAR TextColor = IF(IsDark, "#ffffff", "#1a1a1a")
+			VAR Muted     = IF(IsDark, "#aaaaaa", "#555555")
+			VAR Sub       = IF(IsDark, "#888888", "#888888")
+			VAR Divider   = IF(IsDark, "#2e2e2e", "#e5e5e5")
+			VAR TrackBg   = IF(IsDark, "#333333", "#ececec")
+			VAR Shadow    = IF(IsDark, "0 4px 12px rgba(0,0,0,0.35)", "0 4px 12px rgba(0,0,0,0.08)")
+			
+			VAR YoYColor = IF(YoYPct >= 0, "#22c55e", "#ef4444")
+			VAR YoYArrow = IF(YoYPct >= 0, "▲", "▼")
+			VAR QoQColor = IF(QoQPct >= 0, "#22c55e", "#ef4444")
+			VAR QoQArrow = IF(QoQPct >= 0, "▲", "▼")
+			
+			VAR Top5Departments =
+			    TOPN(5,
+			        ADDCOLUMNS(VALUES(Dim_Product[DEPARTMENT]), "@Sales", [Total_Sales]),
+			        [@Sales], DESC
+			    )
+			VAR MaxDeptSales = MAXX(Top5Departments, [@Sales])
+			
+			VAR DeptHtml =
+			    CONCATENATEX(
+			        Top5Departments,
+			        "<div style='display:flex;align-items:center;font-size:11px;margin-top:4px;'>"
+			        & "<span style='width:90px;color:" & TextColor & ";white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>" & Dim_Product[DEPARTMENT] & "</span>"
+			        & "<div style='flex:1;height:6px;background:" & TrackBg & ";border-radius:3px;overflow:hidden;margin:0 6px;'>"
+			        & "<div style='height:6px;background:linear-gradient(90deg,#38bdf8,#6366f1);width:" & FORMAT(DIVIDE([@Sales], MaxDeptSales)*100, "0") & "%;'></div>"
+			        & "</div>"
+			        & "<span style='width:70px;text-align:right;color:" & Muted & ";font-size:10px;'>$" & FORMAT([@Sales],"#,##0") & "</span>"
+			        & "</div>",
+			        "", [@Sales], DESC
+			    )
+			
+			VAR Top5Commodities =
+			    TOPN(5,
+			        ADDCOLUMNS(VALUES(Dim_Product[COMMODITY_DESC]), "@Sales", [Total_Sales]),
+			        [@Sales], DESC
+			    )
+			VAR MaxCommoditySales = MAXX(Top5Commodities, [@Sales])
+			
+			VAR CommodityHtml =
+			    CONCATENATEX(
+			        Top5Commodities,
+			        "<div style='display:flex;align-items:center;font-size:11px;margin-top:4px;'>"
+			        & "<span style='width:90px;color:" & TextColor & ";white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>" & Dim_Product[COMMODITY_DESC] & "</span>"
+			        & "<div style='flex:1;height:6px;background:" & TrackBg & ";border-radius:3px;overflow:hidden;margin:0 6px;'>"
+			        & "<div style='height:6px;background:linear-gradient(90deg,#f59e0b,#ef4444);width:" & FORMAT(DIVIDE([@Sales], MaxCommoditySales)*100, "0") & "%;'></div>"
+			        & "</div>"
+			        & "<span style='width:70px;text-align:right;color:" & Muted & ";font-size:10px;'>$" & FORMAT([@Sales],"#,##0") & "</span>"
+			        & "</div>",
+			        "", [@Sales], DESC
+			    )
+			
+			RETURN
+			"<div style='width:100%;height:100%;box-sizing:border-box;background:" & BgColor & ";color:" & TextColor & ";padding:16px;border-radius:12px;font-family:Arial;box-shadow:" & Shadow & ";overflow-y:auto;'>
+			
+			  <div style='display:flex;justify-content:space-between;align-items:center;'>
+			    <div>
+			      <div style='font-size:16px;font-weight:bold;'>Sales Performance</div>
+			      <div style='font-size:11px;color:" & Muted & ";'>TY vs LY · QoQ · Top 5</div>
+			    </div>
+			    <div style='background:" & YoYColor & ";color:#ffffff;font-size:11px;font-weight:bold;padding:4px 8px;border-radius:6px;'>" & YoYArrow & " " & FORMAT(YoYPct,"0.0") & "%</div>
+			  </div>
+			
+			  <div style='margin-top:14px;font-size:22px;color:" & YoYColor & ";font-weight:bold;'>$" & FORMAT(ThisYear,"#,##0") & "</div>
+			  <div style='font-size:11px;color:" & Muted & ";'>This Year Sales</div>
+			
+			  <div style='display:flex;justify-content:space-between;font-size:11px;color:" & Muted & ";margin-top:10px;'>
+			    <span>Last Year: $" & FORMAT(LastYear,"#,##0") & "</span>
+			    <span>Δ $" & FORMAT(YoYDiff,"#,##0") & "</span>
+			  </div>
+			
+			  <div style='width:100%;height:8px;background:" & TrackBg & ";border-radius:5px;overflow:hidden;margin-top:6px;'>
+			    <div style='height:8px;background:linear-gradient(90deg,#facc15,#f97316);width:" & MIN(YoYProgress,200) & "%;'></div>
+			  </div>
+			  <div style='display:flex;justify-content:space-between;font-size:10px;color:" & Sub & ";margin-top:3px;'>
+			    <span>0%</span><span>" & FORMAT(YoYProgress,"0") & "% of LY</span><span>200%</span>
+			  </div>
+			
+			  <div style='height:1px;background:" & Divider & ";margin:14px 0;'></div>
+			
+			  <div style='display:flex;justify-content:space-between;align-items:center;'>
+			    <div style='font-size:12px;font-weight:bold;color:" & TextColor & ";'>Quarter on Quarter</div>
+			    <div style='background:" & QoQColor & ";color:#ffffff;font-size:11px;font-weight:bold;padding:3px 7px;border-radius:6px;'>" & QoQArrow & " " & FORMAT(QoQPct,"0.0") & "%</div>
+			  </div>
+			
+			  <div style='display:flex;justify-content:space-between;margin-top:8px;'>
+			    <div>
+			      <div style='font-size:10px;color:" & Sub & ";'>Current Q</div>
+			      <div style='font-size:14px;font-weight:bold;color:" & TextColor & ";'>$" & FORMAT(CurrentQtr,"#,##0") & "</div>
+			    </div>
+			    <div style='text-align:right;'>
+			      <div style='font-size:10px;color:" & Sub & ";'>Previous Q</div>
+			      <div style='font-size:14px;font-weight:bold;color:" & Muted & ";'>$" & FORMAT(PrevQtr,"#,##0") & "</div>
+			    </div>
+			  </div>
+			
+			  <div style='width:100%;height:6px;background:" & TrackBg & ";border-radius:4px;overflow:hidden;margin-top:8px;'>
+			    <div style='height:6px;background:linear-gradient(90deg,#38bdf8,#6366f1);width:" & MIN(QoQProgress,200) & "%;'></div>
+			  </div>
+			
+			  <div style='height:1px;background:" & Divider & ";margin:14px 0 8px 0;'></div>
+			
+			  <div style='font-size:12px;font-weight:bold;color:" & TextColor & ";'>Top 5 Departments</div>
+			  " & DeptHtml & "
+			
+			  <div style='height:1px;background:" & Divider & ";margin:12px 0 8px 0;'></div>
+			
+			  <div style='font-size:12px;font-weight:bold;color:" & TextColor & ";'>Top 5 Commodities</div>
+			  " & CommodityHtml & "
+			
+			  <div style='height:1px;background:" & Divider & ";margin:14px 0 10px 0;'></div>
+			
+			  <div style='display:flex;justify-content:space-between;text-align:center;'>
+			    <div style='flex:1;'>
+			      <div style='font-size:10px;color:" & Sub & ";'>YoY Δ</div>
+			      <div style='font-size:13px;font-weight:bold;color:" & YoYColor & ";'>$" & FORMAT(YoYDiff,"#,##0") & "</div>
+			    </div>
+			    <div style='flex:1;border-left:1px solid " & Divider & ";border-right:1px solid " & Divider & ";'>
+			      <div style='font-size:10px;color:" & Sub & ";'>% of LY</div>
+			      <div style='font-size:13px;font-weight:bold;color:#f59e0b;'>" & FORMAT(PctOfLY,"0.0") & "%</div>
+			    </div>
+			    <div style='flex:1;'>
+			      <div style='font-size:10px;color:" & Sub & ";'>QoQ Δ</div>
+			      <div style='font-size:13px;font-weight:bold;color:" & QoQColor & ";'>$" & FORMAT(QoQDiff,"#,##0") & "</div>
+			    </div>
+			  </div>
+			
+			</div>"
+		lineageTag: 13af6c68-46a7-43b0-a2a6-abd80e66c049
+
+		changedProperty = IsHidden
+
+	measure HTML_RevenueBridge = ```
+			
+			VAR ThisYear     = [Total_Sales]
+			VAR LastYear     = [Last_Year_Sales]
+			VAR YoYDiff      = ThisYear - LastYear
+			VAR YoYPct       = DIVIDE(YoYDiff, LastYear) * 100
+			
+			VAR ThemeMode = SELECTEDVALUE('Theme'[Mode], "Dark")
+			VAR IsDark    = ThemeMode = "Dark"
+			VAR BgColor   = IF(IsDark, "#1e1e1e", "#ffffff")
+			VAR TextColor = IF(IsDark, "#ffffff", "#1a1a1a")
+			VAR Muted     = IF(IsDark, "#aaaaaa", "#555555")
+			VAR BarLight  = IF(IsDark, "#4a4a4a", "#d9d9d9")
+			VAR BarDark   = IF(IsDark, "#e5e5e5", "#3a3a3a")
+			VAR Shadow    = IF(IsDark, "0 4px 12px rgba(0,0,0,0.35)", "0 4px 12px rgba(0,0,0,0.08)")
+			
+			VAR YoYColor = IF(YoYPct >= 0, "#22c55e", "#ef4444")
+			VAR YoYArrow = IF(YoYPct >= 0, "▲", "▼")
+			
+			VAR FmtK = 
+			    SWITCH(TRUE(),
+			        ABS(ThisYear) >= 1000000, "$" & FORMAT(ThisYear/1000000, "#,##0.0") & "M",
+			        "$" & FORMAT(ThisYear/1000, "#,##0.0") & "K"
+			    )
+			VAR DiffFmtK = IF(YoYDiff>=0,"+","-") & FORMAT(ABS(YoYDiff)/1000, "#,##0.0") & "K"
+			VAR TYLabel = FORMAT(ThisYear/1000, "#,##0.0") & "K"
+			VAR LYLabel = FORMAT(LastYear/1000, "#,##0.0") & "K"
+			
+			VAR MaxVal    = MAX(ThisYear, LastYear)
+			VAR LYBarH    = ROUND(DIVIDE(LastYear, MaxVal) * 100, 0)
+			VAR TYBarH    = ROUND(DIVIDE(ThisYear, MaxVal) * 100, 0)
+			VAR DiffBarH  = MAX(ABS(TYBarH - LYBarH), 4)
+			VAR DiffBottom = MIN(LYBarH, TYBarH)
+			
+			RETURN
+			"<div style='width:100%;height:100%;box-sizing:border-box;background:" & BgColor & ";color:" & TextColor & ";padding:16px;border-radius:12px;font-family:Arial;box-shadow:" & Shadow & ";text-align:center;'>
+			
+			  <div style='font-size:13px;font-weight:bold;color:" & TextColor & ";'>Revenue</div>
+			  <div style='font-size:26px;font-weight:bold;margin-top:6px;color:" & TextColor & ";'>" & FmtK & "</div>
+			
+			  <div style='display:flex;justify-content:center;align-items:center;gap:4px;margin-top:10px;'>
+			    <span style='font-size:11px;color:" & Muted & ";'>ΔLY</span>
+			    <span style='font-size:13px;font-weight:bold;color:" & YoYColor & ";'>" & FORMAT(YoYPct,"+0.0") & "%</span>
+			    <span style='color:" & YoYColor & ";font-size:12px;'>" & YoYArrow & "</span>
+			  </div>
+			
+			  <div style='display:flex;justify-content:center;align-items:flex-end;gap:16px;margin-top:26px;height:130px;'>
+			
+			    <div style='display:flex;flex-direction:column;align-items:center;'>
+			      <div style='font-size:10px;color:" & Muted & ";margin-bottom:4px;'>" & LYLabel & "</div>
+			      <div style='position:relative;width:34px;height:100px;'>
+			        <div style='position:absolute;bottom:0;width:34px;height:" & LYBarH & "px;background:" & BarLight & ";border-radius:3px 3px 0 0;'></div>
+			      </div>
+			      <div style='font-size:10px;color:" & Muted & ";margin-top:5px;'>LY</div>
+			    </div>
+			
+			    <div style='display:flex;flex-direction:column;align-items:center;'>
+			      <div style='font-size:10px;font-weight:bold;color:" & YoYColor & ";margin-bottom:4px;'>" & DiffFmtK & "</div>
+			      <div style='position:relative;width:34px;height:100px;'>
+			        <div style='position:absolute;bottom:" & DiffBottom & "px;width:34px;height:" & DiffBarH & "px;background:" & YoYColor & ";border-radius:3px;'></div>
+			      </div>
+			      <div style='font-size:10px;color:" & Muted & ";margin-top:5px;'>Δ</div>
+			    </div>
+			
+			    <div style='display:flex;flex-direction:column;align-items:center;'>
+			      <div style='font-size:10px;color:" & Muted & ";margin-bottom:4px;'>" & TYLabel & "</div>
+			      <div style='position:relative;width:34px;height:100px;'>
+			        <div style='position:absolute;bottom:0;width:34px;height:" & TYBarH & "px;background:" & BarDark & ";border-radius:3px 3px 0 0;'></div>
+			      </div>
+			      <div style='font-size:10px;color:" & Muted & ";margin-top:5px;'>TY</div>
+			    </div>
+			
+			  </div>
+			
+			</div>"
+			
+			// HTML_RevenueBridge = 
+			// VAR ThisYear     = [Total_Sales]
+			// VAR LastYear     = [Last_Year_Sales]
+			// VAR YoYDiff      = ThisYear - LastYear
+			// VAR YoYPct       = DIVIDE(YoYDiff, LastYear) * 100
+			
+			// //VAR CurrentQtr   = CALCULATE([Total_Sales], DATESQTD('Dim_Date'[CalendarDate]))
+			// //VAR PrevQtr      = CALCULATE([Total_Sales], DATESQTD(DATEADD('Dim_Date'[CalendarDate], -1, QUARTER)))
+			// //VAR QoQDiff      = CurrentQtr - PrevQtr
+			// //VAR QoQPct       = DIVIDE(QoQDiff, PrevQtr) * 100
+			
+			// VAR ThemeMode = SELECTEDVALUE('Theme'[Mode], "Dark")
+			// VAR IsDark    = ThemeMode = "Dark"
+			// VAR BgColor   = IF(IsDark, "#1e1e1e", "#ffffff")
+			// VAR TextColor = IF(IsDark, "#ffffff", "#1a1a1a")
+			// VAR Muted     = IF(IsDark, "#aaaaaa", "#555555")
+			// VAR BarLight  = IF(IsDark, "#4a4a4a", "#d9d9d9")
+			// VAR BarDark   = IF(IsDark, "#e5e5e5", "#3a3a3a")
+			// VAR Shadow    = IF(IsDark, "0 4px 12px rgba(0,0,0,0.35)", "0 4px 12px rgba(0,0,0,0.08)")
+			
+			// VAR YoYColor = IF(YoYPct >= 0, "#22c55e", "#ef4444")
+			// VAR YoYArrow = IF(YoYPct >= 0, "▲", "▼")
+			// //VAR QoQColor = IF(QoQPct >= 0, "#22c55e", "#ef4444")
+			// //VAR QoQArrow = IF(QoQPct >= 0, "▲", "▼")
+			
+			// VAR FmtK = 
+			//     SWITCH(TRUE(),
+			//         ABS(ThisYear) >= 1000000, "$" & FORMAT(ThisYear/1000000, "#,##0.0") & "M",
+			//         "$" & FORMAT(ThisYear/1000, "#,##0.0") & "K"
+			//     )
+			// VAR DiffFmtK = IF(YoYDiff>=0,"+","-") & FORMAT(ABS(YoYDiff)/1000, "#,##0.0") & "K"
+			// VAR TYLabel = FORMAT(ThisYear/1000, "#,##0.0") & "K"
+			// VAR LYLabel = FORMAT(LastYear/1000, "#,##0.0") & "K"
+			
+			// -- Bar heights out of a 100px track, scaled to the larger of LY/TY
+			// VAR MaxVal    = MAX(ThisYear, LastYear)
+			// VAR LYBarH    = ROUND(DIVIDE(LastYear, MaxVal) * 100, 0)
+			// VAR TYBarH    = ROUND(DIVIDE(ThisYear, MaxVal) * 100, 0)
+			// VAR DiffBarH  = MAX(ABS(TYBarH - LYBarH), 4)   -- min 4px so it's always visible
+			// VAR DiffBottom = MIN(LYBarH, TYBarH)           -- floats starting from the shorter bar
+			
+			// RETURN
+			// "<div style='width:100%;height:100%;box-sizing:border-box;background:" & BgColor & ";color:" & TextColor & ";padding:16px;border-radius:12px;font-family:Arial;box-shadow:" & Shadow & ";text-align:center;'>
+			
+			//   <div style='font-size:13px;font-weight:bold;color:" & TextColor & ";'>Revenue</div>
+			//   <div style='font-size:26px;font-weight:bold;margin-top:6px;color:" & TextColor & ";'>" & FmtK & "</div>
+			
+			//   <div style='display:flex;justify-content:center;align-items:center;gap:4px;margin-top:10px;'>
+			//     <span style='font-size:11px;color:" & Muted & ";'>ΔLY</span>
+			//     <span style='font-size:13px;font-weight:bold;color:" & YoYColor & ";'>" & FORMAT(YoYPct,"+0.0") & "%</span>
+			//     <span style='color:" & YoYColor & ";font-size:12px;'>" & YoYArrow & "</span>
+			//   </div>
+			
+			//   <div style='display:flex;justify-content:center;align-items:flex-end;gap:16px;margin-top:26px;height:130px;'>
+			
+			//     <div style='display:flex;flex-direction:column;align-items:center;'>
+			//       <div style='font-size:10px;color:" & Muted & ";margin-bottom:4px;'>" & LYLabel & "</div>
+			//       <div style='position:relative;width:34px;height:100px;'>
+			//         <div style='position:absolute;bottom:0;width:34px;height:" & LYBarH & "px;background:" & BarLight & ";border-radius:3px 3px 0 0;'></div>
+			//       </div>
+			//       <div style='font-size:10px;color:" & Muted & ";margin-top:5px;'>LY</div>
+			//     </div>
+			
+			//     <div style='display:flex;flex-direction:column;align-items:center;'>
+			//       <div style='font-size:10px;font-weight:bold;color:" & YoYColor & ";margin-bottom:4px;'>" & DiffFmtK & "</div>
+			//       <div style='position:relative;width:34px;height:100px;'>
+			//         <div style='position:absolute;bottom:" & DiffBottom & "px;width:34px;height:" & DiffBarH & "px;background:" & YoYColor & ";border-radius:3px;'></div>
+			//       </div>
+			//       <div style='font-size:10px;color:" & Muted & ";margin-top:5px;'>Δ</div>
+			//     </div>
+			
+			//     <div style='display:flex;flex-direction:column;align-items:center;'>
+			//       <div style='font-size:10px;color:" & Muted & ";margin-bottom:4px;'>" & TYLabel & "</div>
+			//       <div style='position:relative;width:34px;height:100px;'>
+			//         <div style='position:absolute;bottom:0;width:34px;height:" & TYBarH & "px;background:" & BarDark & ";border-radius:3px 3px 0 0;'></div>
+			//       </div>
+			//       <div style='font-size:10px;color:" & Muted & ";margin-top:5px;'>TY</div>
+			//     </div>
+			
+			//   </div>
+			
+			// </div>"
+			```
+		lineageTag: 68b84e11-1947-4ca7-abce-80e125541e46
+
+		changedProperty = IsHidden
+
+	measure Total_COGS =
+			SUM(Fact_Sales_GPMargin[Estimated_COGS])
+			
+			// Total_COGS = SUMX(Fact_Sales_GPMargin, Fact_Sales_GPMargin[Estimated_COGS])
+		lineageTag: e25a428c-265e-44f9-9806-5aba15c6012a
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Total_Gross_Profit =
+			SUM(Fact_Sales_GPMargin[Estimated_Gross_Profit])
+			
+			// Total_Gross_Profit = SUMX(Fact_Sales_GPMargin, Fact_Sales_GPMargin[Estimated_Gross_Profit])
+		lineageTag: 28ca503c-4885-47b0-9386-e4464ab30167
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Last_Year_COGS =
+			
+			VAR _TY = [Selected Year]
+			VAR _MaxDate = CALCULATE(MAX(Fact_Sales_GPMargin[CalendarDate]))
+			VAR _M = MONTH(_MaxDate)
+			VAR _D = DAY(_MaxDate)
+			RETURN CALCULATE([Total_COGS], REMOVEFILTERS(Dim_Date), Dim_Date[Year] = _TY - 1, Dim_Date[CalendarDate] <= DATE(_TY - 1, _M, _D))
+		lineageTag: b9151288-dad9-411c-8494-3e474e009aef
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Last_Year_Gross_Profit =
+			
+			VAR _TY = [Selected Year]
+			VAR _MaxDate = CALCULATE(MAX(Fact_Sales_GPMargin[CalendarDate]))
+			VAR _M = MONTH(_MaxDate)
+			VAR _D = DAY(_MaxDate)
+			RETURN CALCULATE([Total_Gross_Profit], REMOVEFILTERS(Dim_Date), Dim_Date[Year] = _TY - 1, Dim_Date[CalendarDate] <= DATE(_TY - 1, _M, _D))
+		lineageTag: 8be6c2f1-0f02-466f-89a3-94e72d3a3819
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure HTML_COGSBridge = ```
+			
+			VAR ThisYear     = [Total_COGS]
+			VAR LastYear     = [Last_Year_COGS]
+			VAR YoYDiff      = ThisYear - LastYear
+			VAR YoYPct       = DIVIDE(YoYDiff, LastYear) * 100
+			
+			VAR TYRatio = DIVIDE(ThisYear, [Total_Sales])
+			VAR LYRatio = DIVIDE(LastYear, [Last_Year_Sales])
+			VAR RatioDiff = TYRatio - LYRatio
+			
+			VAR ThemeMode = SELECTEDVALUE('Theme'[Mode], "Dark")
+			VAR IsDark    = ThemeMode = "Dark"
+			VAR BgColor   = IF(IsDark, "#1e1e1e", "#ffffff")
+			VAR TextColor = IF(IsDark, "#ffffff", "#1a1a1a")
+			VAR Muted     = IF(IsDark, "#aaaaaa", "#555555")
+			VAR BarLight  = IF(IsDark, "#4a4a4a", "#d9d9d9")
+			VAR BarDark   = IF(IsDark, "#e5e5e5", "#3a3a3a")
+			VAR Shadow    = IF(IsDark, "0 4px 12px rgba(0,0,0,0.35)", "0 4px 12px rgba(0,0,0,0.08)")
+			
+			VAR YoYColor = IF(RatioDiff <= 0, "#22c55e", "#ef4444")
+			VAR YoYArrow = IF(YoYPct >= 0, "▲", "▼")
+			
+			VAR FmtK = 
+			    SWITCH(TRUE(),
+			        ABS(ThisYear) >= 1000000, "$" & FORMAT(ThisYear/1000000, "#,##0.0") & "M",
+			        "$" & FORMAT(ThisYear/1000, "#,##0.0") & "K"
+			    )
+			VAR DiffFmtK = IF(YoYDiff>=0,"+","-") & FORMAT(ABS(YoYDiff)/1000, "#,##0.0") & "K"
+			VAR TYLabel = FORMAT(ThisYear/1000, "#,##0.0") & "K"
+			VAR LYLabel = FORMAT(LastYear/1000, "#,##0.0") & "K"
+			
+			VAR MaxVal    = MAX(ThisYear, LastYear)
+			VAR LYBarH    = ROUND(DIVIDE(LastYear, MaxVal) * 100, 0)
+			VAR TYBarH    = ROUND(DIVIDE(ThisYear, MaxVal) * 100, 0)
+			VAR DiffBarH  = MAX(ABS(TYBarH - LYBarH), 4)
+			VAR DiffBottom = MIN(LYBarH, TYBarH)
+			
+			RETURN
+			"<div style='width:100%;height:100%;box-sizing:border-box;background:" & BgColor & ";color:" & TextColor & ";padding:16px;border-radius:12px;font-family:Arial;box-shadow:" & Shadow & ";text-align:center;'>
+			
+			  <div style='font-size:13px;font-weight:bold;color:" & TextColor & ";'>COGS</div>
+			  <div style='font-size:26px;font-weight:bold;margin-top:6px;color:" & TextColor & ";'>" & FmtK & "</div>
+			
+			  <div style='display:flex;justify-content:center;align-items:center;gap:4px;margin-top:10px;'>
+			    <span style='font-size:11px;color:" & Muted & ";'>ΔLY</span>
+			    <span style='font-size:13px;font-weight:bold;color:" & YoYColor & ";'>" & FORMAT(YoYPct,"+0.0") & "%</span>
+			    <span style='color:" & YoYColor & ";font-size:12px;'>" & YoYArrow & "</span>
+			  </div>
+			
+			  <div style='display:flex;justify-content:center;align-items:flex-end;gap:16px;margin-top:26px;height:130px;'>
+			
+			    <div style='display:flex;flex-direction:column;align-items:center;'>
+			      <div style='font-size:10px;color:" & Muted & ";margin-bottom:4px;'>" & LYLabel & "</div>
+			      <div style='position:relative;width:34px;height:100px;'>
+			        <div style='position:absolute;bottom:0;width:34px;height:" & LYBarH & "px;background:" & BarLight & ";border-radius:3px 3px 0 0;'></div>
+			      </div>
+			      <div style='font-size:10px;color:" & Muted & ";margin-top:5px;'>LY</div>
+			    </div>
+			
+			    <div style='display:flex;flex-direction:column;align-items:center;'>
+			      <div style='font-size:10px;font-weight:bold;color:" & YoYColor & ";margin-bottom:4px;'>" & DiffFmtK & "</div>
+			      <div style='position:relative;width:34px;height:100px;'>
+			        <div style='position:absolute;bottom:" & DiffBottom & "px;width:34px;height:" & DiffBarH & "px;background:" & YoYColor & ";border-radius:3px;'></div>
+			      </div>
+			      <div style='font-size:10px;color:" & Muted & ";margin-top:5px;'>Δ</div>
+			    </div>
+			
+			    <div style='display:flex;flex-direction:column;align-items:center;'>
+			      <div style='font-size:10px;color:" & Muted & ";margin-bottom:4px;'>" & TYLabel & "</div>
+			      <div style='position:relative;width:34px;height:100px;'>
+			        <div style='position:absolute;bottom:0;width:34px;height:" & TYBarH & "px;background:" & BarDark & ";border-radius:3px 3px 0 0;'></div>
+			      </div>
+			      <div style='font-size:10px;color:" & Muted & ";margin-top:5px;'>TY</div>
+			    </div>
+			
+			  </div>
+			
+			</div>"
+			```
+		lineageTag: 82a45f4c-d7eb-43bb-99a6-c1152a41585a
+
+		changedProperty = IsHidden
+
+	measure HTML_GrossProfitBridge = ```
+			
+			VAR ThisYear     = [Total_Gross_Profit]
+			VAR LastYear     = [Last_Year_Gross_Profit]
+			VAR YoYDiff      = ThisYear - LastYear
+			VAR YoYPct       = DIVIDE(YoYDiff, LastYear) * 100
+			
+			VAR ThemeMode = SELECTEDVALUE('Theme'[Mode], "Dark")
+			VAR IsDark    = ThemeMode = "Dark"
+			VAR BgColor   = IF(IsDark, "#1e1e1e", "#ffffff")
+			VAR TextColor = IF(IsDark, "#ffffff", "#1a1a1a")
+			VAR Muted     = IF(IsDark, "#aaaaaa", "#555555")
+			VAR BarLight  = IF(IsDark, "#4a4a4a", "#d9d9d9")
+			VAR BarDark   = IF(IsDark, "#e5e5e5", "#3a3a3a")
+			VAR Shadow    = IF(IsDark, "0 4px 12px rgba(0,0,0,0.35)", "0 4px 12px rgba(0,0,0,0.08)")
+			
+			VAR YoYColor = IF(YoYPct >= 0, "#22c55e", "#ef4444")
+			VAR YoYArrow = IF(YoYPct >= 0, "▲", "▼")
+			
+			VAR FmtK = 
+			    SWITCH(TRUE(),
+			        ABS(ThisYear) >= 1000000, "$" & FORMAT(ThisYear/1000000, "#,##0.0") & "M",
+			        "$" & FORMAT(ThisYear/1000, "#,##0.0") & "K"
+			    )
+			VAR DiffFmtK = IF(YoYDiff>=0,"+","-") & FORMAT(ABS(YoYDiff)/1000, "#,##0.0") & "K"
+			VAR TYLabel = FORMAT(ThisYear/1000, "#,##0.0") & "K"
+			VAR LYLabel = FORMAT(LastYear/1000, "#,##0.0") & "K"
+			
+			VAR MaxVal    = MAX(ThisYear, LastYear)
+			VAR LYBarH    = ROUND(DIVIDE(LastYear, MaxVal) * 100, 0)
+			VAR TYBarH    = ROUND(DIVIDE(ThisYear, MaxVal) * 100, 0)
+			VAR DiffBarH  = MAX(ABS(TYBarH - LYBarH), 4)
+			VAR DiffBottom = MIN(LYBarH, TYBarH)
+			
+			RETURN
+			"<div style='width:100%;height:100%;box-sizing:border-box;background:" & BgColor & ";color:" & TextColor & ";padding:16px;border-radius:12px;font-family:Arial;box-shadow:" & Shadow & ";text-align:center;'>
+			
+			  <div style='font-size:13px;font-weight:bold;color:" & TextColor & ";'>Gross Profit</div>
+			  <div style='font-size:26px;font-weight:bold;margin-top:6px;color:" & TextColor & ";'>" & FmtK & "</div>
+			
+			  <div style='display:flex;justify-content:center;align-items:center;gap:4px;margin-top:10px;'>
+			    <span style='font-size:11px;color:" & Muted & ";'>ΔLY</span>
+			    <span style='font-size:13px;font-weight:bold;color:" & YoYColor & ";'>" & FORMAT(YoYPct,"+0.0") & "%</span>
+			    <span style='color:" & YoYColor & ";font-size:12px;'>" & YoYArrow & "</span>
+			  </div>
+			
+			  <div style='display:flex;justify-content:center;align-items:flex-end;gap:16px;margin-top:26px;height:130px;'>
+			
+			    <div style='display:flex;flex-direction:column;align-items:center;'>
+			      <div style='font-size:10px;color:" & Muted & ";margin-bottom:4px;'>" & LYLabel & "</div>
+			      <div style='position:relative;width:34px;height:100px;'>
+			        <div style='position:absolute;bottom:0;width:34px;height:" & LYBarH & "px;background:" & BarLight & ";border-radius:3px 3px 0 0;'></div>
+			      </div>
+			      <div style='font-size:10px;color:" & Muted & ";margin-top:5px;'>LY</div>
+			    </div>
+			
+			    <div style='display:flex;flex-direction:column;align-items:center;'>
+			      <div style='font-size:10px;font-weight:bold;color:" & YoYColor & ";margin-bottom:4px;'>" & DiffFmtK & "</div>
+			      <div style='position:relative;width:34px;height:100px;'>
+			        <div style='position:absolute;bottom:" & DiffBottom & "px;width:34px;height:" & DiffBarH & "px;background:" & YoYColor & ";border-radius:3px;'></div>
+			      </div>
+			      <div style='font-size:10px;color:" & Muted & ";margin-top:5px;'>Δ</div>
+			    </div>
+			
+			    <div style='display:flex;flex-direction:column;align-items:center;'>
+			      <div style='font-size:10px;color:" & Muted & ";margin-bottom:4px;'>" & TYLabel & "</div>
+			      <div style='position:relative;width:34px;height:100px;'>
+			        <div style='position:absolute;bottom:0;width:34px;height:" & TYBarH & "px;background:" & BarDark & ";border-radius:3px 3px 0 0;'></div>
+			      </div>
+			      <div style='font-size:10px;color:" & Muted & ";margin-top:5px;'>TY</div>
+			    </div>
+			
+			  </div>
+			
+			</div>"
+			```
+		lineageTag: acecdb05-0625-4326-a569-b134ccd5e2e3
+
+		changedProperty = IsHidden
+
+	measure HTML_MonthlyGPVariance = ```
+			
+			VAR SelYear = [Selected Year]
+			
+			VAR MonthsTbl =
+			    ADDCOLUMNS(
+			        VALUES(Dim_Date[Month]),
+			        "@Month", Dim_Date[Month],
+			        "@MonthName", CALCULATE(SELECTEDVALUE(Dim_Date[MonthName])),
+			        "@AC", CALCULATE([Total_Gross_Profit], Dim_Date[Year] = SelYear),
+			        "@LY", CALCULATE([Total_Gross_Profit], Dim_Date[Year] = SelYear - 1)
+			    )
+			
+			VAR FilteredTbl = FILTER(MonthsTbl, [@AC] > 0 || [@LY] > 0)
+			
+			VAR EnrichedTbl =
+			    ADDCOLUMNS(
+			        FilteredTbl,
+			        "@Delta", [@AC] - [@LY],
+			        "@DeltaPct", DIVIDE([@AC] - [@LY], [@LY]) * 100
+			    )
+			
+			VAR MaxScale  = MAXX(EnrichedTbl, IF([@AC] > [@LY], [@AC], [@LY]))
+			VAR LastMonth = MAXX(EnrichedTbl, [@Month])
+			
+			VAR TotalAC    = SUMX(EnrichedTbl, [@AC])
+			VAR TotalLY    = SUMX(EnrichedTbl, [@LY])
+			VAR OverallPct = DIVIDE(TotalAC - TotalLY, TotalLY) * 100
+			
+			VAR ThemeMode = SELECTEDVALUE('Theme'[Mode], "Dark")
+			VAR IsDark    = ThemeMode = "Dark"
+			VAR BgColor   = IF(IsDark, "#18181b", "#ffffff")
+			VAR TextColor = IF(IsDark, "#f4f4f5", "#18181b")
+			VAR Muted     = IF(IsDark, "#a1a1aa", "#64748b")
+			VAR BarAC     = IF(IsDark, "#38bdf8", "#0284c7")
+			VAR BarLY     = IF(IsDark, "#3f3f46", "#cbd5e1")
+			VAR BaseLine  = IF(IsDark, "#52525b", "#e2e8f0")
+			VAR Shadow    = IF(IsDark, "0 4px 12px rgba(0,0,0,0.4)", "0 4px 12px rgba(0,0,0,0.08)")
+			
+			VAR ColumnPrep =
+			    ADDCOLUMNS(
+			        EnrichedTbl,
+			        "@PosColor", IF([@DeltaPct] >= 0, "#22c55e", "#ef4444"),
+			        "@ACH", 
+			            IF(
+			                MaxScale = 0, 
+			                "0%", 
+			                FORMAT(IF(DIVIDE([@AC], MaxScale) * 100 < 3, 3, DIVIDE([@AC], MaxScale) * 100), "0.0") & "%"
+			            ),
+			        "@LYH", 
+			            IF(
+			                MaxScale = 0, 
+			                "0%", 
+			                FORMAT(IF(DIVIDE([@LY], MaxScale) * 100 < 3, 3, DIVIDE([@LY], MaxScale) * 100), "0.0") & "%"
+			            ),
+			        "@DeltaLbl", IF([@Delta] >= 0, "+", "") & FORMAT([@Delta] / 1000, "#,##0"),
+			        "@HighlightBorder", IF([@Month] = LastMonth, "border:2px solid #3b82f6;border-radius:16px;", "")
+			    )
+			
+			VAR ColumnsHTML =
+			    CONCATENATEX(
+			        ColumnPrep,
+			        "<div style='flex:1;display:flex;flex-direction:column;align-items:center;min-width:40px;height:100%;'>" &
+			          /* 1. Variance Line & Fixed Percentage Position */
+			          "<div style='position:relative;width:100%;height:32px;flex-shrink:0;'>" &
+			            "<div style='position:absolute;top:22px;left:0;right:0;height:1px;background:" & BaseLine & ";'></div>" &
+			            /* 'top:2px' ensures all month percentage labels rest on the exact same horizontal level */
+			            "<div style='position:absolute;left:50%;transform:translateX(-50%);top:2px;font-size:11px;font-weight:bold;color:" & [@PosColor] & ";white-space:nowrap;padding:1px 4px;" & [@HighlightBorder] & "'>" & FORMAT([@DeltaPct], "+0.0") & "%</div>" &
+			          "</div>" &
+			          /* 2. Delta Label */
+			          "<div style='font-size:11px;font-weight:bold;color:" & [@PosColor] & ";margin-top:2px;flex-shrink:0;'>" & [@DeltaLbl] & "</div>" &
+			          /* 3. Overlapping & Offset Bars Container */
+			          "<div style='position:relative;flex:1;width:100%;margin:10px 0;min-height:40px;'>" &
+			            "<div style='position:absolute;bottom:0;left:50%;transform:translateX(-70%);width:22px;height:" & [@LYH] & ";background:" & BarLY & ";border-radius:3px 3px 0 0;'></div>" &
+			            "<div style='position:absolute;bottom:0;left:50%;transform:translateX(-20%);width:14px;height:" & [@ACH] & ";background:" & BarAC & ";border-radius:2px 2px 0 0;box-shadow: -2px 0 6px rgba(0,0,0,0.35);'></div>" &
+			          "</div>" &
+			          /* 4. Actual Amount */
+			          "<div style='font-size:11px;color:" & TextColor & ";font-weight:bold;flex-shrink:0;'>" & FORMAT([@AC] / 1000, "#,##0") & "</div>" &
+			          /* 5. Month Name */
+			          "<div style='font-size:11px;color:" & Muted & ";margin-top:4px;flex-shrink:0;'>" & [@MonthName] & "</div>" &
+			        "</div>",
+			        "",
+			        [@Month], ASC
+			    )
+			
+			RETURN
+			"<div style='position:absolute;top:0;bottom:0;left:0;right:0;box-sizing:border-box;background:" & BgColor & ";color:" & TextColor & ";padding:18px;border-radius:12px;font-family:Segoe UI, Arial, sans-serif;box-shadow:" & Shadow & ";display:flex;flex-direction:column;overflow:hidden;'>" &
+			  "<div style='display:flex;justify-content:space-between;align-items:baseline;flex-shrink:0;'>" &
+			    "<div style='display:flex;align-items:center;gap:12px;'>" &
+			      "<span style='font-size:16px;font-weight:bold;'>Gross Profit — AC vs LY by Month (in K)</span>" &
+			      "<span style='font-size:11px;color:" & Muted & ";display:flex;align-items:center;gap:8px;'>" &
+			        "<span style='display:inline-block;width:10px;height:10px;background:" & BarAC & ";border-radius:2px;'></span>AC " &
+			        "<span style='display:inline-block;width:10px;height:10px;background:" & BarLY & ";border-radius:2px;margin-left:4px;'></span>LY" &
+			      "</span>" &
+			    "</div>" &
+			    "<div style='font-size:14px;font-weight:bold;color:" & IF(OverallPct >= 0, "#22c55e", "#ef4444") & ";'>" & FORMAT(OverallPct, "+0.0") & "% overall</div>" &
+			  "</div>" &
+			  "<div style='display:flex;width:100%;flex:1;margin-top:14px;align-items:stretch;'>" &
+			    ColumnsHTML &
+			  "</div>" &
+			"</div>"
+			```
+		lineageTag: 6b1326af-51a8-4534-b552-a590394493e3
+
+	measure HTML_SalesWaterfall =
+			
+			VAR SelYear = [Selected Year]
+			VAR MaxDate = CALCULATE(MAX(Fact_Sales_GPMargin[CalendarDate]))
+			VAR LastDayOfCurrentMonth = EOMONTH(MaxDate, 0)
+			VAR CurrentMonthComplete = DAY(MaxDate) = DAY(LastDayOfCurrentMonth)
+			VAR LastCompleteMonth = IF(CurrentMonthComplete, MONTH(MaxDate), MONTH(MaxDate) - 1)
+			
+			VAR MonthsTbl =
+			    FILTER(
+			        ADDCOLUMNS(
+			            VALUES(Dim_Date[Month]),
+			            "@MonthName", CALCULATE(SELECTEDVALUE(Dim_Date[MonthName])),
+			            "@AC", CALCULATE([Total_Sales], Dim_Date[Year] = SelYear),
+			            "@PY", CALCULATE([Total_Sales], Dim_Date[Year] = SelYear - 1)
+			        ),
+			        [Month] <= LastCompleteMonth
+			    )
+			
+			VAR EnrichedTbl =
+			    ADDCOLUMNS(
+			        MonthsTbl,
+			        "@Delta", [@AC] - [@PY],
+			        "@DeltaPct", DIVIDE([@AC] - [@PY], [@PY]) * 100
+			    )
+			
+			VAR PYTotal = CALCULATE([Total_Sales], REMOVEFILTERS(Dim_Date), Dim_Date[Year] = SelYear - 1)
+			VAR ACTotal = SUMX(EnrichedTbl, [@AC])
+			VAR TotalDelta = ACTotal - PYTotal
+			VAR TotalDeltaPct = DIVIDE(TotalDelta, PYTotal) * 100
+			
+			VAR RunningTbl =
+			    ADDCOLUMNS(
+			        EnrichedTbl,
+			        "@RunningBefore",
+			            VAR CurMonth = [Month]
+			            RETURN PYTotal + SUMX(FILTER(EnrichedTbl, [Month] < CurMonth), [@Delta]),
+			        "@RunningAfter",
+			            VAR CurMonth = [Month]
+			            RETURN PYTotal + SUMX(FILTER(EnrichedTbl, [Month] <= CurMonth), [@Delta])
+			    )
+			
+			VAR MaxScale =
+			    MAX(
+			        PYTotal,
+			        MAX(
+			            ACTotal,
+			            MAXX(RunningTbl, MAX([@RunningBefore], [@RunningAfter]))
+			        )
+			    )
+			
+			VAR ThemeMode = SELECTEDVALUE('Theme'[Mode], "Dark")
+			VAR IsDark    = ThemeMode = "Dark"
+			VAR BgColor   = IF(IsDark, "#1e1e1e", "#ffffff")
+			VAR TextColor = IF(IsDark, "#ffffff", "#1a1a1a")
+			VAR Muted     = IF(IsDark, "#aaaaaa", "#555555")
+			VAR PYBarClr  = IF(IsDark, "#8a8a8a", "#c9c9c9")
+			VAR ACBarClr  = IF(IsDark, "#e5e5e5", "#3a3a3a")
+			VAR Shadow    = IF(IsDark, "0 4px 12px rgba(0,0,0,0.35)", "0 4px 12px rgba(0,0,0,0.08)")
+			VAR TrackH    = 140
+			
+			VAR StartHtml =
+			    "<div style='display:flex;flex-direction:column;align-items:center;min-width:40px;'>
+			      <div style='font-size:10px;font-weight:bold;color:" & TextColor & ";margin-bottom:4px;'>" & FORMAT(PYTotal/1000,"#,##0") & "</div>
+			      <div style='position:relative;width:32px;height:" & TrackH & "px;'>
+			        <div style='position:absolute;bottom:0;width:32px;height:" & ROUND(DIVIDE(PYTotal, MaxScale) * TrackH, 0) & "px;background:" & PYBarClr & ";'></div>
+			      </div>
+			      <div style='font-size:10px;color:" & Muted & ";margin-top:5px;font-weight:bold;'>PY</div>
+			    </div>"
+			
+			VAR WaterfallHtml =
+			    CONCATENATEX(
+			        RunningTbl,
+			        VAR PosColor = IF([@Delta] >= 0, "#22c55e", "#ef4444")
+			        VAR BarBottom = ROUND(DIVIDE(MIN([@RunningBefore], [@RunningAfter]), MaxScale) * TrackH, 0)
+			        VAR BarHeight = MAX(ROUND(DIVIDE(ABS([@Delta]), MaxScale) * TrackH, 0), 3)
+			        VAR DeltaLbl = IF([@Delta] >= 0, "+", "") & FORMAT([@Delta]/1000, "#,##0")
+			        RETURN
+			        "<div style='display:flex;flex-direction:column;align-items:center;min-width:40px;'>
+			          <div style='font-size:9px;font-weight:bold;color:" & PosColor & ";margin-bottom:4px;white-space:nowrap;'>" & DeltaLbl & " (" & FORMAT([@DeltaPct],"+0.0") & "%)</div>
+			          <div style='position:relative;width:28px;height:" & TrackH & "px;'>
+			            <div style='position:absolute;bottom:" & BarBottom & "px;width:28px;height:" & BarHeight & "px;background:" & PosColor & ";'></div>
+			          </div>
+			          <div style='font-size:10px;color:" & Muted & ";margin-top:5px;'>" & [@MonthName] & "</div>
+			        </div>",
+			        "",
+			        [Month], ASC
+			    )
+			
+			VAR EndHtml =
+			    "<div style='display:flex;flex-direction:column;align-items:center;min-width:40px;'>
+			      <div style='font-size:10px;font-weight:bold;color:" & TextColor & ";margin-bottom:4px;'>" & FORMAT(ACTotal/1000,"#,##0") & "</div>
+			      <div style='position:relative;width:32px;height:" & TrackH & "px;'>
+			        <div style='position:absolute;bottom:0;width:32px;height:" & ROUND(DIVIDE(ACTotal, MaxScale) * TrackH, 0) & "px;background:" & ACBarClr & ";'></div>
+			      </div>
+			      <div style='font-size:10px;color:" & Muted & ";margin-top:5px;font-weight:bold;'>AC</div>
+			    </div>"
+			
+			VAR TotalDeltaColor = IF(TotalDelta >= 0, "#22c55e", "#ef4444")
+			VAR TotalDeltaBottom = ROUND(DIVIDE(MIN(PYTotal, ACTotal), MaxScale) * TrackH, 0)
+			VAR TotalDeltaHeight = MAX(ROUND(DIVIDE(ABS(TotalDelta), MaxScale) * TrackH, 0), 3)
+			VAR TotalDeltaLbl = IF(TotalDelta >= 0, "+", "") & FORMAT(TotalDelta/1000, "#,##0")
+			
+			VAR DeltaHtml =
+			    "<div style='display:flex;flex-direction:column;align-items:center;min-width:40px;'>
+			      <div style='font-size:9px;font-weight:bold;color:" & TotalDeltaColor & ";margin-bottom:4px;white-space:nowrap;'>" & TotalDeltaLbl & " (" & FORMAT(TotalDeltaPct,"+0.0") & "%)</div>
+			      <div style='position:relative;width:28px;height:" & TrackH & "px;'>
+			        <div style='position:absolute;bottom:" & TotalDeltaBottom & "px;width:28px;height:" & TotalDeltaHeight & "px;background:" & TotalDeltaColor & ";'></div>
+			      </div>
+			      <div style='font-size:10px;color:" & Muted & ";margin-top:5px;font-weight:bold;'>&#916;PY</div>
+			    </div>"
+			
+			RETURN
+			"<div style='width:100%;height:100%;box-sizing:border-box;background:" & BgColor & ";color:" & TextColor & ";padding:16px;border-radius:12px;font-family:Arial;box-shadow:" & Shadow & ";overflow-x:auto;'>
+			
+			  <div style='font-size:14px;font-weight:bold;'>Net Sales — PY to AC Bridge (in K)</div>
+			  <div style='font-size:11px;color:" & Muted & ";margin-bottom:4px;'>Jan-" & UPPER(LEFT(FORMAT(DATE(2000,LastCompleteMonth,1),"MMM"),3)) & " only (excludes incomplete trailing month)</div>
+			
+			  <div style='display:flex;align-items:flex-end;gap:6px;margin-top:20px;'>
+			    " & StartHtml & WaterfallHtml & EndHtml & DeltaHtml & "
+			  </div>
+			
+			</div>"
+		lineageTag: 8da4cd5d-1256-4401-88a7-f5811c034949
+
+	measure 2_MaxDate = ```
+			
+			CALCULATE(
+			    MAX('Dim_Date'[CalendarDate]),
+			    REMOVEFILTERS('Dim_Date')
+			)
+			
+			
+			
+			```
+		formatString: General Date
+		lineageTag: 7fa5b616-2ab6-4810-a1d6-e07ed397441a
+
+	measure 2_MinDate =
+			
+			CALCULATE(
+			    MIN(Dim_Date[CalendarDate]),
+			    REMOVEFILTERS(Dim_Date[CalendarDate]))
+		formatString: General Date
+		lineageTag: da66879a-cae6-440f-b632-36f3ff9975fe
+
+	measure '3_Selected Dates' = SELECTEDVALUE('Date Selection'[Date Selection])
+		lineageTag: 9a18e856-e0dc-4160-a43c-9a7791a63735
+
+	measure '3_Selected Measure' = ```
+			
+			SWITCH(
+			    SELECTEDVALUE('Measure Sel'[Measure Name]),
+			    "Revenue", [Total_Sales],
+			    "COGS", [Total_COGS],
+			    "Gross Profit", [Total_Gross_Profit])
+			
+			```
+		lineageTag: c161a0d3-41c2-4c87-a188-17f490fb32ef
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '3_Selected Min Date' =
+			
+			VAR RealMaxDate = [2_MaxDate]
+			VAR MinDate = [2_MinDate]
+			VAR SelectedParam = [3_Selected Dates]
+			RETURN
+			SWITCH(
+			    SelectedParam,
+			    "1W",  RealMaxDate - 7,
+			    "1M",  EDATE(RealMaxDate, -1),
+			    "3M",  EDATE(RealMaxDate, -3),
+			    "TY",  DATE(YEAR(RealMaxDate), 1, 1),
+			    "1Y",  EDATE(RealMaxDate, -12),
+			    "ALL", MinDate,
+			    EDATE(RealMaxDate, -3) -- Default fallback prevents BLANK when no selection is active
+			)
+		formatString: General Date
+		lineageTag: 7cc52570-161a-4957-a060-49a514dd8443
+
+	measure '3_Selected Min Date Past Period' =
+			
+			Var MaxDate = [3_Selected Min Date] -1
+			VAR MinDate2 = [2_MinDate] -1
+			RETURN
+			
+			SWITCH([3_Selected Dates],
+			    "1W",MaxDate -7,
+			    "1M",EDATE(MaxDate, -1),
+			    "3M",EDATE(MaxDate, -3),
+			    "TY",DATE(YEAR(MaxDate), 1, 1),
+			    "1Y",EDATE(MaxDate, -12),
+			    "ALL",MinDate2 )
+		formatString: General Date
+		lineageTag: 2e5fb749-75bb-4d9e-a129-10ac9d8849c7
+
+	measure '4_SM Date Param' = ```
+			
+			CALCULATE(
+			    [3_Selected Measure],
+			    KEEPFILTERS(
+			        DATESBETWEEN(
+			            'Dim_Date'[CalendarDate],                 
+			            [3_Selected Min Date],
+			            [2_MaxDate]
+			         ))
+			    )
+			```
+		lineageTag: 9d5cc5e0-8aba-45bc-8a80-6204de0cc0ce
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '4_SM Date Param Past Period' = ```
+			
+			CALCULATE(
+			    [3_Selected Measure],
+			    KEEPFILTERS(
+			        DATESBETWEEN(
+			            'Dim_Date'[CalendarDate],       
+			            [3_Selected Min Date Past Period],                      
+			            [3_Selected Min Date]
+			         ))
+			    )
+			```
+		lineageTag: 9abb04af-5d92-4748-8901-82cd77b04ecc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '5_Moving Average Selection' =
+			
+			//get the selected moving average value from the disconnected table
+			
+			SELECTEDVALUE('Moving Average'[Days])
+		formatString: 0
+		lineageTag: 31f335a0-c7b1-45b7-a956-196c38690528
+
+	measure '5_SM Moving Average' = ```
+			
+			    
+			    AVERAGEX(                                   
+			    DATESINPERIOD(                          //the dates from:                     
+			        'Dim_Date'[CalendarDate],                       //Current Date
+			        LASTDATE(                           //Current Date - #Selected Months
+			            'Dim_Date'[CalendarDate] ), 
+			            -[5_Moving Average Selection], 
+			            DAY                           
+			            ),                              
+			         [3_Selected Measure]               //For the selected measure
+			         )
+			         
+			```
+		lineageTag: 45f59449-d493-47b0-9b0b-d6c5772b79e4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '6_SM Date Param Delta' =
+			
+			[4_SM Date Param] - [4_SM Date Param Past Period]
+		lineageTag: 74f9e329-773e-49ff-a2f7-197998246381
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '6_SM Date Param Delta %' =
+			
+			DIVIDE( [6_SM Date Param Delta], [4_SM Date Param Past Period])
+		lineageTag: f9d4b44b-9ca5-4f43-a271-d270cb9c878e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '7_SM Past Period Reference Label' = ```
+			
+			
+			
+			var _Current = [4_SM Date Param]
+			var _LY = [4_SM Date Param Past Period]
+			var _Growth = DIVIDE(_Current - _LY, _LY)
+			VAR NumOfDigits =
+			    IFERROR(
+			            LEN( 
+			                CONVERT( 
+			                        INT( 
+			                           [4_SM Date Param])
+			                        , STRING ))
+			            ,0)
+			VAR Suffix =
+			    ".0" &
+			    SWITCH(
+			        TRUE( ),
+			        NumOfDigits >= 13,  "T",
+			        NumOfDigits >= 10,  "B",
+			        NumOfDigits >= 7,   "M",
+			        NumOfDigits >= 4,   "K"
+			    )
+			VAR Commas =
+			    REPT(",",
+			        SWITCH(
+			            TRUE( ),
+			            NumOfDigits >= 13,  "4",
+			            NumOfDigits >= 10,  "3",
+			            NumOfDigits >= 7,   "2",
+			            NumOfDigits >= 4,   "1"
+			        )
+			    )
+			var _Format =     "#,##0" & Commas & Suffix & ";-#,##0" & Commas &Suffix 
+			return
+			IF (_Growth <> 0, 
+			    
+			"" &FORMAT(_Current-_LY, _Format)
+			    &  
+			        FORMAT(_Growth," | 0.0% ▲; | 0.0% ▼;")& ""," ")
+			```
+		lineageTag: 6130c10e-5c4f-497b-bae0-63e95fd4db75
+
+	measure '7_SM Past Period subtitle' = ```
+			
+			var _LY = [4_SM Date Param Past Period]
+			VAR NumOfDigits =
+			    IFERROR(
+			            LEN( 
+			                CONVERT( 
+			                        INT( 
+			                           _LY)
+			                        , STRING ))
+			            ,0)
+			VAR Suffix =
+			    ".00" &
+			    SWITCH(
+			        TRUE( ),
+			        NumOfDigits >= 13,  "T",
+			        NumOfDigits >= 10,  "B",
+			        NumOfDigits >= 7,   "M",
+			        NumOfDigits >= 4,   "K"
+			    )
+			VAR Commas =
+			    REPT(",",
+			        SWITCH(
+			            TRUE( ),
+			            NumOfDigits >= 13,  "4",
+			            NumOfDigits >= 10,  "3",
+			            NumOfDigits >= 7,   "2",
+			            NumOfDigits >= 4,   "1"
+			        )
+			    )
+			var _Format =     "#,##0" & Commas & Suffix & ";-#,##0" & Commas &Suffix 
+			var _Time = 
+			    SWITCH([3_Selected Dates],
+			    "1W","Prior 7 Days: ",
+			    "1M","Prior 1 Month: ",
+			    "3M","Prior 3 Months: ",
+			    "TY","Year To Date: ",
+			    "1Y","Prior 12 Months: ")
+			return
+			_Time  &FORMAT(_LY, _Format)
+			```
+		lineageTag: b12ed5f4-392f-4004-9bd0-89339b4fc5ec
+
+	measure '8_Reference Label Background Color' = ```
+			
+			VAR x = [6_SM Date Param Delta] RETURN
+			SWITCH(TRUE(),
+			    x > 0 , "#E7F3F5", //Green
+			    x < 0, "#F6EDED") // red
+			
+			
+			
+			```
+		lineageTag: d29ecd4f-a883-407b-8a7c-4a49136c64c6
+
+	measure '8_Reference Label Font Color' = ```
+			
+			VAR x = [6_SM Date Param Delta] RETURN
+			SWITCH(TRUE(),
+			    x > 0 , "#038D96", //Green
+			    x < 0, "#A84545") // red
+			
+			
+			
+			```
+		lineageTag: 900125b4-bd40-4a36-9c8b-7f314228f676
+
+	measure '9_Selected measure Text' = SELECTEDVALUE('Measure Sel'[Measure Name])
+		lineageTag: 694994f9-c94f-4f3a-a106-d04df600b31b
+
+	measure '9_Y axis MAX' = ```
+			
+			
+			CALCULATE (
+			    MAXX ( VALUES ( Dim_Date[CalendarDate] ), [3_Selected Measure] ),
+			    KEEPFILTERS(
+			        DATESBETWEEN(
+			            Dim_Date[CalendarDate],                 
+			            [3_Selected Min Date],
+			            [2_MaxDate]
+			         ))
+			)
+			```
+		lineageTag: cc4d1baf-3b6d-498b-ab49-c24a56d4e249
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '5_SM Moving Average Date Param' = ```
+			
+			if(ISBLANK([3_Selected Measure]), blank(),
+			CALCULATE(
+			    [5_SM Moving Average],
+			    KEEPFILTERS(
+			        DATESBETWEEN(
+			            Fact_Sales_GPMargin[CalendarDate],                 
+			            [3_Selected Min Date],
+			            [2_MaxDate]
+			         ))
+			    )
+			)
+			```
+		lineageTag: 09d1ec72-660c-4f55-beee-7a1a1e3c87a9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure HTML_RevenueBridge1 = ```
+			
+			VAR MaxDate   = CALCULATE(MAX('Dim_Date'[CalendarDate]), ALL('Dim_Date'))
+			VAR MinDate   = CALCULATE(MIN('Dim_Date'[CalendarDate]), ALL('Dim_Date'))
+			
+			VAR SelectedPeriod = SELECTEDVALUE('Date Selection'[Date Selection], "TY")
+			
+			VAR PeriodStart = [3_Selected Min Date]
+			VAR PeriodEnd   = [2_MaxDate]
+			VAR PeriodStartLY = DATE(YEAR(PeriodStart)-1, MONTH(PeriodStart), DAY(PeriodStart))
+			VAR PeriodEndLY   = DATE(YEAR(PeriodEnd)-1, MONTH(PeriodEnd), DAY(PeriodEnd))
+			
+			VAR ThisYear = CALCULATE([3_Selected Measure], KEEPFILTERS(DATESBETWEEN('Dim_Date'[CalendarDate], PeriodStart, PeriodEnd)))
+			VAR LastYear = CALCULATE([3_Selected Measure], KEEPFILTERS(DATESBETWEEN('Dim_Date'[CalendarDate], PeriodStartLY, PeriodEndLY)))
+			
+			VAR YoYDiff = ThisYear - LastYear
+			VAR YoYPct  = DIVIDE(YoYDiff, LastYear) * 100
+			
+			VAR TextColor = "#1a1a1a"
+			VAR Muted     = "#666666"
+			VAR BarLight  = "#9dc9f7"
+			VAR BarDark   = "#0f3d66"
+			VAR YoYColor  = IF(YoYPct >= 0, "#22c55e", "#ef4444")
+			VAR YoYArrow  = IF(YoYPct >= 0, "▲", "▼")
+			
+			VAR FmtK = 
+			    SWITCH(TRUE(),
+			        ABS(ThisYear) >= 1000000, "$" & FORMAT(ThisYear/1000000, "#,##0.0") & "M",
+			        "$" & FORMAT(ThisYear/1000, "#,##0.0") & "K"
+			    )
+			VAR DiffFmtK = IF(YoYDiff>=0,"+","-") & FORMAT(ABS(YoYDiff)/1000, "#,##0.0") & "K"
+			VAR TYLabel = FORMAT(ThisYear/1000, "#,##0.0") & "K"
+			VAR LYLabel = FORMAT(LastYear/1000, "#,##0.0") & "K"
+			
+			-- Wider vertical grid (320 x 190) with more headroom before bars start
+			VAR BarTop    = 92
+			VAR BarBottom = 172
+			VAR BarAreaH  = BarBottom - BarTop
+			VAR MaxVal    = MAX(ThisYear, LastYear)
+			VAR LYBarH    = ROUND(BarAreaH * DIVIDE(LastYear, MaxVal), 1)
+			VAR TYBarH    = ROUND(BarAreaH * DIVIDE(ThisYear, MaxVal), 1)
+			VAR DiffBarH  = MAX(ABS(TYBarH - LYBarH), 6)
+			VAR DiffBottomH = MIN(LYBarH, TYBarH)
+			
+			VAR LYy   = BarBottom - LYBarH
+			VAR TYy   = BarBottom - TYBarH
+			VAR Diffy = BarBottom - DiffBottomH - DiffBarH
+			
+			VAR LYx = 46
+			VAR Diffx = 142
+			VAR TYx = 238
+			VAR BarW = 40
+			
+			RETURN
+			"<svg width='100%' height='100%' viewBox='0 0 320 190' preserveAspectRatio='xMidYMid meet' xmlns='http://www.w3.org/2000/svg' font-family='Arial'>
+			
+			  <text x='10' y='20' font-size='14' font-weight='bold' fill='" & TextColor & "'>Revenue</text>
+			  <text x='10' y='48' font-size='26' font-weight='800' fill='" & TextColor & "'>" & FmtK & "</text>
+			
+			  <text x='10' y='66' font-size='10' fill='" & Muted & "'>ΔLY</text>
+			  <text x='34' y='66' font-size='11' font-weight='bold' fill='" & YoYColor & "'>" & FORMAT(YoYPct,"+0.0") & "% " & YoYArrow & "</text>
+			
+			  <!-- LY bar -->
+			  <text x='" & LYx + BarW/2 & "' y='" & LYy - 8 & "' font-size='9' fill='" & Muted & "' text-anchor='middle'>" & LYLabel & "</text>
+			  <rect x='" & LYx & "' y='" & LYy & "' width='" & BarW & "' height='" & LYBarH & "' rx='3' fill='" & BarLight & "'/>
+			  <text x='" & LYx + BarW/2 & "' y='" & BarBottom + 16 & "' font-size='9' fill='" & Muted & "' text-anchor='middle'>LY</text>
+			
+			  <!-- Diff bar -->
+			  <text x='" & Diffx + BarW/2 & "' y='" & Diffy - 8 & "' font-size='9' font-weight='bold' fill='" & YoYColor & "' text-anchor='middle'>" & DiffFmtK & "</text>
+			  <rect x='" & Diffx & "' y='" & Diffy & "' width='" & BarW & "' height='" & DiffBarH & "' rx='3' fill='" & YoYColor & "'/>
+			  <text x='" & Diffx + BarW/2 & "' y='" & BarBottom + 16 & "' font-size='9' fill='" & Muted & "' text-anchor='middle'>Δ</text>
+			
+			  <!-- TY bar -->
+			  <text x='" & TYx + BarW/2 & "' y='" & TYy - 8 & "' font-size='9' fill='" & Muted & "' text-anchor='middle'>" & TYLabel & "</text>
+			  <rect x='" & TYx & "' y='" & TYy & "' width='" & BarW & "' height='" & TYBarH & "' rx='3' fill='" & BarDark & "'/>
+			  <text x='" & TYx + BarW/2 & "' y='" & BarBottom + 16 & "' font-size='9' fill='" & Muted & "' text-anchor='middle'>TY</text>
+			
+			</svg>"
+			```
+		lineageTag: d7c970d2-704b-49d6-8e51-d60d82b7c18f
+
+	measure '7_SM Period Subtitle Combined' = ```
+			
+			VAR _Current = [4_SM Date Param]
+			VAR _Past    = [4_SM Date Param Past Period]
+			
+			-- Format _Current
+			VAR NumOfDigits_C =
+			    IFERROR(LEN(CONVERT(INT(_Current), STRING)), 0)
+			VAR Suffix_C =
+			    ".00" &
+			    SWITCH(
+			        TRUE(),
+			        NumOfDigits_C >= 13, "T",
+			        NumOfDigits_C >= 10, "B",
+			        NumOfDigits_C >= 7,  "M",
+			        NumOfDigits_C >= 4,  "K"
+			    )
+			VAR Commas_C =
+			    REPT(",",
+			        SWITCH(
+			            TRUE(),
+			            NumOfDigits_C >= 13, "4",
+			            NumOfDigits_C >= 10, "3",
+			            NumOfDigits_C >= 7,  "2",
+			            NumOfDigits_C >= 4,  "1"
+			        )
+			    )
+			VAR _Format_C = "#,##0" & Commas_C & Suffix_C & ";-#,##0" & Commas_C & Suffix_C
+			VAR CurrentFormatted = FORMAT(_Current, _Format_C)
+			
+			-- Format _Past
+			VAR NumOfDigits_P =
+			    IFERROR(LEN(CONVERT(INT(_Past), STRING)), 0)
+			VAR Suffix_P =
+			    ".00" &
+			    SWITCH(
+			        TRUE(),
+			        NumOfDigits_P >= 13, "T",
+			        NumOfDigits_P >= 10, "B",
+			        NumOfDigits_P >= 7,  "M",
+			        NumOfDigits_P >= 4,  "K"
+			    )
+			VAR Commas_P =
+			    REPT(",",
+			        SWITCH(
+			            TRUE(),
+			            NumOfDigits_P >= 13, "4",
+			            NumOfDigits_P >= 10, "3",
+			            NumOfDigits_P >= 7,  "2",
+			            NumOfDigits_P >= 4,  "1"
+			        )
+			    )
+			VAR _Format_P = "#,##0" & Commas_P & Suffix_P & ";-#,##0" & Commas_P & Suffix_P
+			VAR PastFormatted = FORMAT(_Past, _Format_P)
+			
+			-- Labels
+			VAR CurrentLabel = 
+			    SWITCH([3_Selected Dates],
+			        "1W", "Last 7 Days: ",
+			        "1M", "Last 30 Days: ",
+			        "3M", "Last 3 Months: ",
+			        "TY", "Year to Date: ",
+			        "1Y", "Trailing 12 Months: ",
+			        "ALL","All Time: ")
+			
+			VAR PastLabel = 
+			    SWITCH([3_Selected Dates],
+			        "1W", "Previous 7-Day: ",
+			        "1M", "Previous 30-Day: ",
+			        "3M", "Previous 3-Month: ",
+			        "TY", "Prior Year to Date: ",
+			        "1Y", "Prior 12 Months: ",
+			        "ALL","")
+			
+			VAR CurrentLine = CurrentLabel & CurrentFormatted
+			VAR PastLine    = IF(PastLabel = "", "", PastLabel & PastFormatted)
+			
+			RETURN
+			CurrentLine & IF(PastLine <> "", UNICHAR(10) & PastLine)
+			```
+		lineageTag: dac81f8e-3736-44dc-bdef-2cbabdb48438
+
+	measure HTML_RevenueBridge1test = ```
+			
+			VAR MaxDate   = CALCULATE(MAX('Dim_Date'[CalendarDate]), ALL('Dim_Date'))
+			VAR MinDate   = CALCULATE(MIN('Dim_Date'[CalendarDate]), ALL('Dim_Date'))
+			
+			VAR SelectedPeriod = SELECTEDVALUE('Date Selection'[Date Selection], "TY")
+			
+			VAR PeriodStart = [3_Selected Min Date]
+			VAR PeriodEnd   = [2_MaxDate]
+			VAR PeriodStartLY = DATE(YEAR(PeriodStart)-1, MONTH(PeriodStart), DAY(PeriodStart))
+			VAR PeriodEndLY   = DATE(YEAR(PeriodEnd)-1, MONTH(PeriodEnd), DAY(PeriodEnd))
+			
+			-- Remove the Year slicer's filter on Dim_Date so PeriodStart/PeriodEnd fully control the window
+			VAR ThisYear = 
+			    CALCULATE(
+			        [3_Selected Measure], 
+			        KEEPFILTERS(DATESBETWEEN('Dim_Date'[CalendarDate], PeriodStart, PeriodEnd)),
+			        REMOVEFILTERS('Dim_Date'[Year])
+			    )
+			VAR LastYear = 
+			    CALCULATE(
+			        [3_Selected Measure], 
+			        KEEPFILTERS(DATESBETWEEN('Dim_Date'[CalendarDate], PeriodStartLY, PeriodEndLY)),
+			        REMOVEFILTERS('Dim_Date'[Year])
+			    )
+			
+			VAR YoYDiff = ThisYear - LastYear
+			VAR YoYPct  = DIVIDE(YoYDiff, LastYear) * 100
+			
+			VAR Muted     = "#000000"
+			VAR BarLight  = "#4a4a4a"
+			VAR BarDark   = "#e5e5e5"
+			VAR YoYColor  = IF(YoYPct >= 0, "#22c55e", "#ef4444")
+			VAR YoYArrow  = IF(YoYPct >= 0, "▲", "▼")
+			
+			VAR DiffFmtK = IF(YoYDiff>=0,"+","-") & FORMAT(ABS(YoYDiff)/1000, "#,##0.0") & "K"
+			VAR TYLabel = FORMAT(ThisYear/1000, "#,##0.0") & "K"
+			VAR LYLabel = FORMAT(LastYear/1000, "#,##0.0") & "K"
+			
+			VAR BarTop    = 70
+			VAR BarBottom = 175
+			VAR BarAreaH  = BarBottom - BarTop
+			VAR MaxVal    = MAX(ThisYear, LastYear)
+			VAR LYBarH    = ROUND(BarAreaH * DIVIDE(LastYear, MaxVal), 1)
+			VAR TYBarH    = ROUND(BarAreaH * DIVIDE(ThisYear, MaxVal), 1)
+			VAR DiffBarH  = MAX(ABS(TYBarH - LYBarH), 8)
+			VAR DiffBottomH = MIN(LYBarH, TYBarH)
+			
+			VAR LYy   = BarBottom - LYBarH
+			VAR TYy   = BarBottom - TYBarH
+			VAR Diffy = BarBottom - DiffBottomH - DiffBarH
+			
+			VAR BarW  = 44
+			VAR LYx   = 20
+			VAR Diffx = 88
+			VAR TYx   = 156
+			
+			RETURN
+			"<svg width='100%' height='100%' viewBox='0 0 220 220' preserveAspectRatio='xMidYMid meet' xmlns='http://www.w3.org/2000/svg' font-family='Arial'>
+			
+			  <text x='20' y='24' font-size='14' fill='" & Muted & "'>ΔLY</text>
+			  <text x='55' y='24' font-size='16' font-weight='bold' fill='" & YoYColor & "'>" & FORMAT(YoYPct,"+0.0") & "% " & YoYArrow & "</text>
+			
+			  <text x='" & LYx + BarW/2 & "' y='" & LYy - 10 & "' font-size='13' fill='" & Muted & "' text-anchor='middle'>" & LYLabel & "</text>
+			  <rect x='" & LYx & "' y='" & LYy & "' width='" & BarW & "' height='" & LYBarH & "' rx='4' fill='" & BarLight & "'/>
+			  <text x='" & LYx + BarW/2 & "' y='" & BarBottom + 22 & "' font-size='14' font-weight='bold' fill='" & Muted & "' text-anchor='middle'>LY</text>
+			
+			  <text x='" & Diffx + BarW/2 & "' y='" & Diffy - 10 & "' font-size='13' font-weight='bold' fill='" & YoYColor & "' text-anchor='middle'>" & DiffFmtK & "</text>
+			  <rect x='" & Diffx & "' y='" & Diffy & "' width='" & BarW & "' height='" & DiffBarH & "' rx='4' fill='" & YoYColor & "'/>
+			  <text x='" & Diffx + BarW/2 & "' y='" & BarBottom + 22 & "' font-size='14' font-weight='bold' fill='" & Muted & "' text-anchor='middle'>Δ</text>
+			
+			  <text x='" & TYx + BarW/2 & "' y='" & TYy - 10 & "' font-size='13' fill='" & Muted & "' text-anchor='middle'>" & TYLabel & "</text>
+			  <rect x='" & TYx & "' y='" & TYy & "' width='" & BarW & "' height='" & TYBarH & "' rx='4' fill='" & BarDark & "'/>
+			  <text x='" & TYx + BarW/2 & "' y='" & BarBottom + 22 & "' font-size='14' font-weight='bold' fill='" & Muted & "' text-anchor='middle'>TY</text>
+			
+			</svg>"
+			```
+		lineageTag: 7cf6a0dd-74f0-4ca5-b74a-6c81a74b20e0
+
+	measure 'Total Transaction' = DISTINCTCOUNT(Fact_Sales_GPMargin[BASKET_ID])
+		formatString: 0
+		lineageTag: 011dcb09-cfe6-4784-9221-0844c7395a7a
+
+	measure 'Total Transaction LY' = ```
+			
+			CALCULATE(
+			    DISTINCTCOUNT(Fact_Sales_GPMargin[BASKET_ID]),
+			    SAMEPERIODLASTYEAR('Dim_Date'[CalendarDate])
+			)
+			
+			```
+		formatString: 0
+		lineageTag: f672dbc1-c0fe-44b6-8f6a-40637c16d29c
+
+	measure 'Transations Variance Label' =
+			
+			VAR _variance =DIVIDE([Total Transaction], [Total Transaction LY]) - 1
+			RETURN
+			FORMAT(_variance, "#%") & " " & IF(_variance > 0, "▲", "▼")
+		lineageTag: e9160530-e75e-46b8-b01f-f90a0ec114a0
+
+	measure 'Total Transaction Label' =
+			
+			VAR _variance = DIVIDE([Total Transaction], [Total Transaction LY]) - 1
+			RETURN
+			FORMAT(_variance, "#%") & " " & IF(_variance > 0, "▲", "▼")
+		lineageTag: fbb386d2-a3e6-4789-b17c-77b6a98dffbe
+
+	measure 'Transaction color label' = IF([Total Transaction] > [Total Transaction LY], "Green", "Red")
+		lineageTag: f46310f8-8661-4a91-a9d0-9587e824f221
+
+	measure 'Average Qty per Basket' = ```
+			
+			AVERAGEX(VALUES(Fact_Sales_GPMargin[BASKET_ID]), 
+			CALCULATE(SUM(Fact_Sales_GPMargin[QUANTITY])))
+			```
+		lineageTag: 1b7ec43c-d67c-4124-a1f0-56c43df5f58b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Average Qty per Basket LY' = ```
+			
+			CALCULATE(
+			AVERAGEX(VALUES(Fact_Sales_GPMargin[BASKET_ID]), 
+			CALCULATE(SUM(Fact_Sales_GPMargin[QUANTITY]))),
+			SAMEPERIODLASTYEAR('Dim_Date'[CalendarDate])
+			)
+			```
+		lineageTag: 1125ed79-d61e-456c-9ae2-e5800fbafd1d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Waterfall Value' = ```
+			
+			VAR MinDate = [3_Selected Min Date]
+			VAR MaxDate = [2_MaxDate]
+			
+			VAR SelectedStep = SELECTEDVALUE ( WaterfallSteps[Step] )
+			
+			RETURN
+			CALCULATE (
+			    SWITCH ( 
+			        SelectedStep,
+			        "List Price",             SUM ( Fact_Sales_GPMargin[List Price] ),
+			        "Retail Discount",        SUM ( Fact_Sales_GPMargin[RETAIL_DISC] ),
+			        "Coupon Discount",        SUM ( Fact_Sales_GPMargin[COUPON_DISC] ),
+			        "Coupon Match Discount",  SUM ( Fact_Sales_GPMargin[COUPON_MATCH_DISC] ),
+			        "Net Revenue",            SUM ( Fact_Sales_GPMargin[Sales_Value] ),
+			        "Net Revenue Offset",    -SUM ( Fact_Sales_GPMargin[Sales_Value] ),
+			        "COGS",                  -SUM ( Fact_Sales_GPMargin[Estimated_COGS] )
+			    ),
+			    KEEPFILTERS ( 
+			        DATESBETWEEN ( 
+			            'Dim_Date'[CalendarDate], 
+			            MinDate, 
+			            MaxDate 
+			        ) 
+			    )
+			)
+			
+			
+			// Waterfall Value = 
+			// VAR SelectedStep = SELECTEDVALUE ( WaterfallSteps[Step] )
+			// RETURN
+			// SWITCH ( SelectedStep,
+			//     "List Price",             SUM ( Fact_Sales_GPMargin[List Price] ),
+			//     "Retail Discount",       SUM ( Fact_Sales_GPMargin[RETAIL_DISC] ),
+			//     "Coupon Discount",       SUM ( Fact_Sales_GPMargin[COUPON_DISC] ),
+			//     "Coupon Match Discount", SUM ( Fact_Sales_GPMargin[COUPON_MATCH_DISC] ),
+			//     "Net Revenue",            SUM ( Fact_Sales_GPMargin[Sales_Value] ),
+			//     "Net Revenue Offset",    -SUM ( Fact_Sales_GPMargin[Sales_Value] ),
+			//     "COGS",                  -SUM ( Fact_Sales_GPMargin[Estimated_COGS] )
+			// )
+			```
+		lineageTag: 08186d44-779b-4811-9bdf-9b42aa0201a0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total_Sales LY' =
+			
+			CALCULATE(
+			    SUM(Fact_Sales_GPMargin[SALES_VALUE]),
+			    SAMEPERIODLASTYEAR('Dim_Date'[CalendarDate])
+			)
+		lineageTag: c9c177ef-323c-4091-ad15-679bc7208cbf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Store Sales PY' =
+			
+			IF (
+			    HASONEVALUE ( Dim_Date[Year] ),
+			    CALCULATE (
+			        [Total_Sales],
+			        SAMEPERIODLASTYEAR ( Dim_Date[CalendarDate] )
+			    )
+			)
+		lineageTag: 010b7d9c-01b9-4fa3-8ab7-7e312dbe5f54
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Store YoY %' =
+			
+			DIVIDE (
+			    [Total_Sales] - [Store Sales PY],
+			    [Store Sales PY]
+			)
+		lineageTag: 931645c9-be64-4969-9d6c-68d7db1a205c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Store Label' =
+			
+			VAR _Sales = [4_SM Date Param]
+			VAR _SalesLY = [4_SM Date Param LY]
+			VAR _YoY = DIVIDE ( _Sales - _SalesLY, _SalesLY )
+			VAR _Arrow = IF ( _YoY >= 0, "▲", "▼" )
+			VAR _SalesText = FORMAT ( _Sales, "#,0,""K""" )
+			VAR _PctText = FORMAT ( ABS ( _YoY ), "0%" )
+			RETURN
+			IF (
+			    ISBLANK ( _Sales ),
+			    BLANK(),
+			    IF (
+			        ISBLANK ( _YoY ),
+			        _SalesText,
+			        _SalesText & " | " & _PctText & " " & _Arrow
+			    )
+			)
+		lineageTag: ee35a800-c33c-446c-aa51-50bed96887cc
+
+	measure 'Store Label Color' =
+			
+			VAR _Sales = [4_SM Date Param]
+			VAR _SalesLY = [4_SM Date Param LY]
+			VAR _YoY = DIVIDE ( _Sales - _SalesLY, _SalesLY )
+			RETURN
+			SWITCH (
+			    TRUE (),
+			    ISBLANK ( _Sales ) || ISBLANK ( _YoY ), "#605E5C", -- Neutral grey for blank values
+			    _YoY >= 0, "#1DB954",                              -- Green for positive growth (▲)
+			    "#E74C3C"                                           -- Red for negative growth (▼)
+			)
+		lineageTag: 620d094d-d8c5-41bd-bf9c-ccc61a131a73
+
+	measure Percentage = ```
+			
+			VAR PeriodStart   = [3_Selected Min Date]
+			VAR PeriodEnd     = [2_MaxDate]
+			
+			VAR PeriodStartLY = EDATE(PeriodStart, -12)
+			VAR PeriodEndLY   = EDATE(PeriodEnd, -12)
+			
+			VAR ThisYear = 
+			    CALCULATE(
+			        [3_Selected Measure], 
+			        DATESBETWEEN('Dim_Date'[CalendarDate], PeriodStart, PeriodEnd),
+			        REMOVEFILTERS('Dim_Date')
+			    )
+			
+			VAR LastYear = 
+			    CALCULATE(
+			        [3_Selected Measure], 
+			        DATESBETWEEN('Dim_Date'[CalendarDate], PeriodStartLY, PeriodEndLY),
+			        REMOVEFILTERS('Dim_Date')
+			    )
+			
+			VAR _Variance = ThisYear - LastYear
+			VAR YoYPct    = DIVIDE(_Variance, LastYear)
+			
+			-- Dynamic K/M/B/T scaling for Variance
+			VAR _ValForScaling = ABS(_Variance)
+			VAR NumOfDigits    = IFERROR(LEN(CONVERT(INT(_ValForScaling), STRING)), 0)
+			
+			VAR Suffix =
+			    ".0" &
+			    SWITCH(
+			        TRUE(),
+			        NumOfDigits >= 13, "T",
+			        NumOfDigits >= 10, "B",
+			        NumOfDigits >= 7,  "M",
+			        NumOfDigits >= 4,  "K",
+			        ""
+			    )
+			
+			VAR Commas =
+			    REPT(",",
+			        SWITCH(
+			            TRUE(),
+			            NumOfDigits >= 13, 4,
+			            NumOfDigits >= 10, 3,
+			            NumOfDigits >= 7,  2,
+			            NumOfDigits >= 4,  1,
+			            0
+			        )
+			    )
+			
+			VAR VarianceFormat = "#,##0" & Commas & Suffix & ";-#,##0" & Commas & Suffix & ";0.0"
+			
+			RETURN
+			    IF(
+			        ISBLANK(ThisYear) || ISBLANK(LastYear),
+			        BLANK(),
+			        FORMAT(_Variance, VarianceFormat) & FORMAT(YoYPct, " | 0.0% ▲; | 0.0% ▼; | 0.0%")
+			    )
+			```
+		lineageTag: 4a9bd2e4-859c-4ea9-9ed0-d490bbab3b77
+
+	measure '7_SM Reference Label Last Period' =
+			
+			VAR _Current  = [4_SM Date Param]
+			VAR _PY       = [4_SM Date Param Past Period] -- Replace with [4_SM Date Param Past Period] if using original measure name
+			VAR _Variance = _Current - _PY
+			VAR _Growth   = DIVIDE(_Variance, _PY)
+			
+			-- Base dynamic scaling (K, M, B, T) on the Variance amount
+			VAR _ValForScaling = ABS(_Variance)
+			VAR NumOfDigits    = IFERROR(LEN(CONVERT(INT(_ValForScaling), STRING)), 0)
+			
+			VAR Suffix =
+			    ".0" &
+			    SWITCH(
+			        TRUE(),
+			        NumOfDigits >= 13, "T",
+			        NumOfDigits >= 10, "B",
+			        NumOfDigits >= 7,  "M",
+			        NumOfDigits >= 4,  "K",
+			        ""
+			    )
+			
+			VAR Commas =
+			    REPT(",",
+			        SWITCH(
+			            TRUE(),
+			            NumOfDigits >= 13, 4,
+			            NumOfDigits >= 10, 3,
+			            NumOfDigits >= 7,  2,
+			            NumOfDigits >= 4,  1,
+			            0
+			        )
+			    )
+			
+			-- Format includes explicit '+' for positive growth (e.g., +1.5M | 12.0% ▲)
+			VAR _Format = "+#,##0" & Commas & Suffix & ";-#,##0" & Commas & Suffix & ";0"
+			
+			RETURN
+			IF(
+			    NOT ISBLANK(_PY) && NOT ISBLANK(_Current),
+			    FORMAT(_Variance, _Format) & FORMAT(_Growth, " | 0.0% ▲; | 0.0% ▼; | 0.0%"),
+			    " "
+			)
+		lineageTag: bd3c96fc-e694-4e96-9c3c-2a34eef1f058
+
+	measure 'Percentage YoY' = ```
+			
+			VAR PeriodStart   = [3_Selected Min Date]
+			VAR PeriodEnd     = [2_MaxDate]
+			
+			-- Shift exact selected period back by 12 months (e.g., June 2026 -> June 2025)
+			VAR PeriodStartLY = EDATE(PeriodStart, -12)
+			VAR PeriodEndLY   = EDATE(PeriodEnd, -12)
+			
+			VAR CurrentPeriod = 
+			    CALCULATE(
+			        [3_Selected Measure], 
+			        DATESBETWEEN('Dim_Date'[CalendarDate], PeriodStart, PeriodEnd),
+			        REMOVEFILTERS('Dim_Date')
+			    )
+			
+			VAR PriorYearPeriod = 
+			    CALCULATE(
+			        [3_Selected Measure], 
+			        DATESBETWEEN('Dim_Date'[CalendarDate], PeriodStartLY, PeriodEndLY),
+			        REMOVEFILTERS('Dim_Date')
+			    )
+			
+			VAR YoYPct = DIVIDE(CurrentPeriod - PriorYearPeriod, PriorYearPeriod)
+			
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(YoYPct), BLANK(),
+			        YoYPct >= 0, "up " & FORMAT(YoYPct, "0.00%"),
+			        YoYPct < 0,  "down " & FORMAT(ABS(YoYPct), "0.00%")
+			    )
+			```
+		lineageTag: 8b5b2b54-92a3-4b71-bace-6f0846d76ba9
+
+	measure 'Sales Bar' = ```
+			
+			VAR CurrentSales = [Total_Sales]
+			VAR PriorSales = [Total_Sales LY]
+			VAR MaxSales =
+			    CALCULATE(
+			        [Total_Sales],
+			        ALL(hh_demographic)          -- clears ALL columns in the table, whichever one is active
+			    )
+			VAR BarWidth = DIVIDE(CurrentSales, MaxSales) * 300
+			VAR MarkerX = DIVIDE(PriorSales, MaxSales) * 300
+			VAR PctOfTotal =
+			    DIVIDE(
+			        CurrentSales,
+			        CALCULATE([Total_Sales], ALL(hh_demographic))
+			    )
+			VAR BarColor = "#118DFF"
+			RETURN
+			    "data:image/svg+xml;utf8," &
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='420' height='24'>" &
+			        "<rect x='0' y='2' width='" & BarWidth & "' height='20' fill='" & BarColor & "'/>" &
+			        "<line x1='" & MarkerX & "' y1='0' x2='" & MarkerX & "' y2='24' stroke='#1A1A1A' stroke-width='2'/>" &
+			        "<text x='" & (BarWidth + 8) & "' y='16' font-size='15' fill='#000000'>" &
+			            FORMAT(CurrentSales, "#,##0") & " | " & FORMAT(PctOfTotal, "0%") &
+			        "</text>" &
+			    "</svg>"
+			
+			
+			// Sales Bar = 
+			// VAR CurrentSales = [Total_Sales]
+			// VAR PriorSales =[Total_Sales LY]
+			// VAR MaxSales = CALCULATE([Total_Sales], ALL(hh_demographic[INCOME_DESC]))
+			// VAR BarWidth = DIVIDE(CurrentSales, MaxSales) * 300
+			// VAR MarkerX = DIVIDE(PriorSales, MaxSales) * 300
+			// VAR PctOfTotal = DIVIDE(CurrentSales, CALCULATE([Total_Sales], ALL(hh_demographic)))
+			// VAR BarColor = "#118DFF"
+			// VAR SVG =
+			//     "data:image/svg+xml;utf8," &
+			//     "<svg xmlns='http://www.w3.org/2000/svg' width='320' height='24'>" &
+			//         "<rect x='0' y='2' width='" & BarWidth & "' height='20' fill='" & BarColor & "'/>" &
+			//         "<line x1='" & MarkerX & "' y1='0' x2='" & MarkerX & "' y2='24' stroke='#1A1A1A' stroke-width='2'/>" &
+			//         "<text x='" & (BarWidth + 8) & "' y='16' font-size='12' fill='#000000'>" &
+			//             FORMAT(CurrentSales, "#,##0") & " | " & FORMAT(PctOfTotal, "0%") &
+			//         "</text>" &
+			//     "</svg>"
+			// RETURN
+			//     SVG
+			```
+		lineageTag: 9e5a44b4-f544-4f8b-8893-a007b28f8210
+		dataCategory: ImageUrl
+
+	measure 'YoY Variance Bar' = ```
+			
+			VAR CurrentSales = [Total_Sales]
+			VAR PriorSales = [Total_Sales LY]
+			VAR PctChange = DIVIDE(CurrentSales - PriorSales, PriorSales)
+			VAR MaxPct = 0.30
+			VAR ZeroX = 90
+			VAR MaxBarLength = 90
+			VAR BarLength = MIN(ABS(PctChange) / MaxPct * MaxBarLength, MaxBarLength)
+			VAR BarColor = IF(PctChange >= 0, "#70AD47", "#C00000")
+			VAR BarX = IF(PctChange >= 0, ZeroX, ZeroX - BarLength)
+			VAR MarkerX = IF(PctChange >= 0, ZeroX + BarLength, ZeroX - BarLength)
+			VAR LabelText = IF(PctChange >= 0, "+", "") & FORMAT(PctChange, "0.0%")
+			VAR LabelX = IF(PctChange >= 0, MarkerX + 8, MarkerX - 50)
+			VAR CanvasWidth = ZeroX + MaxBarLength + 60
+			VAR SVG =
+			    "data:image/svg+xml;utf8," &
+			    "<svg xmlns='http://www.w3.org/2000/svg' width='" & CanvasWidth & "' height='18'>" &
+			        -- tight rounded background track
+			        "<rect x='" & (ZeroX - MaxBarLength) & "' y='5' width='" & (MaxBarLength * 2) & "' height='8' rx='4' ry='4' fill='#EDEDED'/>" &
+			        -- marker square drawn BEFORE the bar, so the bar sits on top of it
+			        "<rect x='" & (MarkerX - 4) & "' y='2' width='8' height='14' fill='#000000'/>" &
+			        -- colored variance bar, rounded ends, now on top of the marker
+			        "<rect x='" & BarX & "' y='5' width='" & BarLength & "' height='8' rx='4' ry='4' fill='" & BarColor & "'/>" &
+			        -- percentage label
+			        "<text x='" & LabelX & "' y='13' font-size='15' font-weight='bold' fill='" & BarColor & "'>" &
+			            LabelText &
+			        "</text>" &
+			    "</svg>"
+			RETURN
+			    SVG
+			
+			// YoY Variance Bar demographic = 
+			// VAR CurrentSales = [Total_Sales]
+			// VAR PriorSales = [Total_Sales LY]
+			// VAR PctChange = DIVIDE(CurrentSales - PriorSales, PriorSales)
+			// VAR MaxPct = 0.30                                    -- scale: 30% change = full bar width; adjust to your data's range
+			// VAR ZeroX = 100                                      -- center point of the canvas (the "0%" reference line)
+			// VAR MaxBarLength = 100                                -- max pixels the bar can extend left or right
+			// VAR BarLength = MIN(ABS(PctChange) / MaxPct * MaxBarLength, MaxBarLength)
+			// VAR BarColor = IF(PctChange >= 0, "#70AD47", "#C00000")   -- green if up, red if down
+			// VAR BarX = IF(PctChange >= 0, ZeroX, ZeroX - BarLength)
+			// VAR MarkerX = IF(PctChange >= 0, ZeroX + BarLength, ZeroX - BarLength)
+			// VAR LabelText = IF(PctChange >= 0, "+", "") & FORMAT(PctChange, "0.0%")
+			// VAR LabelX = IF(PctChange >= 0, MarkerX + 10, MarkerX - 55)
+			// VAR SVG =
+			//     "data:image/svg+xml;utf8," &
+			//     "<svg xmlns='http://www.w3.org/2000/svg' width='370' height='24'>" &
+			//         -- grey baseline track across full width
+			//         "<line x1='0' y1='12' x2='200' y2='12' stroke='#D9D9D9' stroke-width='2'/>" &
+			//         -- colored variance bar from zero point
+			//         "<rect x='" & BarX & "' y='8' width='" & BarLength & "' height='8' fill='" & BarColor & "'/>" &
+			//         -- marker square at the tip
+			//         "<rect x='" & (MarkerX - 5) & "' y='4' width='10' height='16' fill='#000000'/>" &
+			//         -- percentage label
+			//         "<text x='" & LabelX & "' y='16' font-size='12' font-weight='bold' fill='" & BarColor & "'>" &
+			//             LabelText &
+			//         "</text>" &
+			//     "</svg>"
+			// RETURN
+			//     SVG
+			```
+		lineageTag: 2b3966d2-693d-43f9-b49d-ef54e7bb364f
+		dataCategory: ImageUrl
+
+	measure '4_SM Date Param LY' =
+			
+			VAR MinDateLY = EDATE([3_Selected Min Date], -12)
+			VAR MaxDateLY = EDATE([2_MaxDate], -12)
+			RETURN
+			CALCULATE(
+			    [3_Selected Measure],
+			    REMOVEFILTERS('Dim_Date'),
+			    DATESBETWEEN(
+			        'Dim_Date'[CalendarDate],
+			        MinDateLY,
+			        MaxDateLY
+			    )
+			)
+		lineageTag: b1d972c4-6d13-40d4-a630-38040e59efd7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Orders = DISTINCTCOUNT( Fact_Sales_GPMargin[BASKET_ID] )
+		formatString: 0
+		lineageTag: 55c62836-dbe0-43f6-bf1d-7491a7988821
+
+	measure Customers = DISTINCTCOUNT( Fact_Sales_GPMargin[household_key] )
+		formatString: 0
+		lineageTag: 72e4a24d-a148-44ef-88af-d97a368d7f08
+
+	measure AOV = DIVIDE( [Total_Sales], [Orders] )
+		lineageTag: 5543da5a-9e23-429d-986a-b56c3012270d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Customers Previous Month' =
+			
+			CALCULATE([Customers], PARALLELPERIOD( Dim_Date[CalendarDate], -1, MONTH ) )
+		formatString: 0
+		lineageTag: 2412a14f-b916-4822-b42a-ee120b49a69e
+
+	measure 'Orders Previous Month' =
+			
+			CALCULATE( [Orders], PARALLELPERIOD( Dim_Date[CalendarDate], -1, MONTH ) )
+		formatString: 0
+		lineageTag: 08fd6531-c1d5-4eca-9657-ae5710927c3f
+
+	measure 'AOV Previous Month' =
+			
+			CALCULATE( [AOV], PARALLELPERIOD( Dim_Date[CalendarDate], -1, MONTH ) )
+		lineageTag: 9143c4a9-77ee-4d45-914e-7857ad5d0c1e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Customers Previous Period' = ```
+			
+			VAR PeriodStart = 
+			    CALCULATE( MIN( Dim_Date[CalendarDate] ), ALLSELECTED( Dim_Date[CalendarDate] ) )
+			VAR PeriodEnd = 
+			    CALCULATE( MAX( Dim_Date[CalendarDate] ), ALLSELECTED( Dim_Date[CalendarDate] ) )
+			VAR PeriodLength = DATEDIFF( PeriodStart, PeriodEnd, DAY ) + 1
+			RETURN
+			CALCULATE(
+			    [Customers],
+			    DATEADD( Dim_Date[CalendarDate], -PeriodLength, DAY )
+			)
+			```
+		formatString: 0
+		lineageTag: 21a3a65e-9195-485d-859d-4e9a60b09538
+
+	measure 'Orders Previous Period' = ```
+			
+			VAR PeriodStart = 
+			    CALCULATE( MIN( Dim_Date[CalendarDate] ), ALLSELECTED( Dim_Date[CalendarDate] ) )
+			VAR PeriodEnd = 
+			    CALCULATE( MAX( Dim_Date[CalendarDate] ), ALLSELECTED( Dim_Date[CalendarDate] ) )
+			VAR PeriodLength = DATEDIFF( PeriodStart, PeriodEnd, DAY ) + 1
+			RETURN
+			CALCULATE(
+			    [Orders],
+			    DATEADD( Dim_Date[CalendarDate], -PeriodLength, DAY )
+			)
+			```
+		formatString: 0
+		lineageTag: 1b335d26-a9b8-4627-ae70-902191941d32
+
+	measure 'AOV Previous Period' =
+			
+			DIVIDE( [Total Sales Previous Period], [Orders Previous Period] )
+		lineageTag: d2b248a4-11ea-4885-90e3-6ba7592f99ec
+
+	measure 'Total Sales Previous Period' =
+			
+			VAR PeriodStart = CALCULATE( MIN( Dim_Date[CalendarDate] ), ALLSELECTED( Dim_Date[CalendarDate] ) )
+			VAR PeriodEnd = CALCULATE( MAX( Dim_Date[CalendarDate] ), ALLSELECTED( Dim_Date[CalendarDate] ) )
+			VAR PeriodLength = DATEDIFF( PeriodStart, PeriodEnd, DAY ) + 1
+			RETURN CALCULATE( [Total_Sales], DATEADD( Dim_Date[CalendarDate], -PeriodLength, DAY ) )
+		lineageTag: 1eba31d3-0cd5-4d06-9776-dc4299b6e46a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Coupon Discount %' = AVERAGE(Fact_Sales_GPMargin[COUPON_DISC])
+		formatString: 0.0000
+		lineageTag: de307dbc-bf69-4072-9e8d-dd2bae18a90b
+
+	measure 'Avg Retail Discount %' = AVERAGE(Fact_Sales_GPMargin[RETAIL_DISC])
+		formatString: 0.00
+		lineageTag: d3cdb136-2f13-4966-b9c6-ddc68e7452ad
+
+	measure 'Avg Match Discount %' = AVERAGE(Fact_Sales_GPMargin[COUPON_MATCH_DISC])
+		formatString: 0.0000
+		lineageTag: 394db9c9-de00-458a-bd71-ed58c4eda765
+
+	measure 'Profit Margin %' =
+			
+			DIVIDE([Total_Gross_Profit], [Total_Sales], 0)
+		lineageTag: 7f740434-6406-496b-83d2-02c89d1779eb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition MeasureGroup = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlSKjQUA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", Int64.Type}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

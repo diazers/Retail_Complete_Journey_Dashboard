@@ -1,0 +1,311 @@
+table Fact_Sales_GPMargin
+	lineageTag: e3e84e68-a415-4616-8dd8-c38ec80e679a
+
+	measure 'Trip Count' = DISTINCTCOUNT('Fact_Sales_GPMargin'[BASKET_ID])
+		formatString: 0
+		lineageTag: aea22533-951a-4ad9-aef5-37c3ba921f89
+
+	column household_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 2dec1387-4ba2-4b13-a0b3-387f8e495f07
+		summarizeBy: none
+		sourceColumn: household_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column BASKET_ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 9d7d47b8-2615-47b3-a184-edd9d0024b97
+		summarizeBy: count
+		sourceColumn: BASKET_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DAY
+		dataType: int64
+		formatString: 0
+		lineageTag: 4f130405-16c9-4a2b-b5e9-0467d33d3f5b
+		summarizeBy: sum
+		sourceColumn: DAY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column WEEK_NO
+		dataType: int64
+		formatString: 0
+		lineageTag: 234ababa-b3ee-40b8-b77c-fcc01bdc110d
+		summarizeBy: sum
+		sourceColumn: WEEK_NO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CalendarDate
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 7381bdaa-2d74-4244-8d1e-8d7a7e518b5c
+		summarizeBy: none
+		sourceColumn: CalendarDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column PRODUCT_ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 926a6f9c-f733-40f9-a77b-846742fdcb5b
+		summarizeBy: none
+		sourceColumn: PRODUCT_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPARTMENT
+		dataType: string
+		lineageTag: 817653a0-7ac7-401c-9b58-b96a5e83db95
+		summarizeBy: none
+		sourceColumn: DEPARTMENT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column STORE_ID
+		dataType: string
+		lineageTag: 858aafed-f1c2-41b6-9db4-94405b5ad68d
+		summarizeBy: none
+		sourceColumn: STORE_ID
+
+		changedProperty = IsHidden
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column QUANTITY
+		dataType: int64
+		formatString: 0
+		lineageTag: 1ec206a3-a0b1-4875-b339-e3e84b6a2325
+		summarizeBy: sum
+		sourceColumn: QUANTITY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SALES_VALUE
+		dataType: double
+		lineageTag: 8de56564-06d8-444b-aca8-d6ce40b945b1
+		summarizeBy: sum
+		sourceColumn: SALES_VALUE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RETAIL_DISC
+		dataType: double
+		lineageTag: 518a3956-9402-471e-8b44-52ccc17b42f3
+		summarizeBy: sum
+		sourceColumn: RETAIL_DISC
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COUPON_DISC
+		dataType: double
+		lineageTag: b2ebd87f-e794-48f2-b0d5-d91c5a00edc1
+		summarizeBy: sum
+		sourceColumn: COUPON_DISC
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COUPON_MATCH_DISC
+		dataType: double
+		lineageTag: b6c270d1-b9ea-45b4-b281-ef96a2dcf48f
+		summarizeBy: sum
+		sourceColumn: COUPON_MATCH_DISC
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TRANS_TIME
+		dataType: int64
+		formatString: 0
+		lineageTag: 7de83fa7-e5a4-42f7-882d-0f763bc899f1
+		summarizeBy: sum
+		sourceColumn: TRANS_TIME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AssumedMargin
+		dataType: double
+		lineageTag: 82f4865d-832e-4048-b28c-1efd4e0b0663
+		summarizeBy: sum
+		sourceColumn: AssumedMargin
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CausalKey
+		dataType: string
+		lineageTag: 759fb2ae-37cf-4cac-9228-076bd7c4a5dd
+		summarizeBy: none
+		sourceColumn: CausalKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Hour
+		dataType: int64
+		formatString: 0
+		lineageTag: 5bf40a19-728f-4949-a62a-552a5695b8f4
+		summarizeBy: sum
+		sourceColumn: Hour
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Redeemed Line' =
+			
+			IF(
+			    Fact_Sales_GPMargin[COUPON_DISC] <> 0 || Fact_Sales_GPMargin[COUPON_MATCH_DISC] <> 0,
+			    TRUE, FALSE
+			)
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 0dac7977-adce-4a88-a55c-0c89d7972651
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Has Causal Match' = NOT ISBLANK(RELATED(Dim_Causal[CausalKey]))
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1d460c65-d1c8-4fc0-b5f9-66a002497be7
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Retail Discount Band' = ```
+			
+			VAR TotalDisc = 
+			    Fact_Sales_GPMargin[RETAIL_DISC] 
+			    + Fact_Sales_GPMargin[COUPON_DISC] 
+			    + Fact_Sales_GPMargin[COUPON_MATCH_DISC]
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    TotalDisc = 0, "No Discount",
+			    TotalDisc > 0, "Positive (Data Check)",
+			    TotalDisc >= -1, "Small (up to $1)",
+			    TotalDisc >= -5, "Moderate ($1-$5)",
+			    TotalDisc >= -20, "Large ($5-$20)",
+			    "Very Large ($20+)"
+			)
+			```
+		lineageTag: 4fd6454e-58e5-499f-b522-c16e20eeb694
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'List Price' = ```
+			
+			Fact_Sales_GPMargin[SALES_VALUE] 
+			    - Fact_Sales_GPMargin[RETAIL_DISC] 
+			    - Fact_Sales_GPMargin[COUPON_DISC] 
+			    - Fact_Sales_GPMargin[COUPON_MATCH_DISC]
+			```
+		lineageTag: c500317a-1e5a-4336-bdd0-f6b98ca7ff81
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Retail Discount Band Sort' = ```
+			
+			VAR TotalDisc = 
+			    Fact_Sales_GPMargin[RETAIL_DISC] 
+			    + Fact_Sales_GPMargin[COUPON_DISC] 
+			    + Fact_Sales_GPMargin[COUPON_MATCH_DISC]
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    TotalDisc > 0, 0,
+			    TotalDisc = 0, 1,
+			    TotalDisc >= -1, 2,
+			    TotalDisc >= -5, 3,
+			    TotalDisc >= -20, 4,
+			    5
+			)
+			```
+		formatString: 0
+		lineageTag: 10a2aa81-dd4c-4b1d-a48d-4b0d48a22c03
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Estimated_COGS = Fact_Sales_GPMargin[List Price] * ( 1 - Fact_Sales_GPMargin[AssumedMargin] )
+		lineageTag: 762ce1c6-5f4d-4b95-9d69-31b681e7315c
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Estimated_Gross_Profit = Fact_Sales_GPMargin[SALES_VALUE] - Fact_Sales_GPMargin[Estimated_COGS]
+		lineageTag: 164c582f-271a-4ed7-8cd5-313c1a3d1188
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Fact_Sales_GPMargin = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"aerial-garden-503813-r8_Database" = Source{[Name="aerial-garden-503813-r8",Kind="Database"]}[Data],
+				    Retail_Dataset_Schema = #"aerial-garden-503813-r8_Database"{[Name="Retail_Dataset",Kind="Schema"]}[Data],
+				    Fact_Sales_GPMargin_Table = Retail_Dataset_Schema{[Name="Fact_Sales_GPMargin",Kind="Table"]}[Data],
+				    #"Added Custom" = Table.AddColumn(Fact_Sales_GPMargin_Table, "Hour", each Number.RoundDown([TRANS_TIME] / 100)),
+				    #"Removed Columns" = Table.RemoveColumns(#"Added Custom",{"Estimated_COGS", "Estimated_Gross_Profit"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

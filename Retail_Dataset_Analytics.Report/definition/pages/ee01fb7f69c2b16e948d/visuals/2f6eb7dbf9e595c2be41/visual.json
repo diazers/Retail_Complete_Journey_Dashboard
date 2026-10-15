@@ -1,0 +1,57 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "2f6eb7dbf9e595c2be41",
+  "position": {
+    "x": 929.80248719824442,
+    "y": 32.772494513533289,
+    "z": 3000,
+    "height": 94.572055596196051,
+    "width": 269.67081199707388,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customer Cohort"
+                    }
+                  },
+                  "Property": "Latest Month Net Customer Change"
+                }
+              },
+              "queryRef": "Customer Cohort.Latest Month Net Customer Change",
+              "nativeQueryRef": "Latest Month Net Customer Change",
+              "format": "G"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Customer Cohort"
+                  }
+                },
+                "Property": "Latest Month Net Customer Change"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

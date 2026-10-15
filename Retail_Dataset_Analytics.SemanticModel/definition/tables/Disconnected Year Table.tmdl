@@ -1,0 +1,140 @@
+table 'Disconnected Year Table'
+	lineageTag: 0cb6c56a-3c3d-41a9-92bf-0b018138b470
+
+	measure '_02 Slicer Selection Min. Year' =
+			
+			MINX( 'Disconnected Year Table', 'Disconnected Year Table'[YearMonthDate] )
+		formatString: General Date
+		lineageTag: d1ac433c-39df-419e-8f10-dd1195beaed0
+
+	measure '_02 Slicer Selection Max. Year' =
+			
+			MAXX( 'Disconnected Year Table', 'Disconnected Year Table'[YearMonthDate] )
+		formatString: General Date
+		lineageTag: a0900401-dbfe-42cf-92fa-4ed597e5650d
+
+	measure '_03 Historical Period Value' =
+			
+			CALCULATE( [Total_Sales], FILTER( 'Dim_Date', MAX('Dim_Date'[YearMonthDate]) <= [_02 Slicer Selection Min. Year] ) )
+		lineageTag: cf94ab68-a70d-4bb5-9d86-22f5fff4f4c0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_03 Latest Period Value' =
+			
+			CALCULATE( [Total_Sales], FILTER( 'Dim_Date', MAX('Dim_Date'[YearMonthDate]) >= [_02 Slicer Selection Min. Year] ) )
+		lineageTag: 77eec2cf-4aa2-4cab-89c4-38b8619c8114
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_03 Selected Period Value' =
+			
+			CALCULATE(
+			    [Total_Sales],
+			    KEEPFILTERS( FILTER( ALL('Dim_Date'[YearMonthDate]), 'Dim_Date'[YearMonthDate] >= [_02 Slicer Selection Min. Year] && 'Dim_Date'[YearMonthDate] <= [_02 Slicer Selection Max. Year] ) )
+			)
+		lineageTag: 6132edab-ce64-4336-af20-e2bc22e8f56d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Slope Graph' =
+			
+			VAR MinYear = [_02 Slicer Selection Min. Year]
+			VAR MaxYear = [_02 Slicer Selection Max. Year]
+			VAR CurrentYear = SELECTEDVALUE( 'Dim_Date'[YearMonthDate] )
+			RETURN
+			IF( CurrentYear = MinYear || CurrentYear = MaxYear, [Total_Sales], BLANK() )
+		lineageTag: 9cca9b6b-41a8-4791-992d-36982e3a424e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Slope Graph_Relative Change' =
+			
+			VAR MinYear = [_02 Slicer Selection Min. Year]
+			VAR MaxYear = [_02 Slicer Selection Max. Year]
+			VAR CurrentYear = SELECTEDVALUE( 'Dim_Date'[YearMonthDate] )
+			VAR FirstYearValue = CALCULATE( [Total_Sales], 'Dim_Date'[YearMonthDate] = MinYear )
+			VAR LastYearValue = CALCULATE( [Total_Sales], 'Dim_Date'[YearMonthDate] = MaxYear )
+			VAR YoYChange = IF( NOT ISBLANK(FirstYearValue) && FirstYearValue <> 0, DIVIDE(LastYearValue - FirstYearValue, FirstYearValue), BLANK() )
+			VAR FormattedValue = FORMAT( YoYChange, "+0%;-0%;0%" )
+			RETURN
+			IF( CurrentYear = MaxYear,
+			    IF( NOT ISBLANK(YoYChange),
+			        IF( YoYChange > 0, FormattedValue & " 🡕", IF( YoYChange < 0, FormattedValue & " 🡖", FormattedValue ) ),
+			        BLANK()
+			    ),
+			    BLANK()
+			)
+		lineageTag: 4ad30f7f-83fa-4156-a9bc-c2e37b3a3e58
+
+	measure 'CF_Relative Variance' = ```
+			
+			VAR MinYM = [_02 Slicer Selection Min. Year]
+			VAR MaxYM = [_02 Slicer Selection Max. Year]
+			VAR CurrentYM = SELECTEDVALUE( Dim_Date[YearMonthDate] )
+			VAR FirstValue = CALCULATE( [Total_Sales], Dim_Date[YearMonthDate] = MinYM )
+			VAR LastValue = CALCULATE( [Total_Sales], Dim_Date[YearMonthDate] = MaxYM )
+			VAR Change = IF( NOT ISBLANK(FirstValue) && FirstValue <> 0, DIVIDE(LastValue - FirstValue, FirstValue), BLANK() )
+			RETURN
+			IF( CurrentYM = MaxYM,
+			    SWITCH( TRUE(),
+			        ISBLANK(Change), "#000000",
+			        Change < 0, "#FF0000",
+			        Change = 0, "#000000",
+			        Change > 0, "#8cb400",
+			        "#000000"
+			    ),
+			    "#000000"
+			)
+			
+			// CF_Relative Variance = 
+			// ...
+			// SWITCH( TRUE(), ISBLANK(Change), "#000000", Change < 0, "#FF0000", Change = 0, "#000000", Change > 0, "#8cb400", "#000000" ),
+			// "#000000"
+			```
+		lineageTag: 4d7e75df-05ea-46c6-bd7f-8a4c55c6c07e
+
+	measure 'Slope Graph_Label' = ```
+			
+			VAR MinYM = [_02 Slicer Selection Min. Year]
+			VAR MaxYM = [_02 Slicer Selection Max. Year]
+			VAR CurrentYM = SELECTEDVALUE( Dim_Date[YearMonthDate] )
+			VAR FirstValue = CALCULATE( [Total_Sales], Dim_Date[YearMonthDate] = MinYM )
+			VAR LastValue = CALCULATE( [Total_Sales], Dim_Date[YearMonthDate] = MaxYM )
+			VAR Change = IF( NOT ISBLANK(FirstValue) && FirstValue <> 0, DIVIDE(LastValue - FirstValue, FirstValue), BLANK() )
+			VAR FormattedChange = FORMAT( Change, "+0%;-0%;0%" )
+			VAR StartLabel = FORMAT( FirstValue / 1000, "#,##0.0" ) & "K"
+			VAR EndLabel = 
+			    FORMAT( LastValue / 1000, "#,##0.0" ) & "K " & FormattedChange 
+			    & IF( Change > 0, " ↗", IF( Change < 0, " ↘", "" ) )
+			RETURN
+			SWITCH( TRUE(),
+			    CurrentYM = MinYM, StartLabel,
+			    CurrentYM = MaxYM, EndLabel,
+			    BLANK()
+			)
+			```
+		lineageTag: a425939a-55aa-4c88-8137-b7f3f1b21f33
+
+	column YearMonthDate
+		formatString: General Date
+		lineageTag: 44139f0d-a9ad-4371-9f45-63dc62cfea1f
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Dim_Date[YearMonthDate]
+
+		variation Variation
+			isDefault
+			relationship: a260d252-c9c5-4f8f-be58-aceddd5c4154
+			defaultHierarchy: LocalDateTable_c28464d3-393b-4aa4-8f2a-efd98f0ef362.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Disconnected Year Table' = calculated
+		mode: import
+		source =
+				
+				FILTER( VALUES( Dim_Date[YearMonthDate] ), NOT ISBLANK( Dim_Date[YearMonthDate] ) )
+
+	annotation PBI_Id = 9380421eded74ce3a765c8a951b12cae
+

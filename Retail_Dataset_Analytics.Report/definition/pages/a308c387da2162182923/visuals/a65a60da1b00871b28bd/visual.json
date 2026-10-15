@@ -1,0 +1,55 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "a65a60da1b00871b28bd",
+  "position": {
+    "x": 654.76568132660418,
+    "y": 813.95818312905556,
+    "z": 7000,
+    "height": 193,
+    "width": 305,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasureGroup"
+                    }
+                  },
+                  "Property": "HTML_MonthlyGPVariance"
+                }
+              },
+              "queryRef": "MeasureGroup.HTML_MonthlyGPVariance",
+              "nativeQueryRef": "HTML_MonthlyGPVariance1"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "MeasureGroup"
+                  }
+                },
+                "Property": "HTML_MonthlyGPVariance"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

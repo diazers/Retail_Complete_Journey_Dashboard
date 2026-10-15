@@ -1,0 +1,99 @@
+table hh_demographic
+	lineageTag: f6bef4a9-74bc-48d2-a154-8feb1a333500
+
+	column AGE_DESC
+		dataType: string
+		lineageTag: c4f2c493-3111-440b-b4d7-ddb836cb0612
+		summarizeBy: none
+		sourceColumn: AGE_DESC
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MARITAL_STATUS_CODE
+		dataType: string
+		lineageTag: 95d8921c-e7d0-4226-859d-c8fc68716064
+		summarizeBy: none
+		sourceColumn: MARITAL_STATUS_CODE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column INCOME_DESC
+		dataType: string
+		lineageTag: 8fed4801-f27a-460f-bf3f-112a0a8204de
+		summarizeBy: none
+		sourceColumn: INCOME_DESC
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column HOMEOWNER_DESC
+		dataType: string
+		lineageTag: 28418d3d-9bfa-43a1-8de9-9e533b235630
+		summarizeBy: none
+		sourceColumn: HOMEOWNER_DESC
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column HH_COMP_DESC
+		dataType: string
+		lineageTag: b16a6272-c0c8-4002-b703-d108693a87f6
+		summarizeBy: none
+		sourceColumn: HH_COMP_DESC
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column HOUSEHOLD_SIZE_DESC
+		dataType: string
+		lineageTag: 34fd1257-e740-46a1-bfcb-4e593ef855d0
+		summarizeBy: none
+		sourceColumn: HOUSEHOLD_SIZE_DESC
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column KID_CATEGORY_DESC
+		dataType: string
+		lineageTag: 318eb331-96d1-4d42-9663-e7488d7b7635
+		summarizeBy: none
+		sourceColumn: KID_CATEGORY_DESC
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column household_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 227e2e89-f78b-472d-95d3-e8526513f221
+		summarizeBy: none
+		sourceColumn: household_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition hh_demographic = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"aerial-garden-503813-r8_Database" = Source{[Name="aerial-garden-503813-r8",Kind="Database"]}[Data],
+				    Retail_Dataset_Schema = #"aerial-garden-503813-r8_Database"{[Name="Retail_Dataset",Kind="Schema"]}[Data],
+				    hh_demographic_Table = Retail_Dataset_Schema{[Name="hh_demographic",Kind="Table"]}[Data]
+				in
+				    hh_demographic_Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

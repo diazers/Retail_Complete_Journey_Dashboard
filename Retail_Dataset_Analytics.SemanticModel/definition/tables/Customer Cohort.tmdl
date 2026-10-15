@@ -1,0 +1,269 @@
+table 'Customer Cohort'
+	lineageTag: 8f2db83c-2093-4acd-860a-1e95cfb5ac44
+
+	measure 'Active Customers (Monthly)' =
+			
+			SUMX (
+			    VALUES ( Dim_Date[YearMonthDate] ),
+			    CALCULATE ( DISTINCTCOUNT ( Fact_Sales_GPMargin[household_key] ) )
+			)
+		formatString: 0
+		lineageTag: 0a63f3bf-011b-4dfb-bc35-0c7057b29b68
+
+	measure 'Prior Month Active Customers' =
+			
+			SUMX (
+			    VALUES ( Dim_Date[YearMonthDate] ),
+			    VAR _m = Dim_Date[YearMonthDate]
+			    RETURN
+			        CALCULATE (
+			            DISTINCTCOUNT ( Fact_Sales_GPMargin[household_key] ),
+			            REMOVEFILTERS ( Dim_Date ),
+			            Dim_Date[YearMonthDate] = EDATE ( _m, -1 )
+			        )
+			)
+		formatString: 0
+		lineageTag: 54c793af-10a9-4c92-93ad-19feee942e7a
+
+	measure 'Retained Customers' =
+			
+			SUMX (
+			    VALUES ( Dim_Date[YearMonthDate] ),
+			    VAR _m = Dim_Date[YearMonthDate]
+			    VAR _curr =
+			        CALCULATETABLE (
+			            VALUES ( Fact_Sales_GPMargin[household_key] ),
+			            Dim_Date[YearMonthDate] = _m
+			        )
+			    VAR _prev =
+			        CALCULATETABLE (
+			            VALUES ( Fact_Sales_GPMargin[household_key] ),
+			            REMOVEFILTERS ( Dim_Date ),
+			            Dim_Date[YearMonthDate] = EDATE ( _m, -1 )
+			        )
+			    RETURN
+			        COUNTROWS ( INTERSECT ( _curr, _prev ) )
+			)
+		formatString: 0
+		lineageTag: 6a7b99ab-0cc9-449c-8d49-2d29df9be62a
+
+	measure 'Retention Rate %' =
+			
+			DIVIDE ( [Retained Customers], [Prior Month Active Customers] )
+		lineageTag: 088d24d9-e0fd-4e88-9312-8e9903be8b5c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Churned Customers' =
+			
+			[Prior Month Active Customers] - [Retained Customers]
+		formatString: 0
+		lineageTag: d4203208-070f-4021-92d9-403c66a66ba6
+
+	measure 'Churn Rate %' =
+			
+			DIVIDE ( [Churned Customers], [Prior Month Active Customers] )
+		lineageTag: 89f84a52-5000-42b9-8f57-70759774cc66
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'New Customers' =
+			
+			SUMX (
+			    VALUES ( Dim_Date[YearMonthDate] ),
+			    VAR _m = Dim_Date[YearMonthDate]
+			    RETURN
+			        CALCULATE (
+			            DISTINCTCOUNT ( Fact_Sales_GPMargin[household_key] ),
+			            Dim_Date[YearMonthDate] = _m,
+			            'Customer Cohort'[Cohort Month] = _m
+			        )
+			)
+		formatString: 0
+		lineageTag: 270915c7-ab80-473a-b02d-4ac7bb94c24c
+
+	measure 'Reactivated Customers' =
+			
+			[Active Customers (Monthly)] - [New Customers] - [Retained Customers]
+		formatString: 0
+		lineageTag: 46136929-b65e-4323-89ea-45cbc1dca410
+
+	measure 'Net Customer Change' =
+			
+			[New Customers] + [Reactivated Customers] - [Churned Customers]
+		formatString: 0
+		lineageTag: 0cf2714c-e156-49c4-a2d0-6073e61aaa3d
+
+	measure 'Repeat Purchase Rate %' =
+			
+			VAR _repeat =
+			    COUNTROWS (
+			        FILTER (
+			            VALUES ( Fact_Sales_GPMargin[household_key] ),
+			            CALCULATE ( DISTINCTCOUNT ( Fact_Sales_GPMargin[BASKET_ID] ) ) >= 2
+			        )
+			    )
+			RETURN
+			    DIVIDE ( _repeat, DISTINCTCOUNT ( Fact_Sales_GPMargin[household_key] ) )
+		lineageTag: bf187999-2969-408a-bd36-879c0459ae41
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Latest Month Retention Rate %' =
+			
+			VAR _last = CALCULATE ( MAX ( Fact_Sales_GPMargin[CalendarDate] ) )
+			VAR _lastMonth = DATE ( YEAR ( _last ), MONTH ( _last ), 1 )
+			RETURN
+			    CALCULATE ( [Retention Rate %], Dim_Date[YearMonthDate] = _lastMonth )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: d2246b29-8464-4d87-976e-3852b40178f4
+
+	measure 'Latest Month Churn Rate %' =
+			
+			VAR _last = CALCULATE ( MAX ( Fact_Sales_GPMargin[CalendarDate] ) )
+			VAR _lastMonth = DATE ( YEAR ( _last ), MONTH ( _last ), 1 )
+			RETURN
+			    CALCULATE ( [Churn Rate %], Dim_Date[YearMonthDate] = _lastMonth )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 8fdb21ea-ae67-4493-add3-4103a1df70f7
+
+	measure 'Latest Month Active Customers' =
+			
+			VAR _last = CALCULATE ( MAX ( Fact_Sales_GPMargin[CalendarDate] ) )
+			VAR _lastMonth = DATE ( YEAR ( _last ), MONTH ( _last ), 1 )
+			RETURN
+			    CALCULATE ( [Active Customers (Monthly)], Dim_Date[YearMonthDate] = _lastMonth )
+		formatString: 0
+		lineageTag: c8d23a11-4582-4c45-8aee-ebe3bfc98147
+
+	measure 'Latest Month Net Customer Change' =
+			
+			VAR _last = CALCULATE ( MAX ( Fact_Sales_GPMargin[CalendarDate] ) )
+			VAR _lastMonth = DATE ( YEAR ( _last ), MONTH ( _last ), 1 )
+			RETURN
+			    CALCULATE ( [Net Customer Change], Dim_Date[YearMonthDate] = _lastMonth )
+		formatString: 0
+		lineageTag: 334856c7-dc51-4c2c-9f6b-cdf24fb9a49c
+
+	measure 'Cohort Size' =
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( Fact_Sales_GPMargin[household_key] ),
+			    REMOVEFILTERS ( Dim_Date )
+			)
+		formatString: 0
+		lineageTag: 4836968a-0c7e-4fdc-bdff-d3ba9724c59e
+
+	measure 'Cohort Retention %' =
+			
+			VAR _offset = SELECTEDVALUE ( 'Cohort Offset'[Month Offset] )
+			VAR _lastDate = CALCULATE ( MAX ( Fact_Sales_GPMargin[CalendarDate] ), REMOVEFILTERS () )
+			VAR _lastMonth = DATE ( YEAR ( _lastDate ), MONTH ( _lastDate ), 1 )
+			-- keep only cohorts old enough to have data at this offset
+			VAR _valid =
+			    FILTER (
+			        VALUES ( 'Customer Cohort'[Cohort Month] ),
+			        EDATE ( 'Customer Cohort'[Cohort Month], _offset ) <= _lastMonth
+			    )
+			VAR _base =
+			    SUMX (
+			        _valid,
+			        CALCULATE (
+			            DISTINCTCOUNT ( Fact_Sales_GPMargin[household_key] ),
+			            REMOVEFILTERS ( Dim_Date )
+			        )
+			    )
+			VAR _active =
+			    SUMX (
+			        _valid,
+			        VAR _target = EDATE ( 'Customer Cohort'[Cohort Month], _offset )
+			        RETURN
+			            CALCULATE (
+			                DISTINCTCOUNT ( Fact_Sales_GPMargin[household_key] ),
+			                REMOVEFILTERS ( Dim_Date ),
+			                Dim_Date[YearMonthDate] = _target
+			            )
+			    )
+			RETURN
+			    IF ( NOT ISBLANK ( _offset ) && NOT ISEMPTY ( _valid ), DIVIDE ( _active, _base ) )
+		lineageTag: 2edaeafe-8a1f-40ac-a9f8-89f06c5c8da4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cohort Retention % (Min Size)' =
+			
+			IF ( [Cohort Size] >= 5, [Cohort Retention %] )
+		lineageTag: 55520b02-1eae-4328-bca6-bbe5b0ede6c4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Churned Customers (Negative)' = -[Churned Customers]
+		formatString: 0
+		lineageTag: f97b3fd1-3530-4b15-9827-dec26be66591
+
+	column household_key
+		formatString: 0
+		lineageTag: ae9af730-bc12-4de1-a4e9-d1a6caa09d78
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [household_key]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'First Purchase Date'
+		formatString: General Date
+		lineageTag: 28557d9f-70a9-46fd-a396-8fcfdf761b2b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [First Purchase Date]
+
+		variation Variation
+			isDefault
+			relationship: 79a2daa4-d4b9-45dd-9349-c560360e7938
+			defaultHierarchy: LocalDateTable_8d45f4d7-5f13-4ae7-9923-efb95c9d8922.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cohort Month'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 47edb7b5-963f-43f3-a34a-adad16f57f7e
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Cohort Month]
+
+		variation Variation
+			isDefault
+			relationship: a1f61fca-81a6-47f8-9c75-04505f380f6d
+			defaultHierarchy: LocalDateTable_31e4f4ca-a94a-469a-b5a8-09ed7e58b76d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Cohort Label' = FORMAT ( 'Customer Cohort'[Cohort Month], "yyyy-mm" )
+		lineageTag: 8384c97c-d6c6-4c4e-aaaf-4e7577c9f4b8
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Customer Cohort' = calculated
+		mode: import
+		source =
+				
+				VAR _fp =
+				    SUMMARIZE (
+				        Fact_Sales_GPMargin,
+				        Fact_Sales_GPMargin[household_key],
+				        "First Purchase Date", MIN ( Fact_Sales_GPMargin[CalendarDate] )
+				    )
+				RETURN
+				    SELECTCOLUMNS (
+				        _fp,
+				        "household_key", Fact_Sales_GPMargin[household_key],
+				        "First Purchase Date", [First Purchase Date],
+				        "Cohort Month", DATE ( YEAR ( [First Purchase Date] ), MONTH ( [First Purchase Date] ), 1 )
+				    )
+
+	annotation PBI_Id = 41df3f24bbca43fbbc7f30e828a4d6f6
+

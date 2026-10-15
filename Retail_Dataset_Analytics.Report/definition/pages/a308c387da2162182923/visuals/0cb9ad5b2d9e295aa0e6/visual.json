@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "0cb9ad5b2d9e295aa0e6",
+  "position": {
+    "x": 235.7682619647355,
+    "y": 15.415617128463476,
+    "z": 3000,
+    "height": 284.73551637279593,
+    "width": 197.68261964735515,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6855",
+    "query": {
+      "queryState": {
+        "content": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasureGroup"
+                    }
+                  },
+                  "Property": "HTML_COGSBridge"
+                }
+              },
+              "queryRef": "MeasureGroup.HTML_COGSBridge",
+              "nativeQueryRef": "HTML_COGSBridge"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

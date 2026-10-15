@@ -1,0 +1,162 @@
+table Redeem
+	lineageTag: 693f2cf7-180c-4d76-9248-ce0822cb7147
+
+	measure 'Redeemed Purchases' =
+			
+			CALCULATE(COUNTROWS(Fact_Sales_GPMargin), Fact_Sales_GPMargin[Is Redeemed Line] = TRUE)
+		formatString: 0
+		lineageTag: cf25eb00-ab62-4435-b8a3-05e806145df1
+
+	measure 'Redeemed - No Causal Data' =
+			
+			CALCULATE(
+			    COUNTROWS(Fact_Sales_GPMargin),
+			    Fact_Sales_GPMargin[Is Redeemed Line] = TRUE,
+			    Fact_Sales_GPMargin[Has Causal Match] = FALSE
+			)
+		formatString: 0
+		lineageTag: aeb5f269-f254-40ac-848b-f5c7364a1cce
+
+	measure 'Redeemed - Display Only' =
+			
+			CALCULATE(
+			    COUNTROWS(Fact_Sales_GPMargin),
+			    Fact_Sales_GPMargin[Is Redeemed Line] = TRUE,
+			    Fact_Sales_GPMargin[Has Causal Match] = TRUE,
+			    Dim_Causal[HasDisplay] = TRUE,
+			    Dim_Causal[HasMailer] = FALSE
+			)
+		formatString: 0
+		lineageTag: 69010ccc-2736-4892-ab71-10a0ef432b44
+
+	measure 'Redeemed - Mailer Only' =
+			
+			CALCULATE(
+			    COUNTROWS(Fact_Sales_GPMargin),
+			    Fact_Sales_GPMargin[Is Redeemed Line] = TRUE,
+			    Fact_Sales_GPMargin[Has Causal Match] = TRUE,
+			    Dim_Causal[HasDisplay] = FALSE,
+			    Dim_Causal[HasMailer] = TRUE
+			)
+		formatString: 0
+		lineageTag: 80cedc65-e934-4fd8-a190-c1842c9232cd
+
+	measure '% No Causal Data' = DIVIDE([Redeemed - No Causal Data], [Redeemed Purchases])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: a78fa994-be87-4905-887a-8a5f0932d20f
+
+	measure '% Display Only' = DIVIDE([Redeemed - Display Only], [Covered Purchases])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: c3dd32ab-9ccc-4f0e-a9d3-bff5c10c715b
+
+	measure '% Mailer Only' = DIVIDE([Redeemed - Mailer Only], [Covered Purchases])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 45fd1cda-6c69-40cd-83ab-2afdedc74f66
+
+	measure 'Duplicate CausalKeys' =
+			
+			COUNTROWS(
+			    FILTER(
+			        ADDCOLUMNS(
+			            SUMMARIZE(Dim_Causal, Dim_Causal[CausalKey]),
+			            "RowCount", CALCULATE(COUNTROWS(Dim_Causal))
+			        ),
+			        [RowCount] > 1
+			    )
+			)
+		formatString: 0
+		lineageTag: dcfd38ee-c3f3-4e48-a5ea-549ef0286e1f
+
+	measure 'Redeemed - Both' =
+			
+			CALCULATE(
+			    COUNTROWS(Fact_Sales_GPMargin),
+			    Fact_Sales_GPMargin[Is Redeemed Line] = TRUE,
+			    Fact_Sales_GPMargin[Has Causal Match] = TRUE,
+			    Dim_Causal[HasDisplay] = TRUE,
+			    Dim_Causal[HasMailer] = TRUE
+			)
+		formatString: 0
+		lineageTag: 1192a7df-32d3-4534-83d6-de1f6b8c7683
+
+	measure 'Covered Purchases' = [Redeemed Purchases] - [Redeemed - No Causal Data]
+		formatString: 0
+		lineageTag: 2fe044a8-a810-478f-a5e8-8e361cbf95a9
+
+	measure '% Both' = DIVIDE([Redeemed - Both], [Covered Purchases])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: e35cc910-c5b4-4b2e-b274-6801380bf262
+
+	measure 'Redeemed - With Causal Data' =
+			
+			CALCULATE(
+			    COUNTROWS(Fact_Sales_GPMargin),
+			    Fact_Sales_GPMargin[Is Redeemed Line] = TRUE,
+			    Fact_Sales_GPMargin[Has Causal Match] = TRUE
+			)
+		formatString: 0
+		lineageTag: b57d5df7-cacf-49b1-a501-7b2b3c2afc1a
+
+	measure 'Households Targeted' = DISTINCTCOUNT(campaign_table[household_key])
+		formatString: 0
+		lineageTag: 2acdf267-749c-4d3d-97c6-b78f26a98bf0
+
+	measure HouseholdsRedeemed = ```
+			
+			    DISTINCTCOUNT(coupon_redempt[household_key])
+			```
+		formatString: 0
+		lineageTag: 0679b9ba-3954-43ab-a4ca-67e5612a71d2
+
+	measure 'Row Highlight' = ```
+			
+			VAR Sel = SELECTEDVALUE('Highlight Selector'[Display Category])
+			VAR SelCode = IF(NOT ISBLANK(Sel), IFERROR(LEFT(Sel, SEARCH(" ", Sel & " ") - 1), BLANK()))
+			RETURN 
+			    IF(
+			        ISBLANK(Sel), 
+			        "#FFFFFF", 
+			        IF(SELECTEDVALUE('Aisle Mapping'[Display Code]) = SelCode, "#FFD700")
+			    )
+			```
+		lineageTag: ee9d26fd-28c9-4ba1-ba00-2e249081316f
+
+	measure 'Redeemed Value ($)' =
+			
+			CALCULATE(
+			    -SUM(Fact_Sales_GPMargin[RETAIL_DISC])
+			    - SUM(Fact_Sales_GPMargin[COUPON_DISC])
+			    - SUM(Fact_Sales_GPMargin[COUPON_MATCH_DISC]),
+			    Fact_Sales_GPMargin[Is Redeemed Line] = TRUE()
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: d3b3a32e-e5d9-4b29-bfb8-c3aeeada1acb
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure IsInSelectedRange =
+			
+			VAR d = SELECTEDVALUE(Dim_Date[CalendarDate])
+			RETURN
+			IF(
+			    NOT ISBLANK(d) &&
+			    d >= [3_Selected Min Date] &&
+			    d <= [2_MaxDate],
+			    1,
+			    0
+			)
+		formatString: 0
+		lineageTag: 99e3eafe-3f87-4016-ad3b-0faed018cee7
+
+	partition Redeem = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

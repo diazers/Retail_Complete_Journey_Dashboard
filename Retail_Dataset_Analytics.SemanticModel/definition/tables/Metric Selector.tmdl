@@ -1,0 +1,64 @@
+table 'Metric Selector'
+	lineageTag: b067a715-444c-48cd-89f3-cad7b02f6ddc
+
+	measure '_Selected Current' =
+			
+			VAR M = SELECTEDVALUE( 'Metric Selector'[MetricName] )
+			RETURN
+			SWITCH( M,
+			    "Customers", [Customers],
+			    "Orders", [Orders],
+			    "AOV", [AOV],
+			    BLANK()
+			)
+		formatString: 0
+		lineageTag: 4549aa39-f3fe-4c7e-9471-e294e0a43b1a
+
+	measure '_Selected Previous' =
+			
+			VAR M = SELECTEDVALUE( 'Metric Selector'[MetricName] )
+			RETURN
+			SWITCH( M,
+			    "Customers", [Customers Previous Period],
+			    "Orders", [Orders Previous Period],
+			    "AOV", [AOV Previous Period],
+			    BLANK()
+			)
+		lineageTag: 8bcf44cb-650d-4499-918f-35d58da23e22
+
+	measure 'selected measure Text' = SELECTEDVALUE('Metric Selector'[MetricName])
+		lineageTag: 68960849-147c-4b75-b81c-6c4fd0ca2e42
+
+	column MetricName
+		lineageTag: 0a7744f2-bffd-46d7-83f8-d9e19a33a4b5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [MetricName]
+
+		annotation SummarizationSetBy = Automatic
+
+	column SortOrder
+		formatString: 0
+		lineageTag: 4336094d-7b6f-40ee-aa0d-bdd5555d639d
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [SortOrder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Metric Selector' = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "MetricName", STRING,
+				    "SortOrder", INTEGER,
+				    {
+				        {"Customers", 1},
+				        {"Orders", 2},
+				        {"AOV", 3}
+				    }
+				)
+
+	annotation PBI_Id = d58a1b038f9a4f79a0cf86d2d6383939
+

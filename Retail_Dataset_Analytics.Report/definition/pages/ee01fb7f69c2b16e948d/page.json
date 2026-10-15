@@ -1,0 +1,15 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "ee01fb7f69c2b16e948d",
+  "displayName": "Customer Retention",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "visualInteractions": [
+    {
+      "source": "5b5557ba5225cdd25b0c",
+      "target": "c47c37c96798a5621bc7",
+      "type": "NoFilter"
+    }
+  ]
+}

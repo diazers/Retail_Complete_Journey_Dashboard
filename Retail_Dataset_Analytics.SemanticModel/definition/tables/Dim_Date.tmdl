@@ -1,0 +1,163 @@
+table Dim_Date
+	lineageTag: a86936c8-8172-4314-9c8d-f82dff89c4f0
+	dataCategory: Time
+
+	column DAY
+		dataType: int64
+		formatString: 0
+		lineageTag: 1acfc827-1872-4423-8039-ac1aa39927a0
+		summarizeBy: none
+		sourceColumn: DAY
+
+		changedProperty = IsHidden
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column CalendarDate
+		dataType: dateTime
+		isKey
+		formatString: Short Date
+		lineageTag: 5aa73001-c96a-4f85-b690-ec9f9d0bc72f
+		summarizeBy: none
+		sourceColumn: CalendarDate
+		sortByColumn: DAY
+
+		changedProperty = IsHidden
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: a16da53b-b5e6-4f18-a650-8e923ba41c2d
+		summarizeBy: sum
+		sourceColumn: Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 184ea914-2766-454f-acb8-51d9758221fc
+		summarizeBy: sum
+		sourceColumn: Quarter
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		formatString: 0
+		lineageTag: 16fc39da-ef4d-4300-9cb1-b0941dda9921
+		summarizeBy: sum
+		sourceColumn: Month
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		dataType: string
+		lineageTag: 13353845-ddc2-4d24-8573-3d6bda8f628b
+		summarizeBy: none
+		sourceColumn: MonthName
+		sortByColumn: Month
+
+		changedProperty = IsHidden
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonth
+		dataType: string
+		lineageTag: 0068f22a-5031-4dd5-9fa0-761e5ed0f1c5
+		summarizeBy: none
+		sourceColumn: YearMonth
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekOfYear
+		dataType: int64
+		formatString: 0
+		lineageTag: 7a31446e-4b38-4cbe-a129-a3d2b6601aa4
+		summarizeBy: sum
+		sourceColumn: WeekOfYear
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfWeek
+		dataType: int64
+		formatString: 0
+		lineageTag: 1c3ef736-4d15-4f94-acf6-e9357856f7ad
+		summarizeBy: sum
+		sourceColumn: DayOfWeek
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayName
+		dataType: string
+		lineageTag: c73cb878-a891-459f-988d-1c0613e07abe
+		summarizeBy: none
+		sourceColumn: DayName
+		sortByColumn: DayOfWeek
+
+		changedProperty = IsHidden
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsWeekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: f4e8f155-6e0d-44b9-a741-1aa37813b766
+		summarizeBy: none
+		sourceColumn: IsWeekend
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfMonth = DAY( Dim_Date[CalendarDate] )
+		formatString: 0
+		lineageTag: 9096ddbc-fbd6-4a53-a5d6-59c83af931d9
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonthDate = DATE( YEAR( Dim_Date[CalendarDate] ), MONTH( Dim_Date[CalendarDate] ), 1 )
+		formatString: General Date
+		lineageTag: b19cae80-8fec-4cd1-a04a-27158623e66f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Date = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"aerial-garden-503813-r8_Database" = Source{[Name="aerial-garden-503813-r8",Kind="Database"]}[Data],
+				    Retail_Dataset_Schema = #"aerial-garden-503813-r8_Database"{[Name="Retail_Dataset",Kind="Schema"]}[Data],
+				    Dim_Date_Table = Retail_Dataset_Schema{[Name="Dim_Date",Kind="Table"]}[Data]
+				in
+				    Dim_Date_Table
+

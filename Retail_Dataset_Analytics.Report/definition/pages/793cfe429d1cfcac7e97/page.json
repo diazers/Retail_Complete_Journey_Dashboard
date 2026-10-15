@@ -1,0 +1,67 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "793cfe429d1cfcac7e97",
+  "displayName": "Demographic",
+  "displayOption": "FitToPage",
+  "height": 1080,
+  "width": 1920,
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "image": {
+            "image": {
+              "name": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'BackgrounBlank.png'"
+                  }
+                }
+              },
+              "url": {
+                "expr": {
+                  "ResourcePackageItem": {
+                    "PackageName": "RegisteredResources",
+                    "PackageType": 1,
+                    "ItemName": "BackgrounBlank3787284265385876.png"
+                  }
+                }
+              },
+              "scaling": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Normal'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "77be3d448d3958eafdeb",
+      "target": "128203a6d0dc097d89b9",
+      "type": "DataFilter"
+    },
+    {
+      "source": "128203a6d0dc097d89b9",
+      "target": "77be3d448d3958eafdeb",
+      "type": "DataFilter"
+    },
+    {
+      "source": "0ddc59df62a7df9735c5",
+      "target": "77be3d448d3958eafdeb",
+      "type": "DataFilter"
+    }
+  ]
+}

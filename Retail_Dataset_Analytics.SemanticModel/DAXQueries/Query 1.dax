@@ -1,0 +1,106 @@
+DEFINE
+    FUNCTION PowerofBI.IBCS.BarChart.AbsoluteValues = /// Creates a bar chart (SVG-image) that compares absolute values (actual value vs base value)
+/// @param {scalar} valueMain
+/// @param {scalar} valueSecond
+/// @param {scalar} valueBase
+/// @param {string} baseType
+/// @param {string} dataLabel
+/// @param {voolean} isTotalRow
+/// @param {scalar} valueMax
+/// @returns SVG image
+(
+    // Main value (actual)
+    valueMain: SCALAR VAL, 
+    // Secondary value (forecasted)
+   valueSecond: SCALAR VAL,
+   // Base value (previous year)
+   valueBase: SCALAR VAL,
+   // Base value type: "grey" or "outlined"
+   baseType: STRING VAL,
+   // Data (bar) label
+   dataLabel: STRING VAL,
+   // Is it a total row? - to treat total rows differently
+   isTotalRow: BOOLEAN VAL,
+   // Max of main, secondary and base values for all items in the visual (ALLSELECTED) - for scaling
+   valueMax: SCALAR VAL
+)
+=>
+VAR _SVG_Width = 400
+VAR _FontSize = 16
+VAR _SVG_LeftPadding =  5 --left side padding (before Y axis)
+VAR _SVG_RightPadding = 255 --right side padding (space for data labels)  -- CHANGED from 355
+VAR _ColorMain = "#404040"
+VAR _ColorSecond = "#A6A6A6"
+VAR _Rank =
+    1000000000000 + ROUND ( valueMain, 0 )
+VAR _ColorBase =
+    SWITCH ( baseType, "grey", _ColorSecond, "outlined", "#FFFFFF" )
+VAR _ColorBaseOutline =
+    SWITCH ( baseType, "grey", _ColorSecond, "outlined", _ColorMain )
+VAR _Em =
+    ROUND ( _FontSize * 4 / 3, 0 )
+VAR _AxisLineWidth = _Em * 0.1
+VAR _mainBarYPosition = _Em * 0.25
+VAR _LabelOffset = 5
+VAR _FontWeight =
+    IF ( isTotalRow, "bold", "normal" )
+VAR _SVG_ColumnWidth = _SVG_Width - _SVG_LeftPadding - _SVG_RightPadding
+VAR _Scale =
+    DIVIDE ( _SVG_ColumnWidth, valueMax )
+VAR _WidthMain =
+    ROUND ( valueMain * _Scale, 0 )
+VAR _WidthSecond =
+    ROUND ( valueSecond * _Scale, 0 )
+VAR _WidthBase =
+    ROUND ( valueBase * _Scale, 0 )
+VAR _SVG_Header = "data:image/svg+xml;utf8,"
+VAR _SVG_Open = "<svg xmlns='http://www.w3.org/2000/svg' width='" & _SVG_Width & "' >"
+VAR _SVG_Close = "</svg>"
+VAR _SVG_Style = "<style>
+      text{
+        font-family: Inter, sans-serif;
+        font-size: " & _Em & "px;
+        font-weight: " & _FontWeight & ";
+        dominant-baseline: central;
+      }
+  </style>"
+VAR SVG_HatchedPattern =
+    "/*hatched pattern*/
+    <defs >
+    <pattern id='diagonal-stripe' patternUnits='userSpaceOnUse' width='8' height='8'>
+        /*white background*/<rect x='0' y='0' width='8' height='8' fill='#FFFFFF' stroke-width='0'/>
+        /*black stripes*/
+        <path d='
+            M-2,2 l4,-4
+            M0,8 l8,-8
+            M6,10 l4,-4' 
+        style='stroke:black; stroke-width:2' />
+    </pattern>
+    </defs>"
+VAR _SVG_SortBy = "/*SortBy:" & _Rank & "*/"
+VAR _SVG_Box = ""
+VAR _SVG_LineAxisY = "<line id='line-axisY'  x1='" & _SVG_LeftPadding & "px' x2='" & _SVG_LeftPadding & "' y1='0%' y2='100%' stroke='#000000' stroke-width='" & _AxisLineWidth & "'></line >"
+VAR _SVG_BarBase = "<rect id='rect-base-value' x='" & _SVG_LeftPadding & "px' width='" & _WidthBase & "' y='0' height='" & _Em & "' fill='" & _ColorBase & "' stroke='" & _ColorBaseOutline & "' stroke-width='1'></rect>"
+VAR _SVG_BarMain = "<rect id='rect-main-value' x='" & _SVG_LeftPadding & "px' width='" & _WidthMain & "' y='" & _mainBarYPosition & "' height='" & _Em & "' fill='" & _ColorMain & "' stroke='" & _ColorMain & "' stroke-width='1.5'></rect>"
+VAR _SVG_BarSecond = "<rect x='" & _SVG_LeftPadding + _WidthMain & "px' width='" & _WidthSecond & "' y='" & _Em * 0.25 & "' height='" & _Em & "' fill='" & "url(#diagonal-stripe)" & "' stroke='" & _ColorMain & "' stroke-width='0.5'></rect>"
+VAR _SVG_TextACFCLabel = "<text x='" & _SVG_LeftPadding + _WidthMain + _WidthSecond & "' dx='" & _LabelOffset & "' y='50%' >" & dataLabel & "</text>"
+VAR _SVG_TextACFCLabelTotal = "<text x='" & _SVG_LeftPadding & "' dx='" & 0 & "' y='50%' >" & dataLabel & "</text>"
+VAR _SVG_Total = _SVG_Header & _SVG_Open & _SVG_TextACFCLabelTotal & _SVG_Style & _SVG_Close
+VAR _SVG_Row = _SVG_Header & _SVG_Open & _SVG_SortBy & _SVG_Box & SVG_HatchedPattern & _SVG_BarBase & _SVG_BarMain & _SVG_BarSecond & _SVG_LineAxisY & _SVG_TextACFCLabel & _SVG_Style & _SVG_Close
+VAR _SVG =
+    IF ( isTotalRow, _SVG_Total, _SVG_Row )
+RETURN 
+    _SVG
+
+EVALUATE
+    {
+        PowerofBI.IBCS.BarChart.AbsoluteValues (
+            100,
+            20,
+            80,
+            "grey",
+            "120",
+            FALSE,
+            150
+        )
+    }

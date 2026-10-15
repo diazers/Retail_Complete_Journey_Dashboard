@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Retail_Dataset_Analytics - restored version 140102026 - Copy"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "8d959637-c0f7-4e3d-875e-a0db1158080f"
+  }
+}

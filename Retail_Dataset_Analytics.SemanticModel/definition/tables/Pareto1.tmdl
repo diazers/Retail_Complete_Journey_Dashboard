@@ -1,0 +1,541 @@
+table Pareto1
+	lineageTag: b5a8e55c-e5f1-4fd0-bd72-86503f5a8eb2
+
+	measure '_1 Revenue' = [4_SM Date Param] / 1000000
+		displayFolder: Department Pareto
+		lineageTag: cb4b48cb-e7f8-4bb1-acd2-f7e159601af1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_1 Total Revenue' =
+			
+			CALCULATE (
+			    [_1 Revenue],
+			    ALLSELECTED ( Fact_Sales_GPMargin )
+			)
+		displayFolder: Department Pareto
+		lineageTag: 33346d83-1421-420a-8820-0f524c37467a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_1 Rank' =
+			
+			IF (
+			    ISINSCOPE ( Fact_Sales_GPMargin[DEPARTMENT] ),
+			    RANKX (
+			        ALLSELECTED ( Fact_Sales_GPMargin[DEPARTMENT] ),
+			        [_1 Revenue]
+			    )
+			)
+		formatString: 0
+		displayFolder: Department Pareto
+		lineageTag: 88e42bcd-1874-4f26-8619-b1079e88ea87
+
+	measure '_1 Cumulative Revenue' =
+			
+			IF (
+			    ISINSCOPE ( Fact_Sales_GPMargin[DEPARTMENT] ),
+			    CALCULATE (
+			        [_1 Revenue],
+			        TOPN (
+			            [_1 Rank],
+			            ALLSELECTED ( Fact_Sales_GPMargin[DEPARTMENT] ),
+			            [_1 Revenue]
+			        )
+			    ),
+			    [_1 Total Revenue]
+			)
+		displayFolder: Department Pareto
+		lineageTag: 7c2cd132-ca6f-4cb0-8c79-0fa849294073
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_1 Cumulative Revenue %' =
+			
+			DIVIDE (
+			    [_1 Cumulative Revenue],
+			    [_1 Total Revenue]
+			)
+		displayFolder: Department Pareto
+		lineageTag: a7fd4c66-f74e-4b97-8461-ac2f64dd761b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_1 Cutoff Department' =
+			
+			VAR TargetPercentage = [Pareto Value]
+			VAR ClosestDepartment =
+			    TOPN (
+			        1,
+			        ADDCOLUMNS (
+			            SUMMARIZE (
+			                ALLSELECTED ( Fact_Sales_GPMargin ),
+			                Fact_Sales_GPMargin[DEPARTMENT]
+			            ),
+			            "CumulativeRevenuePercent", [_1 Cumulative Revenue %],
+			            "Difference", ABS ( [_1 Cumulative Revenue %] - TargetPercentage )
+			        ),
+			        [Difference], ASC
+			    )
+			RETURN
+			    MAXX ( ClosestDepartment, Fact_Sales_GPMargin[DEPARTMENT] )
+		displayFolder: Department Pareto
+		lineageTag: 798e44b4-eeaa-4c87-9561-15b81c8aa486
+
+	measure '_1 Cutoff Rank' =
+			
+			VAR ClosestDepartment = [_1 Cutoff Department]
+			RETURN
+			IF (
+			    SELECTEDVALUE ( Fact_Sales_GPMargin[DEPARTMENT] ) = ClosestDepartment,
+			    [_1 Rank],
+			    BLANK ()
+			)
+		formatString: 0
+		displayFolder: Department Pareto
+		lineageTag: bbacc494-5de5-4a21-9e12-2c3f383b82fa
+
+	measure '_4 Pareto Cutoff Rank' =
+			
+			CALCULATE (
+			    MAXX ( VALUES ( Fact_Sales_GPMargin[DEPARTMENT] ), [_1 Cutoff Rank] ),
+			    ALLSELECTED ( Fact_Sales_GPMargin )
+			)
+		formatString: 0
+		displayFolder: Department Pareto
+		lineageTag: 35070cc3-39f2-43c2-8c9e-4fe457b67488
+
+	measure '_1 Color' =
+			
+			IF ( [_1 Rank] > [_4 Pareto Cutoff Rank], "#FFC399", "#FF6900" )
+		displayFolder: Department Pareto
+		lineageTag: e814994a-cc7f-4e8c-bc9f-8e1d861827dd
+
+	measure '__1 Vertical Pareto Chart' =
+			
+			VAR _CellHeight = 30
+			VAR _MarkerY    = _CellHeight / 2
+			
+			VAR _MarkerSize         = 4
+			VAR _CutoffOuterSize    = 8
+			VAR _CutoffInnerSize    = 4
+			
+			VAR _BarY = 8
+			VAR _BarHeight = _CellHeight * 0.7
+			VAR _BarRoundness = 3
+			
+			VAR _Actual = [_1 Revenue]
+			VAR _Target = [_1 Cumulative Revenue %] * 0.8
+			
+			VAR _BarMax = 200
+			VAR _BarMin = 0
+			VAR _Scope = ALLSELECTED ( Fact_Sales_GPMargin[DEPARTMENT] )
+			
+			VAR _BackgroundColor = "#F5F5F500"
+			VAR _BaselineColor   = "grey"
+			VAR _TargetColor     = "#12239E"
+			VAR _BarFillColor    = [_1 Color]
+			VAR _BarBorderColor  = "#605E5C"
+			
+			VAR _MaxActualsInScope =
+			    CALCULATE ( MAXX ( _Scope, [_1 Revenue] ), REMOVEFILTERS ( Fact_Sales_GPMargin[DEPARTMENT] ) )
+			VAR _MaxTargetInScope =
+			    CALCULATE ( MAXX ( _Scope, [_1 Cumulative Revenue %] ), REMOVEFILTERS ( Fact_Sales_GPMargin[DEPARTMENT] ) )
+			VAR _AxisMax = MAX ( _MaxActualsInScope, _MaxTargetInScope )
+			
+			VAR _AxisRange        = _BarMax - _BarMin
+			VAR _ActualNormalized = DIVIDE ( _Actual, _AxisMax ) * _AxisRange
+			VAR _TargetNormalized = ( DIVIDE ( _Target, _AxisMax ) * _AxisRange ) + _BarMin - 1
+			
+			VAR _CurrentRank = [_1 Rank]
+			VAR _CutoffRank  = [_4 Pareto Cutoff Rank]
+			
+			VAR _Table =
+			    SUMMARIZE (
+			        ALLSELECTED ( Fact_Sales_GPMargin[DEPARTMENT] ),
+			        Fact_Sales_GPMargin[DEPARTMENT],
+			        "RankValue", [_1 Rank],
+			        "TargetVal", [_1 Cumulative Revenue %] * 0.8
+			    )
+			
+			VAR _PrevTarget =
+			    IF (
+			        _CurrentRank > 1,
+			        MAXX ( FILTER ( _Table, [RankValue] = _CurrentRank - 1 ), [TargetVal] )
+			    )
+			VAR _PrevTargetNormalized =
+			    IF ( NOT ISBLANK ( _PrevTarget ), DIVIDE ( _PrevTarget, _AxisMax ) * _AxisRange + _BarMin - 1 )
+			
+			VAR _NextTarget =
+			    MAXX ( FILTER ( _Table, [RankValue] = _CurrentRank + 1 ), [TargetVal] )
+			VAR _NextTargetNormalized =
+			    IF ( NOT ISBLANK ( _NextTarget ), DIVIDE ( _NextTarget, _AxisMax ) * _AxisRange + _BarMin - 1 )
+			
+			VAR _PrevMarkerY = _MarkerY - _CellHeight
+			VAR _NextMarkerY = _MarkerY + _CellHeight
+			
+			VAR _ConnectingLineUp =
+			    IF (
+			        _CurrentRank > 1 && NOT ISBLANK ( _PrevTargetNormalized ),
+			        "<polyline points='" & _PrevTargetNormalized & "," & _PrevMarkerY & " " & _TargetNormalized & "," & _MarkerY & "' fill='none' stroke='" & _TargetColor & "' stroke-width='2' />",
+			        ""
+			    )
+			
+			VAR _ConnectingLineDown =
+			    IF (
+			        NOT ISBLANK ( _NextTargetNormalized ),
+			        "<polyline points='" & _TargetNormalized & "," & _MarkerY & " " & _NextTargetNormalized & "," & _NextMarkerY & "' fill='none' stroke='" & _TargetColor & "' stroke-width='2' />",
+			        ""
+			    )
+			
+			VAR _ActualBarPath =
+			    "M " & _BarMin & " " & _BarY &
+			    " L " & ( _BarMin + _ActualNormalized - _BarRoundness ) & " " & _BarY &
+			    " A " & _BarRoundness & " " & _BarRoundness & " 0 0 1 " & ( _BarMin + _ActualNormalized ) & " " & ( _BarY + _BarRoundness ) &
+			    " L " & ( _BarMin + _ActualNormalized ) & " " & ( _BarY + _BarHeight - _BarRoundness ) &
+			    " A " & _BarRoundness & " " & _BarRoundness & " 0 0 1 " & ( _BarMin + _ActualNormalized - _BarRoundness ) & " " & ( _BarY + _BarHeight ) &
+			    " L " & _BarMin & " " & ( _BarY + _BarHeight ) &
+			    " Z"
+			
+			VAR _NormalCircle =
+			    "<circle cx='" & _TargetNormalized & "' cy='" & _MarkerY & "' r='" & _MarkerSize & "' fill='" & _TargetColor & "'/>"
+			
+			VAR _CutoffCircle =
+			    "<circle cx='" & _TargetNormalized & "' cy='" & _MarkerY & "' r='" & _CutoffOuterSize & "' fill='" & _TargetColor & "'/>" &
+			    "<circle cx='" & _TargetNormalized & "' cy='" & _MarkerY & "' r='" & _CutoffInnerSize & "' fill='white'/>"
+			
+			VAR _MarkerCircle =
+			    IF ( _CurrentRank = _CutoffRank, _CutoffCircle, _NormalCircle )
+			
+			VAR _YMin = 0
+			VAR _ViewBoxHeight = _CellHeight
+			
+			VAR _SvgPrefix =
+			    "data:image/svg+xml;utf8, <svg xmlns='http://www.w3.org/2000/svg' width='" & _BarMax & "' height='30' viewBox='0 " & _YMin & " " & _BarMax & " " & _ViewBoxHeight & "' preserveAspectRatio='none' overflow='visible'>"
+			
+			VAR _Sort = "<desc>" & FORMAT ( _Actual, "000000000000" ) & "</desc>"
+			VAR _BarBaseline = "<rect x='" & _BarMin & "' y='0' width='1' height='100%' fill='" & _BaselineColor & "'/>"
+			VAR _BarBackground = "<rect x='" & _BarMin & "' y='2' width='" & _BarMax & "' height='80%' fill='" & _BackgroundColor & "'/>"
+			VAR _ActualBar = "<path d='" & _ActualBarPath & "' fill='" & _BarFillColor & "' stroke='" & _BarBorderColor & "' stroke-width='1'/>"
+			VAR _SvgSuffix = "</svg>"
+			
+			VAR _SVG =
+			    _SvgPrefix & _Sort & _BarBackground & _ActualBar & _BarBaseline &
+			    _ConnectingLineUp & _ConnectingLineDown & _MarkerCircle & _SvgSuffix
+			
+			RETURN
+			    IF ( ISINSCOPE ( Fact_Sales_GPMargin[DEPARTMENT] ), _SVG )
+		displayFolder: Department Pareto
+		lineageTag: b74c4134-7394-479a-8720-68da79b28165
+		dataCategory: ImageUrl
+
+	measure '_1 Store Revenue' = SUM ( Fact_Sales_GPMargin[SALES_VALUE] ) / 1000000
+		displayFolder: Store Pareto
+		lineageTag: 180c8cea-463e-486a-8945-dc240e128551
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_1 Store Total Revenue' =
+			
+			CALCULATE (
+			    [_1 Store Revenue],
+			    ALLSELECTED ( Fact_Sales_GPMargin )
+			)
+		displayFolder: Store Pareto
+		lineageTag: bd61e8d2-4734-4a3f-a923-366c5216c996
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_1 Store Rank' =
+			
+			IF (
+			    ISINSCOPE ( Fact_Sales_GPMargin[STORE_ID] ),
+			    RANKX (
+			        ALLSELECTED ( Fact_Sales_GPMargin[STORE_ID] ),
+			        [_1 Store Revenue]
+			    )
+			)
+		formatString: 0
+		displayFolder: Store Pareto
+		lineageTag: 438b2a77-55fd-47bd-8d39-9f4b64cbd2d7
+
+	measure '_1 Store Cumulative Revenue' =
+			
+			IF (
+			    ISINSCOPE ( Fact_Sales_GPMargin[STORE_ID] ),
+			    CALCULATE (
+			        [_1 Store Revenue],
+			        TOPN (
+			            [_1 Store Rank],
+			            ALLSELECTED ( Fact_Sales_GPMargin[STORE_ID] ),
+			            [_1 Store Revenue]
+			        )
+			    ),
+			    [_1 Store Total Revenue]
+			)
+		displayFolder: Store Pareto
+		lineageTag: b571d50a-fe1d-451f-b349-8657a6702385
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_1 Store Cumulative Revenue %' =
+			
+			DIVIDE (
+			    [_1 Store Cumulative Revenue],
+			    [_1 Store Total Revenue]
+			)
+		displayFolder: Store Pareto
+		lineageTag: 12109223-d76e-4451-8e7b-911d05a49566
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_1 Store Cutoff Store' =
+			
+			VAR TargetPercentage = [Pareto Value]
+			VAR ClosestStore =
+			    TOPN (
+			        1,
+			        ADDCOLUMNS (
+			            SUMMARIZE (
+			                ALLSELECTED ( Fact_Sales_GPMargin ),
+			                Fact_Sales_GPMargin[STORE_ID]
+			            ),
+			            "CumulativeRevenuePercent", [_1 Store Cumulative Revenue %],
+			            "Difference", ABS ( [_1 Store Cumulative Revenue %] - TargetPercentage )
+			        ),
+			        [Difference], ASC
+			    )
+			RETURN
+			    MAXX ( ClosestStore, Fact_Sales_GPMargin[STORE_ID] )
+		formatString: 0
+		displayFolder: Store Pareto
+		lineageTag: 17b39c70-46ea-4089-b2fb-90469e5d0439
+
+	measure '_1 Store Cutoff Rank' =
+			
+			VAR ClosestStore = [_1 Store Cutoff Store]
+			RETURN
+			IF (
+			    SELECTEDVALUE ( Fact_Sales_GPMargin[STORE_ID] ) = ClosestStore,
+			    [_1 Store Rank],
+			    BLANK ()
+			)
+		formatString: 0
+		displayFolder: Store Pareto
+		lineageTag: 02035559-6fc4-4241-9eae-bddd1f41aa66
+
+	measure '_4 Store Pareto Cutoff Rank' =
+			
+			CALCULATE (
+			    MAXX ( VALUES ( Fact_Sales_GPMargin[STORE_ID] ), [_1 Store Cutoff Rank] ),
+			    ALLSELECTED ( Fact_Sales_GPMargin )
+			)
+		formatString: 0
+		displayFolder: Store Pareto
+		lineageTag: 63b539b5-ad7b-4061-84d8-c5eec80f7e48
+
+	measure '_1 Store Color' =
+			
+			IF ( [_1 Store Rank] > [_4 Store Pareto Cutoff Rank], "#e7ecef", "#bbdefb" )
+		displayFolder: Store Pareto
+		lineageTag: 21e16f49-ac91-4028-806c-e69741710eb4
+
+	measure '_1 Vertical Pareto Chart Store' =
+			
+			VAR _CellHeight = 30
+			VAR _MarkerY    = _CellHeight / 2
+			
+			VAR _MarkerSize         = 4
+			VAR _CutoffOuterSize    = 8
+			VAR _CutoffInnerSize    = 4
+			
+			VAR _BarY = 6
+			VAR _BarHeight = _CellHeight * 0.7
+			VAR _BarRoundness = 3
+			
+			VAR _Actual = [_1 Store Revenue]
+			VAR _Target = [_1 Store Cumulative Revenue %] * 0.8
+			
+			VAR _BarMax = 500
+			VAR _BarMin = 0
+			VAR _Scope = ALLSELECTED ( Fact_Sales_GPMargin[STORE_ID] )
+			
+			VAR _BackgroundColor = "#F5F5F500"
+			VAR _BaselineColor   = "grey"
+			VAR _TargetColor     = "#12239E"
+			VAR _BarFillColor    = [_1 Store Color]
+			VAR _BarBorderColor  = "#605E5C"
+			
+			VAR _MaxActualsInScope =
+			    CALCULATE ( MAXX ( _Scope, [_1 Store Revenue] ), REMOVEFILTERS ( Fact_Sales_GPMargin[STORE_ID] ) )
+			VAR _MaxTargetInScope =
+			    CALCULATE ( MAXX ( _Scope, [_1 Store Cumulative Revenue %] ), REMOVEFILTERS ( Fact_Sales_GPMargin[STORE_ID] ) )
+			VAR _AxisMax = MAX ( _MaxActualsInScope, _MaxTargetInScope )
+			
+			VAR _AxisRange        = _BarMax - _BarMin
+			VAR _ActualNormalized = DIVIDE ( _Actual, _AxisMax ) * _AxisRange
+			VAR _TargetNormalized = ( DIVIDE ( _Target, _AxisMax ) * _AxisRange ) + _BarMin - 1
+			
+			VAR _CurrentRank = [_1 Store Rank]
+			VAR _CutoffRank  = [_4 Store Pareto Cutoff Rank]
+			
+			VAR _Table =
+			    SUMMARIZE (
+			        ALLSELECTED ( Fact_Sales_GPMargin[STORE_ID] ),
+			        Fact_Sales_GPMargin[STORE_ID],
+			        "RankValue", [_1 Store Rank],
+			        "TargetVal", [_1 Store Cumulative Revenue %] * 0.8
+			    )
+			
+			VAR _PrevTarget =
+			    IF (
+			        _CurrentRank > 1,
+			        MAXX ( FILTER ( _Table, [RankValue] = _CurrentRank - 1 ), [TargetVal] )
+			    )
+			VAR _PrevTargetNormalized =
+			    IF ( NOT ISBLANK ( _PrevTarget ), DIVIDE ( _PrevTarget, _AxisMax ) * _AxisRange + _BarMin - 1 )
+			
+			VAR _NextTarget =
+			    MAXX ( FILTER ( _Table, [RankValue] = _CurrentRank + 1 ), [TargetVal] )
+			VAR _NextTargetNormalized =
+			    IF ( NOT ISBLANK ( _NextTarget ), DIVIDE ( _NextTarget, _AxisMax ) * _AxisRange + _BarMin - 1 )
+			
+			VAR _PrevMarkerY = _MarkerY - _CellHeight
+			VAR _NextMarkerY = _MarkerY + _CellHeight
+			
+			VAR _ConnectingLineUp =
+			    IF (
+			        _CurrentRank > 1 && NOT ISBLANK ( _PrevTargetNormalized ),
+			        "<polyline points='" & _PrevTargetNormalized & "," & _PrevMarkerY & " " & _TargetNormalized & "," & _MarkerY & "' fill='none' stroke='" & _TargetColor & "' stroke-width='2' />",
+			        ""
+			    )
+			
+			VAR _ConnectingLineDown =
+			    IF (
+			        NOT ISBLANK ( _NextTargetNormalized ),
+			        "<polyline points='" & _TargetNormalized & "," & _MarkerY & " " & _NextTargetNormalized & "," & _NextMarkerY & "' fill='none' stroke='" & _TargetColor & "' stroke-width='2' />",
+			        ""
+			    )
+			
+			VAR _ActualBarPath =
+			    "M " & _BarMin & " " & _BarY &
+			    " L " & ( _BarMin + _ActualNormalized - _BarRoundness ) & " " & _BarY &
+			    " A " & _BarRoundness & " " & _BarRoundness & " 0 0 1 " & ( _BarMin + _ActualNormalized ) & " " & ( _BarY + _BarRoundness ) &
+			    " L " & ( _BarMin + _ActualNormalized ) & " " & ( _BarY + _BarHeight - _BarRoundness ) &
+			    " A " & _BarRoundness & " " & _BarRoundness & " 0 0 1 " & ( _BarMin + _ActualNormalized - _BarRoundness ) & " " & ( _BarY + _BarHeight ) &
+			    " L " & _BarMin & " " & ( _BarY + _BarHeight ) &
+			    " Z"
+			
+			VAR _NormalCircle =
+			    "<circle cx='" & _TargetNormalized & "' cy='" & _MarkerY & "' r='" & _MarkerSize & "' fill='" & _TargetColor & "'/>"
+			
+			VAR _CutoffCircle =
+			    "<circle cx='" & _TargetNormalized & "' cy='" & _MarkerY & "' r='" & _CutoffOuterSize & "' fill='" & _TargetColor & "'/>" &
+			    "<circle cx='" & _TargetNormalized & "' cy='" & _MarkerY & "' r='" & _CutoffInnerSize & "' fill='white'/>"
+			
+			VAR _MarkerCircle =
+			    IF ( _CurrentRank = _CutoffRank, _CutoffCircle, _NormalCircle )
+			
+			VAR _YMin = 0
+			VAR _ViewBoxHeight = _CellHeight
+			
+			VAR _SvgPrefix =
+			    "data:image/svg+xml;utf8, <svg xmlns='http://www.w3.org/2000/svg' width='" & _BarMax & "' height='30' viewBox='0 " & _YMin & " " & _BarMax & " " & _ViewBoxHeight & "' preserveAspectRatio='none' overflow='visible'>"
+			
+			VAR _Sort = "<desc>" & FORMAT ( _Actual, "000000000000" ) & "</desc>"
+			VAR _BarBaseline = "<rect x='" & _BarMin & "' y='0' width='1' height='100%' fill='" & _BaselineColor & "'/>"
+			VAR _BarBackground = "<rect x='" & _BarMin & "' y='2' width='" & _BarMax & "' height='80%' fill='" & _BackgroundColor & "'/>"
+			VAR _ActualBar = "<path d='" & _ActualBarPath & "' fill='" & _BarFillColor & "' stroke='" & _BarBorderColor & "' stroke-width='1'/>"
+			VAR _SvgSuffix = "</svg>"
+			
+			VAR _SVG =
+			    _SvgPrefix & _Sort & _BarBackground & _ActualBar & _BarBaseline &
+			    _ConnectingLineUp & _ConnectingLineDown & _MarkerCircle & _SvgSuffix
+			
+			RETURN
+			    IF ( ISINSCOPE ( Fact_Sales_GPMargin[STORE_ID] ), _SVG )
+		displayFolder: Store Pareto
+		lineageTag: 91235370-366c-441a-a073-955a23e0ae2c
+		dataCategory: ImageUrl
+
+	measure 'Pareto Top Contributor Text' =
+			
+			VAR _Scope = ALLSELECTED ( Fact_Sales_GPMargin[DEPARTMENT] )
+			
+			VAR _Table =
+			    SUMMARIZE (
+			        _Scope,
+			        Fact_Sales_GPMargin[DEPARTMENT],
+			        "RankValue", [_1 Rank],
+			        "RevenueValue", [_1 Revenue],
+			        "CumPctValue", [_1 Cumulative Revenue %]
+			    )
+			
+			VAR _TopRow = FILTER ( _Table, [RankValue] = 1 )
+			
+			VAR _TopDept     = MAXX ( _TopRow, Fact_Sales_GPMargin[DEPARTMENT] )
+			VAR _TopRevenue  = MAXX ( _TopRow, [RevenueValue] )
+			VAR _TopCumPct   = MAXX ( _TopRow, [CumPctValue] )
+			
+			VAR _TotalRevenue =
+			    CALCULATE ( SUMX ( _Scope, [_1 Revenue] ), REMOVEFILTERS ( Fact_Sales_GPMargin[DEPARTMENT] ) )
+			
+			VAR _TopShareOfTotal = DIVIDE ( _TopRevenue, _TotalRevenue )
+			
+			-- Dynamic K/M scaling so small values don't round to 0
+			VAR _TopRevenueText =
+			    IF (
+			        ABS ( _TopRevenue ) >= 1000000,
+			        FORMAT ( _TopRevenue, "#,##0.0,,M" ),
+			        FORMAT ( _TopRevenue, "#,##0.0,K" )
+			    )
+			
+			RETURN
+			    _TopDept & " is the top contributor at " &
+			    _TopRevenueText & " | " &
+			    FORMAT ( _TopShareOfTotal, "0.0%" ) & " of total Gross Profit " &
+			    "(cumulative " & FORMAT ( _TopCumPct, "0.0%" ) & ")."
+		displayFolder: Department Pareto
+		lineageTag: d4ad5ad2-e4ee-48f0-93a4-e434e0d706a1
+
+	measure 'Top Store Contributor Text' =
+			
+			VAR _Scope = ALLSELECTED ( Fact_Sales_GPMargin[STORE_ID] )
+			
+			VAR _Table =
+			    SUMMARIZE (
+			        _Scope,
+			        Fact_Sales_GPMargin[STORE_ID],
+			        "SalesValue", [Total_Sales]
+			    )
+			
+			VAR _TopRow =
+			    TOPN ( 1, _Table, [SalesValue], DESC )
+			
+			VAR _TopStore = MAXX ( _TopRow, Fact_Sales_GPMargin[STORE_ID] )
+			
+			VAR _Sales = CALCULATE ( [Total_Sales], _TopRow )
+			VAR _YoY   = CALCULATE ( [Store YoY %], _TopRow )
+			
+			VAR _Arrow     = IF ( _YoY >= 0, "▲", "▼" )
+			VAR _SalesText = FORMAT ( _Sales, "#,0,""K""" )
+			VAR _PctText   = FORMAT ( ABS ( _YoY ), "0%" )
+			
+			RETURN
+			    "Store " & _TopStore & " is the top store at " &
+			    _SalesText & " | " & _PctText & " " & _Arrow
+		displayFolder: Store Pareto
+		lineageTag: 4d4a5281-e004-48d9-b908-8c11eb0313cc
+
+	partition Pareto1 = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

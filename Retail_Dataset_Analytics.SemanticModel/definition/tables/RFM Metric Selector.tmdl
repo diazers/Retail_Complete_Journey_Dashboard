@@ -1,0 +1,36 @@
+table 'RFM Metric Selector'
+	lineageTag: 791ca4ef-01a2-4323-8140-d752167eb6a4
+
+	column MetricName
+		lineageTag: bd9ca889-7ff3-4d8e-b1db-1e53973bef1d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [MetricName]
+
+		annotation SummarizationSetBy = Automatic
+
+	column SortOrder
+		formatString: 0
+		lineageTag: 53a67756-6c3f-4460-bd62-f628ab8f1348
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [SortOrder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'RFM Metric Selector' = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "MetricName", STRING,
+				    "SortOrder", INTEGER,
+				    {
+				        {"Customer Count", 1},
+				        {"Avg Monetary per Customer", 2},
+				        {"Monetary by Segment", 3}
+				    }
+				)
+
+	annotation PBI_Id = 8c42e5519ce64648ba5ccc35462b0da5
+

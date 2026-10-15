@@ -1,0 +1,239 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "732a517f2004d380c491",
+  "position": {
+    "x": 43.5264483627204,
+    "y": 88.86649874055415,
+    "z": 0,
+    "height": 322.82115869017628,
+    "width": 1236.8765743073047,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_Product"
+                    }
+                  },
+                  "Property": "DEPARTMENT"
+                }
+              },
+              "queryRef": "Dim_Product.DEPARTMENT",
+              "nativeQueryRef": "DEPARTMENT",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_Product"
+                    }
+                  },
+                  "Property": "COMMODITY_DESC"
+                }
+              },
+              "queryRef": "Dim_Product.COMMODITY_DESC",
+              "nativeQueryRef": "COMMODITY_DESC",
+              "active": false
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasureGroup"
+                    }
+                  },
+                  "Property": "Total_Sales"
+                }
+              },
+              "queryRef": "MeasureGroup.Total_Sales",
+              "nativeQueryRef": "Total_Sales"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Fact_Sales_GPMargin"
+                        }
+                      },
+                      "Property": "Estimated_Gross_Profit"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Fact_Sales_GPMargin.Estimated_Gross_Profit)",
+              "nativeQueryRef": "Sum of Estimated_Gross_Profit1"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasureGroup"
+                    }
+                  },
+                  "Property": "Total_COGS"
+                }
+              },
+              "queryRef": "MeasureGroup.Total_COGS",
+              "nativeQueryRef": "Total_COGS"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Fact_Sales_GPMargin"
+                        }
+                      },
+                      "Property": "List Price"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Fact_Sales_GPMargin.List Price)",
+              "nativeQueryRef": "Sum of List Price"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasureGroup"
+                    }
+                  },
+                  "Property": "Avg Coupon Discount %"
+                }
+              },
+              "queryRef": "MeasureGroup.Avg Coupon Discount %",
+              "nativeQueryRef": "Avg Coupon Discount %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasureGroup"
+                    }
+                  },
+                  "Property": "Avg Retail Discount %"
+                }
+              },
+              "queryRef": "MeasureGroup.Avg Retail Discount %",
+              "nativeQueryRef": "Avg Retail Discount %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MeasureGroup"
+                    }
+                  },
+                  "Property": "Avg Match Discount %"
+                }
+              },
+              "queryRef": "MeasureGroup.Avg Match Discount %",
+              "nativeQueryRef": "Avg Match Discount %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Discount"
+                    }
+                  },
+                  "Property": "Foregone Profit from Discounting"
+                }
+              },
+              "queryRef": "Discount.Foregone Profit from Discounting",
+              "nativeQueryRef": "Foregone Profit from Discounting"
+            }
+          ]
+        }
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "Dim_Product.DEPARTMENT"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_Product"
+                    }
+                  },
+                  "Property": "DEPARTMENT"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "Dim_Product.COMMODITY_DESC"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          }
+        ],
+        "root": {}
+      }
+    ],
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "106.57430460458686D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sum(Fact_Sales_GPMargin.Estimated_Gross_Profit)"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

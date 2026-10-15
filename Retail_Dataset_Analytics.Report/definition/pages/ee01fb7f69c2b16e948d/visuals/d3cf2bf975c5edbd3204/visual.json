@@ -1,0 +1,117 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "d3cf2bf975c5edbd3204",
+  "position": {
+    "x": 685.84527220630378,
+    "y": 166.87679083094557,
+    "z": 5000,
+    "height": 453.86819484240692,
+    "width": 594.15472779369634,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "columnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_Date"
+                    }
+                  },
+                  "Property": "YearMonthDate"
+                }
+              },
+              "queryRef": "Dim_Date.YearMonthDate",
+              "nativeQueryRef": "YearMonthDate",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customer Cohort"
+                    }
+                  },
+                  "Property": "New Customers"
+                }
+              },
+              "queryRef": "Customer Cohort.New Customers",
+              "nativeQueryRef": "New Customers"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customer Cohort"
+                    }
+                  },
+                  "Property": "Reactivated Customers"
+                }
+              },
+              "queryRef": "Customer Cohort.Reactivated Customers",
+              "nativeQueryRef": "Reactivated Customers"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customer Cohort"
+                    }
+                  },
+                  "Property": "Retained Customers"
+                }
+              },
+              "queryRef": "Customer Cohort.Retained Customers",
+              "nativeQueryRef": "Retained Customers"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customer Cohort"
+                    }
+                  },
+                  "Property": "Churned Customers (Negative)"
+                }
+              },
+              "queryRef": "Customer Cohort.Churned Customers (Negative)",
+              "nativeQueryRef": "Churned Customers (Negative)"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Dim_Date"
+                  }
+                },
+                "Property": "YearMonthDate"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

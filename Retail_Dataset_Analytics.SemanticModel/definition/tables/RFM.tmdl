@@ -1,0 +1,541 @@
+table RFM
+	lineageTag: 336fc035-f968-40f1-985d-643a01136c05
+
+	measure '_01 AC_Recency' =
+			
+			IF (
+			    NOT ISINSCOPE ( hh_demographic[household_key]),
+			    BLANK (),
+			    VAR _AsOfDate =
+			        MAX ( Dim_Date[CalendarDate] )
+			    VAR _LastOrderDate =
+			        CALCULATE (
+			            MAX ( Fact_Sales_GPMargin[CalendarDate] ),
+			            FILTER (
+			                ALL ( Dim_Date[CalendarDate] ),
+			                Dim_Date[CalendarDate] <= _AsOfDate
+			            )
+			        )
+			    RETURN
+			        DATEDIFF ( _LastOrderDate, _AsOfDate, DAY )
+			)
+		displayFolder: _01 AC
+		lineageTag: 8799f651-1974-4f69-a90d-d0ed5fc17da1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_01 AC_Frequency' =
+			
+			VAR _AsOfDate =
+			    MAX ( Dim_Date[CalendarDate] )
+			RETURN
+			CALCULATE (
+			    DISTINCTCOUNT ( Fact_Sales_GPMargin[BASKET_ID] ),
+			    FILTER (
+			        ALL ( Dim_Date[CalendarDate] ),
+			        Dim_Date[CalendarDate] <= _AsOfDate
+			    )
+			)
+		displayFolder: _01 AC
+		lineageTag: 16bc0ae0-d6a6-4334-bf06-e3f0f4c59a72
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_01 AC_Monetary' =
+			
+			VAR _AsOfDate =
+			    MAX ( Dim_Date[CalendarDate] )
+			RETURN
+			CALCULATE (
+			    SUM ( Fact_Sales_GPMargin[SALES_VALUE] ),
+			    FILTER (
+			        ALL ( Dim_Date[CalendarDate] ),
+			        Dim_Date[CalendarDate] <= _AsOfDate
+			    )
+			)
+		displayFolder: _01 AC
+		lineageTag: 5b12be7f-aa5f-483c-8ed3-158a3c059d82
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_01 R Score' = ```
+			
+			SWITCH ( TRUE(),
+			    [_01 AC_Recency] <= 1,   5,
+			    [_01 AC_Recency] <= 3,   4,
+			    [_01 AC_Recency] <= 6,   3,
+			    [_01 AC_Recency] <= 12,  2,
+			    [_01 AC_Recency] > 12,   1
+			)
+			
+			
+			// SWITCH(
+			//     TRUE(),
+			//     [_01 AC_Recency] <= 200, 5,  
+			//     [_01 AC_Recency] <= 400, 4,  
+			//     [_01 AC_Recency] <= 600, 3,  
+			//     [_01 AC_Recency] <= 800, 2,  
+			//     [_01 AC_Recency] > 800, 1  
+			// )
+			```
+		formatString: 0
+		displayFolder: RFM Score
+		lineageTag: 67c3d39a-cb27-41c1-b26d-18f84c9af7cb
+
+	measure '_02 F Score' =
+			
+			SWITCH ( TRUE(),
+			    [_01 AC_Frequency] <= 89,   1,
+			    [_01 AC_Frequency] <= 122,  2,
+			    [_01 AC_Frequency] <= 163,  3,
+			    [_01 AC_Frequency] <= 233,  4,
+			    [_01 AC_Frequency] > 233,   5
+			)
+		formatString: 0
+		displayFolder: RFM Score
+		lineageTag: a88ee62d-2e74-4712-be9c-f26daf26869f
+
+	measure '_03 M Score' =
+			
+			SWITCH ( TRUE(),
+			    [_01 AC_Monetary] <= 2640.01,  1,
+			    [_01 AC_Monetary] <= 3871.04,  2,
+			    [_01 AC_Monetary] <= 5532.21,  3,
+			    [_01 AC_Monetary] <= 8131.91,  4,
+			    [_01 AC_Monetary] > 8131.91,   5
+			)
+		formatString: 0
+		displayFolder: RFM Score
+		lineageTag: 10ed2a13-8630-4ed4-8296-bfc70a922253
+
+	measure '_04 RFM Score' =
+			
+			CONCATENATE(
+			    CONCATENATE( [_01 R Score], [_02 F Score] ),
+			    [_03 M Score]
+			)
+		displayFolder: RFM Score
+		lineageTag: 78b73db5-283c-4c25-80a5-c0ca56e7305d
+
+	measure '_05 RFM Customer Segment' =
+			
+			IF(
+			    ISINSCOPE( hh_demographic[household_key] ),
+			    VAR RFM = [_04 RFM Score]
+			    RETURN
+			    SWITCH(
+			        TRUE(),
+			        RFM IN { "555", "554", "544", "545", "454", "455", "445" }, "Champions",
+			        RFM IN { "543", "444", "435", "355", "354", "345", "344", "335" }, "Loyal",
+			        RFM IN { "553", "551", "552", "541", "542", "533", "532", "531", "452", "451", "442", "441", "431", "453", "433", "432", "423", "353", "352", "351", "342", "341", "333", "323" }, "Potential Loyalist",
+			        RFM IN { "512", "511", "422", "421", "412", "411", "311" }, "New Customers",
+			        RFM IN { "525", "524", "523", "522", "521", "515", "514", "513", "425", "424", "413", "414", "415", "315", "314", "313" }, "Promising",
+			        RFM IN { "535", "534", "443", "434", "343", "334", "325", "324" }, "Need Attention",
+			        RFM IN { "331", "321", "312", "221", "213", "231", "241", "251" }, "About to Sleep",
+			        RFM IN { "155", "154", "144", "214", "215", "115", "114", "113" }, "Cannot Lose Them but Losing",
+			        RFM IN { "255", "254", "245", "244", "253", "252", "243", "242", "235", "234", "225", "224", "153", "152", "145", "143", "142", "135", "134", "133", "125", "124" }, "At Risk",
+			        RFM IN { "332", "322", "233", "232", "223", "222", "132", "123", "122", "212", "211" }, "Hibernating Customers",
+			        RFM IN { "111", "112", "121", "131", "141", "151" }, "Lost Customers",
+			        "Other"
+			    ),
+			    BLANK() // Returns blank for totals
+			)
+		lineageTag: 5fd71c90-198a-4a88-a11b-35ff361d5adf
+
+	measure '_02 PY_Frequency' = ```
+			
+			    Time_Intelligence(
+			        [_01 AC_Frequency],
+			        "PY"
+			    )
+			```
+		displayFolder: _02 PY
+		lineageTag: fd98f000-b2e0-4761-9e01-90479c5342c0
+
+		formatStringDefinition = ""
+
+	measure Measure
+		lineageTag: 62974a27-99c1-437b-b2d1-d279a68d683b
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	measure '_02 PY_Monetary' = ```
+			
+			    Time_Intelligence(
+			        [_01 AC_Monetary],
+			        "PY"
+			    )
+			```
+		displayFolder: _02 PY
+		lineageTag: ed6e550f-a804-4507-a125-d458f442e681
+
+		formatStringDefinition = "0"
+
+	measure '_02 PY_Recency' = ```
+			
+			    Time_Intelligence(
+			        [_01 AC_Recency],
+			        "PY"
+			    )
+			```
+		displayFolder: _02 PY
+		lineageTag: ca46512a-f956-4aec-97a7-b1c9c01a6c5d
+
+		formatStringDefinition = ""
+
+	measure '_03 △PY_Frequency' = ```
+			
+			    Time_Intelligence(
+			        [_01 AC_Frequency], "YoY"
+			    )
+			```
+		displayFolder: _03 △PY
+		lineageTag: 658ae619-f8e7-4ac3-bd54-21bc0e49e209
+
+		formatStringDefinition = ""
+
+	measure '_03 △PY_Monetary' = ```
+			
+			    Time_Intelligence(
+			        [_01 AC_Monetary], "YoY"
+			    )
+			```
+		displayFolder: _03 △PY
+		lineageTag: 7e0b203f-474d-42ad-97e7-a583eebd8b75
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_03 △PY_Recency' = ```
+			
+			    Time_Intelligence(
+			        [_01 AC_Recency], "YoY"
+			    )
+			```
+		displayFolder: _03 △PY
+		lineageTag: 75174331-2c53-4e0b-954f-d80641a7f628
+
+		formatStringDefinition = ""
+
+	measure '_04 △PY%_Frequency' = ```
+			
+			    Time_Intelligence(
+			        [_01 AC_Frequency], "YoY%"
+			    )
+			```
+		displayFolder: _04 △PY%
+		lineageTag: 003d013e-34f3-48e8-959f-33defb32c47f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_04 △PY%_Monetary' = ```
+			
+			    Time_Intelligence(
+			        [_01 AC_Monetary], "YoY%"
+			    )
+			```
+		displayFolder: _04 △PY%
+		lineageTag: dfcfff1b-a37c-4b96-9b56-dd7170aa45e4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_00 Customer Names & Totals' =
+			
+			VAR _IsRow =
+			    ISINSCOPE ( hh_demographic[household_key] )
+			
+			VAR _HasAC =
+			    NOT (
+			        ISBLANK ( [_01 AC_Frequency] )
+			            && ISBLANK ( [_01 AC_Monetary] )
+			            && ISBLANK ( [_01 AC_Recency] )
+			    )
+			
+			VAR _HasPY =
+			    NOT (
+			        ISBLANK ( [_02 PY_Frequency] )
+			            && ISBLANK ( [_02 PY_Monetary] )
+			            && ISBLANK ( [_02 PY_Recency] )
+			    )
+			
+			RETURN
+			IF (
+			    _IsRow,
+			    IF (
+			        _HasAC || _HasPY,
+			        SELECTEDVALUE ( hh_demographic[household_key] ),
+			        BLANK()
+			    ),
+			    "PY "
+			        & FORMAT ( [_00 PY_Customers] + 0, "# ##0" )
+			        & " AC "
+			        & FORMAT ( [_00 AC_Customers] + 0, "# ##0" )
+			)
+		lineageTag: edebaf42-bd6c-4fcc-af10-f38b40dc3fa6
+
+		formatStringDefinition = ""
+
+	measure '_00 AC_Customers' =
+			
+			DISTINCTCOUNT ( hh_demographic[household_key] )
+		formatString: 0
+		lineageTag: 28427486-0b00-4f30-b8c1-bf635e62c2e2
+
+	measure '_00 PY_Customers' =
+			
+			VAR _SelectedYear =
+			    SELECTEDVALUE ( Dim_Date[CalendarDate] )
+			RETURN
+			CALCULATE (
+			    DISTINCTCOUNT ( hh_demographic[household_key] ),
+			    REMOVEFILTERS ( Dim_Date ),
+			    Dim_Date[Year] = _SelectedYear - 1
+			)
+		formatString: 0
+		displayFolder: RFM Score
+		lineageTag: baaa7ee3-b054-43e6-a32e-c8f20e2644cc
+
+	measure '_06 RFM Segment Sort Order' =
+			
+			IF(
+			    ISINSCOPE( hh_demographic[household_key] ),
+			    VAR Segment = [_05 RFM Customer Segment]
+			    RETURN
+			    SWITCH(
+			        Segment,
+			        "Champions", 1,
+			        "Loyal", 2,
+			        "Potential Loyalist", 3,
+			        "New Customers", 4,
+			        "Promising", 5,
+			        "Need Attention", 6,
+			        "About to Sleep", 7,
+			        "Cannot Lose Them but Losing", 8,
+			        "At Risk", 9,
+			        "Hibernating Customers", 10,
+			        "Lost Customers", 11,
+			        "Other", 999,
+			        BLANK()
+			    ),
+			    BLANK()
+			)
+		formatString: 0
+		lineageTag: c83cea26-7989-4cdf-a9d6-bfbc2153e5f3
+
+	measure '_06 Customer Count by Segment' = ```
+			
+			SUMX(
+			    VALUES( 'RFM Segments'[Segment] ),
+			    VAR CurrentSegment = 'RFM Segments'[Segment]
+			    RETURN
+			        CALCULATE(
+			            DISTINCTCOUNT( hh_demographic[household_key] ),
+			            FILTER( hh_demographic, [_05 RFM Customer Segment] = CurrentSegment )
+			        )
+			)
+			
+			// _06 Customer Count by Segment = 
+			// VAR CurrentSegment = SELECTEDVALUE('RFM Segments'[Segment])
+			// RETURN
+			// CALCULATE(
+			//     DISTINCTCOUNT(hh_demographic[household_key]),
+			//     FILTER(
+			//         hh_demographic,
+			//         [_05 RFM Customer Segment] = CurrentSegment
+			//     )
+			// )
+			
+			
+			
+			```
+		formatString: 0
+		lineageTag: 1c5ca53c-9987-40fe-b4bf-8c808d237d31
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure '_07 Is Selected Segment' =
+			
+			VAR SelectedSeg = SELECTEDVALUE( 'RFM Segments'[Segment] )
+			RETURN
+			IF(
+			    ISBLANK( SelectedSeg ),
+			    1,                                        -- nothing clicked yet, show all rows
+			    IF( [_05 RFM Customer Segment] = SelectedSeg, 1, 0 )
+			)
+		formatString: 0
+		lineageTag: 48160e64-3871-4226-ab8d-331b87ae1854
+
+	measure '_08 Monetary by Segment' = ```
+			
+			SUMX(
+			    VALUES( 'RFM Segments'[Segment] ),
+			    VAR CurrentSegment = 'RFM Segments'[Segment]
+			    RETURN
+			        CALCULATE(
+			            [_01 AC_Monetary],
+			            FILTER( hh_demographic, [_05 RFM Customer Segment] = CurrentSegment )
+			        )
+			)
+			
+			// _08 Monetary by Segment = 
+			// VAR CurrentSegment = SELECTEDVALUE( 'RFM Segments'[Segment] )
+			// RETURN
+			// CALCULATE(
+			//     [_01 AC_Monetary],
+			//     FILTER(
+			//         hh_demographic,
+			//         [_05 RFM Customer Segment] = CurrentSegment
+			//     )
+			// )
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 2af5d01b-3374-41b0-855b-74be248a1e0f
+
+	measure '_09 Avg Monetary per Customer' =
+			
+			DIVIDE( [_08 Monetary by Segment], [_06 Customer Count by Segment] )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 97449eb1-d4a4-48e1-a387-7b1d7eaee38b
+
+	measure '_10 Monetary % of Total' = ```
+			
+			VAR TotalMonetary =
+			    SUMX( ALL( 'RFM Segments'[Segment] ), [_08 Monetary by Segment] )
+			RETURN
+			DIVIDE( [_08 Monetary by Segment], TotalMonetary )
+			
+			
+			```
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		lineageTag: 3e57bcd3-a898-4079-8e53-62e661d62976
+
+	measure '_08 Monetary by Segment PY' =
+			
+			CALCULATE(
+			    [_08 Monetary by Segment],
+			    DATEADD( Dim_Date[CalendarDate], -1, YEAR )
+			)
+		lineageTag: ed3acc17-27d2-4f86-8ae2-1e3e84e17282
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_16 Monetary AC vs PY Bar' =
+			
+			IF(
+			    HASONEVALUE( 'RFM Segments'[Segment] ),
+			    VAR AC = [_08 Monetary by Segment]
+			    VAR PY = [_08 Monetary by Segment PY]
+			    VAR MaxVal =
+			        MAXX(
+			            ALL( 'RFM Segments'[Segment] ),
+			            VAR a = [_08 Monetary by Segment]
+			            VAR p = [_08 Monetary by Segment PY]
+			            RETURN MAX( a, p )
+			        )
+			    VAR AcPct = INT( DIVIDE( AC, MaxVal ) * 100 )
+			    VAR PyPct = INT( DIVIDE( PY, MaxVal ) * 98 )
+			    VAR PyMarker =
+			        IF(
+			            ISBLANK( PY ),
+			            "",
+			            "<rect x='" & PyPct & "%' y='0' width='2' height='20' fill='%23333333'/>"
+			        )
+			    RETURN
+			        "data:image/svg+xml;utf8," &
+			        "<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='20'>" &
+			        "<rect x='0' y='3' width='" & AcPct & "%' height='14' fill='%23118DFF'/>" &
+			        PyMarker &
+			        "</svg>"
+			)
+		lineageTag: 8ec205ac-8abb-4bd1-992f-1a1136f3460b
+		dataCategory: ImageUrl
+
+	measure '_06 Customer Count by Segment PY' =
+			
+			CALCULATE(
+			    [_06 Customer Count by Segment],
+			    DATEADD( Dim_Date[CalendarDate], -1, YEAR )
+			)
+		formatString: 0
+		lineageTag: ab224a6b-6e60-414b-bd4f-8ff690f83525
+
+	measure '_09 Avg Monetary per Customer PY' =
+			
+			CALCULATE(
+			    [_09 Avg Monetary per Customer],
+			    DATEADD( Dim_Date[CalendarDate], -1, YEAR )
+			)
+		lineageTag: a8d02933-4c24-4c42-908b-a1c866c08ce5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_06PY Customer Count by Segment PY' =
+			
+			SUMX(
+			    VALUES( 'RFM Segments'[Segment] ),
+			    VAR CurrentSegment = 'RFM Segments'[Segment]
+			    RETURN
+			        CALCULATE(
+			            DISTINCTCOUNT( hh_demographic[household_key] ),
+			            FILTER( hh_demographic, [_05 RFM Customer Segment] = CurrentSegment ),
+			            DATEADD( Dim_Date[CalendarDate], -1, YEAR )
+			        )
+			)
+		formatString: 0
+		displayFolder: _04 △PY%
+		lineageTag: 169e2d34-c01a-4fbe-a0af-fce9253e0460
+
+	measure '_09PY Avg Monetary per Customer PY' =
+			
+			DIVIDE( [_08 Monetary by Segment PY], [_06PY Customer Count by Segment PY] )
+		displayFolder: _04 △PY%
+		lineageTag: 6d0f3d59-e127-4459-ab60-fbb6157550f2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_RFM Selected Current' =
+			
+			VAR M = SELECTEDVALUE( 'RFM Metric Selector'[MetricName] )
+			RETURN
+			SWITCH( M,
+			    "Customer Count", [_06 Customer Count by Segment],
+			    "Avg Monetary per Customer", [_09 Avg Monetary per Customer],
+			    "Monetary by Segment", [_08 Monetary by Segment],
+			    BLANK()
+			)
+		lineageTag: 9c8fd367-7d44-4946-bdcc-49b02a964888
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_RFM Selected PY' =
+			
+			VAR M = SELECTEDVALUE( 'RFM Metric Selector'[MetricName] )
+			RETURN
+			SWITCH( M,
+			    "Customer Count", [_06 Customer Count by Segment PY],
+			    "Avg Monetary per Customer", [_09PY Avg Monetary per Customer PY],
+			    "Monetary by Segment", [_08 Monetary by Segment PY],
+			    BLANK()
+			)
+		lineageTag: 37d7c7ad-03a9-4f60-8f69-81ec9bb0afc5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Column1
+		dataType: string
+		lineageTag: 8a8c78e3-0639-4379-aeaf-7b3b6b5893d1
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition RFM = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

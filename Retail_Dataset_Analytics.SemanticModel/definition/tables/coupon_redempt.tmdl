@@ -1,0 +1,83 @@
+table coupon_redempt
+	lineageTag: b51e74d7-2ec8-4f27-8303-6b3965064d18
+
+	measure 'Household Redemption Rate' = ```
+			
+			VAR HouseholdsTargeted = 
+			    DISTINCTCOUNT(campaign_table[household_key])
+			VAR HouseholdsRedeemed = 
+			    DISTINCTCOUNT(coupon_redempt[household_key])
+			RETURN
+			    DIVIDE(HouseholdsRedeemed, HouseholdsTargeted)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 9e945db2-2907-4b17-862b-839a44ba501c
+
+	measure 'Coupon Redemption Rate' =
+			
+			VAR Total_Coupons_Available = DISTINCTCOUNT(coupon[COUPON_UPC])
+			
+			VAR Coupons_Redeemed = DISTINCTCOUNT(coupon_redempt[COUPON_UPC])
+			
+			RETURN
+			    DIVIDE(Coupons_Redeemed, Total_Coupons_Available)
+		lineageTag: c49fbdcc-6afc-4c6f-945c-63f1a32d10fb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column household_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 324deb3f-2ad1-4f07-a4cd-b9e1aa34706e
+		summarizeBy: none
+		sourceColumn: household_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DAY
+		dataType: int64
+		formatString: 0
+		lineageTag: 3c571901-d27f-481b-8ab4-21bac564a304
+		summarizeBy: none
+		sourceColumn: DAY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column COUPON_UPC
+		dataType: string
+		lineageTag: f413a3cf-a469-4d42-bc05-029fadbf72f3
+		summarizeBy: none
+		sourceColumn: COUPON_UPC
+
+		changedProperty = IsHidden
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column CAMPAIGN
+		dataType: int64
+		formatString: 0
+		lineageTag: d6e92e22-2bbb-459d-9212-1608b653805e
+		summarizeBy: none
+		sourceColumn: CAMPAIGN
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition coupon_redempt = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"aerial-garden-503813-r8_Database" = Source{[Name="aerial-garden-503813-r8",Kind="Database"]}[Data],
+				    Retail_Dataset_Schema = #"aerial-garden-503813-r8_Database"{[Name="Retail_Dataset",Kind="Schema"]}[Data],
+				    coupon_redempt_Table = Retail_Dataset_Schema{[Name="coupon_redempt",Kind="Table"]}[Data]
+				in
+				    coupon_redempt_Table
+

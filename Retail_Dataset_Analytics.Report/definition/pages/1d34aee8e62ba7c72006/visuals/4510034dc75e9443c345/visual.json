@@ -1,0 +1,376 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "4510034dc75e9443c345",
+  "position": {
+    "x": 175.71428571428572,
+    "y": 97.142857142857153,
+    "z": 1000,
+    "height": 418.57142857142861,
+    "width": 995.71428571428578,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "RFM Segments"
+                    }
+                  },
+                  "Property": "Segment"
+                }
+              },
+              "queryRef": "RFM Segments.Segment",
+              "nativeQueryRef": "Segment",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "RFM"
+                    }
+                  },
+                  "Property": "_06 Customer Count by Segment PY"
+                }
+              },
+              "queryRef": "RFM._06 Customer Count by Segment PY",
+              "nativeQueryRef": "Customer Count by Segment PY",
+              "displayName": "Customer Count by Segment PY"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "RFM"
+                    }
+                  },
+                  "Property": "_06 Customer Count by Segment"
+                }
+              },
+              "queryRef": "RFM._06 Customer Count by Segment",
+              "nativeQueryRef": "Customer Count by Segment",
+              "displayName": "Customer Count by Segment"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "RFM"
+                    }
+                  },
+                  "Property": "_09 Avg Monetary per Customer PY"
+                }
+              },
+              "queryRef": "RFM._09 Avg Monetary per Customer PY",
+              "nativeQueryRef": "Avg Monetary per Customer PY",
+              "displayName": "Avg Monetary per Customer PY"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "RFM"
+                    }
+                  },
+                  "Property": "_09 Avg Monetary per Customer"
+                }
+              },
+              "queryRef": "RFM._09 Avg Monetary per Customer",
+              "nativeQueryRef": "Avg Monetary per Customer",
+              "displayName": "Avg Monetary per Customer"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "RFM"
+                    }
+                  },
+                  "Property": "_08 Monetary by Segment PY"
+                }
+              },
+              "queryRef": "RFM._13 Monetary by Segment PY",
+              "nativeQueryRef": "Monetary by Segment PY",
+              "displayName": "Monetary by Segment PY"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "RFM"
+                    }
+                  },
+                  "Property": "_08 Monetary by Segment"
+                }
+              },
+              "queryRef": "RFM._08 Monetary by Segment",
+              "nativeQueryRef": "Monetary by Segment",
+              "displayName": "Monetary by Segment"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "RFM"
+                    }
+                  },
+                  "Property": "_10 Monetary % of Total"
+                }
+              },
+              "queryRef": "RFM._10 Monetary % of Total",
+              "nativeQueryRef": "Monetary % of Total",
+              "displayName": "Monetary % of Total"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "RFM"
+                  }
+                },
+                "Property": "_08 Monetary by Segment"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnFormatting": [
+        {
+          "properties": {},
+          "selector": {
+            "metadata": "RFM._08 Monetary by Segment"
+          }
+        },
+        {
+          "properties": {},
+          "selector": {
+            "metadata": "RFM._09 Avg Monetary per Customer"
+          }
+        },
+        {
+          "properties": {},
+          "selector": {
+            "metadata": "RFM._06 Customer Count by Segment"
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {},
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "RFM._06 Customer Count by Segment"
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "imageHeight": {
+              "expr": {
+                "Literal": {
+                  "Value": "25D"
+                }
+              }
+            },
+            "imageWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "100D"
+                }
+              }
+            },
+            "textSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "107.40673874011307D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "RFM._06 Customer Count by Segment"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "117.36657597433059D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "RFM._06 Customer Count by Segment PY"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "115.38155593334832D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "RFM._09 Avg Monetary per Customer"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "116.94706064445757D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "RFM._13 Monetary by Segment PY"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "120.84073794126638D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "RFM._08 Monetary by Segment"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "90.14823321392251D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "RFM._10 Monetary % of Total"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "110.00441954038799D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "RFM._09 Avg Monetary per Customer PY"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "193.99150438165879D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "RFM Segments.Segment"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "visualTooltip": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "showTooltipButton": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

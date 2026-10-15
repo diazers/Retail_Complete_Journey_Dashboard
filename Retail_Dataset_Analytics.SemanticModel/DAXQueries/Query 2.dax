@@ -1,0 +1,110 @@
+DEFINE
+    FUNCTION PowerofBI.IBCS.BarChart.AbsoluteVariance = /// Creates a bar chart that shows the absolute variance between two values
+/// @param {scalar} valueMain
+/// @param {string} dataLabel
+/// @param {boolean} isTotalRow
+/// @param {scalar} valueMax
+/// @param {scalar} valueMin
+/// @param {scalar} valueScale
+/// @returns SVG image
+(
+    valueMain: SCALAR VAL,
+    dataLabel: STRING VAL,  
+    isTotalRow: BOOLEAN VAL, 
+    valueMax: SCALAR VAL,  
+    valueMin: SCALAR VAL,    
+    valueScale: SCALAR VAL
+)
+=> 
+VAR _Rank =
+    1000000000000
+        + ROUND ( valueMain + ABS ( valueMin ), 0 )
+VAR _SVG_Width = 400
+VAR _ColorGrey = "#A6A6A6"
+VAR _ColorRed = "#FF0000"
+VAR _ColorGreen = "#8CB400"
+VAR _Em = 16 * 4 / 3
+VAR _SVG_LeftPadding = 130   -- CHANGED from 180
+VAR _SVG_RightPadding = 130  -- CHANGED from 180
+VAR _SVG_ColumnWidth = _SVG_Width - _SVG_LeftPadding - _SVG_RightPadding
+VAR _Scale =
+    DIVIDE ( _SVG_ColumnWidth, valueScale )
+VAR _FontWeight =
+    IF (
+        isTotalRow,
+        "bold",
+        "normal"
+    )
+VAR _AxisYPosition =
+    _SVG_LeftPadding
+        + IF (
+            valueMin >= 0,
+            0,
+            ROUND (
+                DIVIDE ( ABS ( valueMin ), ABS ( valueMin ) + valueMax ) * _SVG_ColumnWidth,
+                0
+            )
+        )
+VAR _WidthValue =
+    ROUND ( ABS ( valueMain ) * _Scale, 0 )
+VAR _barColor =
+    IF ( valueMain > 0, _ColorGreen, _ColorRed )
+VAR _X =
+    SWITCH (
+        TRUE (),
+        valueMain >= 0, _AxisYPosition,
+        valueMain < 0, _AxisYPosition - _WidthValue
+    )
+VAR _XText =
+    SWITCH (
+        TRUE (),
+        valueMain >= 0, _AxisYPosition + _WidthValue,
+        valueMain < 0, _X
+    )
+VAR _Anchor =
+    IF (
+        isTotalRow,
+        "middle",
+        IF ( valueMain >= 0, "start", "end" )
+    )
+VAR _DX =
+    SWITCH (
+        TRUE (),
+        valueMain >= 0, 5,
+        valueMain < 0, -5
+    )
+VAR _SVG_Header = "data:image/svg+xml;utf8,"
+VAR _SVG_Open = "<svg xmlns='http://www.w3.org/2000/svg' width='" & _SVG_Width & "' >"
+VAR _SVG_Style = "<style>
+      text{
+        font-family: Inter, sans-serif;
+        font-size: " & _Em & "px;
+        font-weight: " & _FontWeight & ";
+        dominant-baseline: central;
+        text-anchor: " & _Anchor & ";
+      }
+  </style>"
+VAR _SVG_Close = "</svg>"
+VAR _SVG_SortBy = "/*SortBy:" & _Rank & "*/"
+VAR _SVG_AxisY = "<line  x1='" & _AxisYPosition & "' x2='" & _AxisYPosition & "' y1='0%' y2='100%' stroke='" & _ColorGrey & "' stroke-width='" & _Em * 0.2 & "'></line >"
+VAR _SVG_BarDeltaPY = "<rect x='" & _X & "' width='" & _WidthValue & "' y='" & _Em * 0.25 & "' height='" & _Em & "' fill='" & _barColor & "' stroke='" & _barColor & "' stroke-width='0.5'></rect>"
+VAR _SVG_TextDeltaPYLabel = "<text x='" & _XText & "' dx='" & _DX & "' y='50%' >" & dataLabel & "</text>"
+VAR _SVG_TextDeltaPYLabelTotal = "<text x='" & _AxisYPosition & "' dx='" & 0 & "' y='50%' >" & dataLabel & "</text>"
+VAR _SVG_Total = _SVG_Header & _SVG_Open & _SVG_TextDeltaPYLabelTotal & _SVG_Style & _SVG_Close
+VAR _SVG_Row = _SVG_Header & _SVG_Open & _SVG_SortBy & _SVG_SortBy & _SVG_AxisY & _SVG_BarDeltaPY & _SVG_TextDeltaPYLabel & _SVG_Style & _SVG_Close
+VAR _SVG =
+    IF ( isTotalRow, _SVG_Total, _SVG_Row )
+RETURN
+    _SVG
+
+EVALUATE
+    {
+        PowerofBI.IBCS.BarChart.AbsoluteVariance(
+            19.9,
+            "+19.9",
+            FALSE,
+            40.1,
+            -12.0,
+            200.0
+        )
+    }

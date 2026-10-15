@@ -1,0 +1,59 @@
+table campaign_desc
+	lineageTag: 1120fd50-0eb3-4cfb-8376-4cfa5ae3bceb
+
+	column DESCRIPTION
+		dataType: string
+		lineageTag: 6f3bdab5-b1b3-4a16-9e23-9c5fa861129b
+		summarizeBy: none
+		sourceColumn: DESCRIPTION
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CAMPAIGN
+		dataType: int64
+		formatString: 0
+		lineageTag: 553fdd11-e6c5-42b1-a9a4-2cdf68fc3f90
+		summarizeBy: none
+		sourceColumn: CAMPAIGN
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column START_DAY
+		dataType: int64
+		formatString: 0
+		lineageTag: 973c8f83-b2fa-4b06-8909-4bad9445722a
+		summarizeBy: sum
+		sourceColumn: START_DAY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column END_DAY
+		dataType: int64
+		formatString: 0
+		lineageTag: cc0c4400-d98d-46a4-ac4a-2361fa2317b2
+		summarizeBy: sum
+		sourceColumn: END_DAY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition campaign_desc = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"aerial-garden-503813-r8_Database" = Source{[Name="aerial-garden-503813-r8",Kind="Database"]}[Data],
+				    Retail_Dataset_Schema = #"aerial-garden-503813-r8_Database"{[Name="Retail_Dataset",Kind="Schema"]}[Data],
+				    campaign_desc_Table = Retail_Dataset_Schema{[Name="campaign_desc",Kind="Table"]}[Data]
+				in
+				    campaign_desc_Table
+
+	annotation PBI_ResultType = Table
+

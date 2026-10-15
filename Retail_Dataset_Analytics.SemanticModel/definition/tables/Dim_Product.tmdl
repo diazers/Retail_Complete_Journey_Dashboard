@@ -1,0 +1,86 @@
+table Dim_Product
+	lineageTag: 71edbdec-e9cc-4b2c-846a-237f84f78d79
+
+	column PRODUCT_ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 7d803a31-49fc-4954-98de-ce98a1152ce7
+		summarizeBy: none
+		sourceColumn: PRODUCT_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPARTMENT
+		dataType: string
+		lineageTag: 807522bc-75a7-43ce-b42a-d7e157fac6fa
+		summarizeBy: none
+		sourceColumn: DEPARTMENT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column COMMODITY_DESC
+		dataType: string
+		lineageTag: e6288080-fa70-43f8-a9ff-25208c243e25
+		summarizeBy: none
+		sourceColumn: COMMODITY_DESC
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SUB_COMMODITY_DESC
+		dataType: string
+		lineageTag: 1dbb1ec1-dda7-4dd8-a3fd-1f5876c1ed49
+		summarizeBy: none
+		sourceColumn: SUB_COMMODITY_DESC
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column BRAND
+		dataType: string
+		lineageTag: e093c058-3d80-471c-8d3f-3bc9531d7b65
+		summarizeBy: none
+		sourceColumn: BRAND
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MANUFACTURER
+		dataType: int64
+		formatString: 0
+		lineageTag: 596e9933-59d4-430d-b1b3-35f351e16e67
+		summarizeBy: sum
+		sourceColumn: MANUFACTURER
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CURR_SIZE_OF_PRODUCT
+		dataType: string
+		lineageTag: 604363e6-65c0-40f4-af3e-b8adc35cd6b7
+		summarizeBy: none
+		sourceColumn: CURR_SIZE_OF_PRODUCT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Product = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"aerial-garden-503813-r8_Database" = Source{[Name="aerial-garden-503813-r8",Kind="Database"]}[Data],
+				    Retail_Dataset_Schema = #"aerial-garden-503813-r8_Database"{[Name="Retail_Dataset",Kind="Schema"]}[Data],
+				    Dim_Product_Table = Retail_Dataset_Schema{[Name="Dim_Product",Kind="Table"]}[Data]
+				in
+				    Dim_Product_Table
+

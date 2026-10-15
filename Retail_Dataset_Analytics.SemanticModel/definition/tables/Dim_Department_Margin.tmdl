@@ -1,0 +1,36 @@
+table Dim_Department_Margin
+	lineageTag: 6a171c96-d3ec-4d04-978e-04627c73198a
+
+	column DEPARTMENT
+		dataType: string
+		lineageTag: 0c3e30a0-f00f-4b85-b764-a89e54733d6d
+		summarizeBy: none
+		sourceColumn: DEPARTMENT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AssumedMargin
+		dataType: double
+		lineageTag: dbc42bf3-aa61-41aa-9f55-be632962b249
+		summarizeBy: none
+		sourceColumn: AssumedMargin
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Dim_Department_Margin = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"aerial-garden-503813-r8_Database" = Source{[Name="aerial-garden-503813-r8",Kind="Database"]}[Data],
+				    Retail_Dataset_Schema = #"aerial-garden-503813-r8_Database"{[Name="Retail_Dataset",Kind="Schema"]}[Data],
+				    Dim_Department_Margin_Table = Retail_Dataset_Schema{[Name="Dim_Department_Margin",Kind="Table"]}[Data]
+				in
+				    Dim_Department_Margin_Table
+

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "77be3d448d3958eafdeb",
+  "position": {
+    "x": 929.17705735660854,
+    "y": 292.2194513715711,
+    "z": 4000,
+    "height": 288.17955112219454,
+    "width": 962.84289276807976,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "columnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Basket Summary"
+                    }
+                  },
+                  "Property": "Basket Value Bin"
+                }
+              },
+              "queryRef": "Basket Summary.Basket Value Bin",
+              "nativeQueryRef": "Basket Value Bin",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Basket Summary"
+                        }
+                      },
+                      "Property": "BASKET_ID"
+                    }
+                  },
+                  "Function": 5
+                }
+              },
+              "queryRef": "CountNonNull(Basket Summary.BASKET_ID)",
+              "nativeQueryRef": "Count of BASKET_ID"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,33 @@
+table 'Cohort Offset'
+	lineageTag: 516a90c3-d6ec-455a-afdc-7244052ebaec
+
+	column 'Month Offset'
+		formatString: 0
+		lineageTag: c59e583e-184c-47fe-932c-d20be1d931ff
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Month Offset]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Offset Label'
+		lineageTag: e3910267-1a6c-41bd-85c8-2fbfc1f10a91
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Offset Label]
+		sortByColumn: 'Month Offset'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Cohort Offset' = calculated
+		mode: import
+		source =
+				
+				SELECTCOLUMNS (
+				    GENERATESERIES ( 0, 24, 1 ),
+				    "Month Offset", [Value],
+				    "Offset Label", "M" & [Value]
+				)
+
+	annotation PBI_Id = 590f5797f61c4a80a39c852d105a9419
+

@@ -1,0 +1,12 @@
+table 'Highlight Selector'
+	lineageTag: 6f7a063e-724f-461a-b7a6-ad936a034d63
+
+	column 'Display Category'
+		lineageTag: a0683a38-d6f3-4714-8774-b90ada8c7dce
+		isNameInferred
+		sourceColumn: Aisle Mapping[Display Category]
+
+	partition 'Highlight Selector' = calculated
+		mode: import
+		source = DISTINCT('Aisle Mapping'[Display Category])
+

@@ -1,0 +1,834 @@
+table IBCSWaterfall
+	lineageTag: 4384a5ad-f7c1-4ef6-93c2-dccfcb1af7bc
+
+	measure '_00 Baseline' = 0
+		formatString: 0
+		lineageTag: 6236d937-491e-422e-aecb-ecaa6db075d8
+
+	measure '_01 Net Sales' = SUM( Fact_Sales_GPMargin[SALES_VALUE] ) / 1000
+		lineageTag: 204241e5-a145-4f5e-a086-5c9469dfd46c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_02 PY Net Sales' =
+			
+			IF(
+			    HASONEVALUE( Dim_Date[Year] ),
+			    CALCULATE(
+			        [_01 Net Sales],
+			        SAMEPERIODLASTYEAR( Dim_Date[CalendarDate] )
+			    ),
+			    BLANK()
+			)
+		lineageTag: af11093b-7ed2-4d35-890f-5b74aba25dfc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_03 △PY Net Sales' = ```
+			
+			IF(
+			    HASONEVALUE(Dim_Date[Year]) 
+			    && NOT(ISBLANK( [_02 PY Net Sales] )) 
+			    && NOT(ISBLANK( [_01 Net Sales] )) 
+			    && [_01 Net Sales] <> 0,
+			    [_01 Net Sales] - [_02 PY Net Sales],
+			    BLANK()
+			)
+			```
+		lineageTag: 06c729c8-fd0b-4ea9-966f-293843cce96e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_04 △PY% Net Sales' =
+			
+			IF(
+			    ISBLANK([_01 Net Sales]) || [_01 Net Sales] = 0,
+			    "--",
+			    DIVIDE([_01 Net Sales] - [_02 PY Net Sales], [_02 PY Net Sales], 0)
+			)
+		lineageTag: eba8c066-26da-4ba5-94fe-574765c8878d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_02 PY_Waterfall' = ```
+			
+			VAR SelectedYear = SELECTEDVALUE( Dim_Date[Year] )
+			VAR SelectedHierarchyOrder = SELECTEDVALUE( PHierarchy[PHierarchy Order] )
+			VAR CategoryValue = 
+			    IF(
+			        SelectedHierarchyOrder = 0,  // Quarter hierarchy
+			        SELECTEDVALUE( 'Table_Waterfall'[Category 1] ),
+			        SELECTEDVALUE( 'Table_Waterfall'[Category 2] )  // Month hierarchy
+			    )
+			RETURN
+			SWITCH(
+			    CategoryValue,
+			    "Previous Year", 
+			        CALCULATE(
+			            [_01 Net Sales], 
+			            ALL('Dim_Date'),
+			            Dim_Date[Year] = SelectedYear - 1,
+			            REMOVEFILTERS('Table_Waterfall')
+			        ),
+			    BLANK()
+			)
+			```
+		lineageTag: 4b538e76-138c-40d9-b085-827e09037c45
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_01 AC_Waterfall' = ```
+			
+			VAR SelectedYear = SELECTEDVALUE( Dim_Date[Year] )
+			VAR SelectedHierarchyOrder = SELECTEDVALUE( PHierarchy[PHierarchy Order] )
+			VAR CategoryValue = 
+			    IF(
+			        SelectedHierarchyOrder = 0,  // Quarter hierarchy
+			        SELECTEDVALUE( 'Table_Waterfall'[Category 1] ),
+			        SELECTEDVALUE( 'Table_Waterfall'[Category 2] )  // Month hierarchy
+			    )
+			RETURN
+			SWITCH(
+			    CategoryValue,
+			    "Current Year", 
+			        CALCULATE(
+			            [_01 Net Sales], 
+			            Dim_Date[Year] = SelectedYear
+			        ),
+			    BLANK()
+			)
+			```
+		lineageTag: b7d1bf57-d26e-4654-b90c-8c808ec18076
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_03 Q-M/△PY_Waterfall' = ```
+			
+			VAR IsSingleMonth = 
+			    HASONEVALUE('Table_Waterfall'[Month Number]) 
+			    && SELECTEDVALUE('Table_Waterfall'[Month Number]) > 0
+			VAR CurrentMonthNum = SELECTEDVALUE('Table_Waterfall'[Month Number])
+			VAR CurrentQuarterNum = SELECTEDVALUE('Table_Waterfall'[Quarter Number])
+			RETURN
+			IF(
+			    IsSingleMonth,
+			    CALCULATE( [_03 △PY Net Sales], TREATAS({ CurrentMonthNum }, 'Dim_Date'[Month]) ),
+			    CALCULATE( [_03 △PY Net Sales], TREATAS({ CurrentQuarterNum }, 'Dim_Date'[Quarter]) )
+			)
+			
+			
+			
+			// _03 Q-M/△PY_Waterfall = 
+			// VAR CurrentMonthNum = SELECTEDVALUE('Table_Waterfall'[Month Number])
+			// RETURN
+			// CALCULATE(
+			//     [_03 △PY Net Sales],
+			//     TREATAS({ CurrentMonthNum }, 'Dim_Date'[Month])
+			// )
+			
+			
+			
+			
+			// _03 Q-M/△PY_Waterfall = 
+			// VAR IsMonthly = SELECTEDVALUE('Table_Waterfall'[Category 2]) = "Monthly YoY"
+			// RETURN
+			// IF(
+			//     IsMonthly,
+			//     [_03 △PY Net Sales],
+			//     BLANK()
+			// )
+			```
+		lineageTag: 6727b37b-b016-4027-a04b-cc3a0e753f8f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_03A (+) Q-M/△PY_Waterfall' =
+			
+			IF(
+			    [_03 Q-M/△PY_Waterfall] > 0,
+			    [_03 Q-M/△PY_Waterfall],
+			    BLANK()
+			)
+		lineageTag: 0ecf0bf8-ccf8-4b64-ba97-1a444bf4408e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_03B (-) Q-M/△PY_Waterfall' =
+			
+			IF(
+			    [_03 Q-M/△PY_Waterfall] < 0,
+			    [_03 Q-M/△PY_Waterfall] * -1,
+			    BLANK()
+			)
+		lineageTag: 178fe8b7-2efc-49f3-b55d-d32cb2b250c4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_04 Total △PY_Waterfall' = ```
+			
+			VAR SelectedYear = SELECTEDVALUE( Dim_Date[Year] )
+			VAR SelectedHierarchyOrder = SELECTEDVALUE( PHierarchy[PHierarchy Order] )
+			VAR CategoryValue = 
+			    IF(
+			        SelectedHierarchyOrder = 0,  // Quarter hierarchy
+			        SELECTEDVALUE( 'Table_Waterfall'[Category 1] ),
+			        SELECTEDVALUE( 'Table_Waterfall'[Category 2] )  // Month hierarchy
+			    )
+			    
+			RETURN
+			SWITCH(
+			    CategoryValue,
+			    "Total YoY", 
+			        ABS(CALCULATE(
+			            [_03 △PY Net Sales], 
+			            Dim_Date[Year] = SelectedYear
+			        )),
+			    BLANK()
+			)
+			```
+		lineageTag: 77114353-11a7-4e2a-9d8c-a4598434323e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_04A (+) Total △PY_Waterfall' =
+			
+			IF(
+			    [_03 △PY Net Sales] > 0,
+			    [_04 Total △PY_Waterfall],
+			    BLANK()
+			)
+		lineageTag: f61a62e6-9650-4eaa-a73a-203095ef640b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_04B (-) Total △PY_Waterfall' =
+			
+			IF(
+			    [_03 △PY Net Sales] < 0,
+			    [_04 Total △PY_Waterfall],
+			    BLANK()
+			)
+		lineageTag: ef0c50b4-bae2-4b7e-991b-c9fe3403721f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_05 Base Bar_Q-M/△PY' = ```
+			
+			VAR SelectedYear = CALCULATE(MAX('Dim_Date'[Year]), ALLSELECTED('Dim_Date'[Year]))
+			
+			VAR IsSingleMonth = 
+			    HASONEVALUE('Table_Waterfall'[Month Number]) 
+			    && SELECTEDVALUE('Table_Waterfall'[Month Number]) > 0
+			VAR IsSingleQuarter = 
+			    NOT(IsSingleMonth)
+			    && HASONEVALUE('Table_Waterfall'[Quarter Number]) 
+			    && SELECTEDVALUE('Table_Waterfall'[Quarter Number]) > 0
+			
+			VAR CurrentMonthNo = SELECTEDVALUE('Table_Waterfall'[Month Number])
+			VAR CurrentQuarterNo = SELECTEDVALUE('Table_Waterfall'[Quarter Number])
+			
+			VAR PYBase = 
+			    CALCULATE(
+			        [_01 Net Sales],
+			        ALL('Dim_Date'),
+			        'Dim_Date'[Year] = SelectedYear - 1,
+			        REMOVEFILTERS('Table_Waterfall')
+			    )
+			
+			-- ===== MONTH GRAIN =====
+			VAR CumulativePriorVarianceM = 
+			    SUMX(
+			        FILTER(
+			            ALL('Table_Waterfall'),
+			            'Table_Waterfall'[Month Number] < CurrentMonthNo
+			                && 'Table_Waterfall'[Month Number] > 0
+			        ),
+			        VAR PriorMonthNo = 'Table_Waterfall'[Month Number]
+			        RETURN
+			        CALCULATE(
+			            [_03 △PY Net Sales],
+			            TREATAS({ PriorMonthNo }, 'Dim_Date'[Month])
+			        )
+			    )
+			
+			VAR CurrentMonthVariance = 
+			    CALCULATE(
+			        [_03 △PY Net Sales],
+			        TREATAS({ CurrentMonthNo }, 'Dim_Date'[Month])
+			    )
+			
+			VAR BaseHeightM = 
+			    IF(
+			        CurrentMonthVariance < 0,
+			        PYBase + COALESCE(CumulativePriorVarianceM, 0) + CurrentMonthVariance,
+			        PYBase + COALESCE(CumulativePriorVarianceM, 0)
+			    )
+			
+			-- ===== QUARTER GRAIN (dedupe rows first — table has 3 rows per quarter) =====
+			VAR CumulativePriorVarianceQ =
+			    SUMX(
+			        FILTER(
+			            SUMMARIZE( ALL('Table_Waterfall'), 'Table_Waterfall'[Quarter Number] ),
+			            'Table_Waterfall'[Quarter Number] < CurrentQuarterNo
+			                && 'Table_Waterfall'[Quarter Number] > 0
+			        ),
+			        VAR PriorQuarterNo = 'Table_Waterfall'[Quarter Number]
+			        RETURN
+			        CALCULATE(
+			            [_03 △PY Net Sales],
+			            TREATAS({ PriorQuarterNo }, 'Dim_Date'[Quarter])
+			        )
+			    )
+			
+			VAR CurrentQuarterVariance =
+			    CALCULATE(
+			        [_03 △PY Net Sales],
+			        TREATAS({ CurrentQuarterNo }, 'Dim_Date'[Quarter])
+			    )
+			
+			VAR BaseHeightQ =
+			    IF(
+			        CurrentQuarterVariance < 0,
+			        PYBase + COALESCE(CumulativePriorVarianceQ, 0) + CurrentQuarterVariance,
+			        PYBase + COALESCE(CumulativePriorVarianceQ, 0)
+			    )
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    IsSingleMonth,   BaseHeightM,
+			    IsSingleQuarter, BaseHeightQ,
+			    BLANK()
+			)
+			```
+		lineageTag: a485d906-6534-414a-85cd-22fe98249a5f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_05A Base Bar_(+) Q-M/△PY' = ```
+			
+			VAR CurrentSortOrder = SELECTEDVALUE('Table_Waterfall'[Sort Order 2])
+			VAR CurrentVariance = 
+			    CALCULATE(
+			        [_03 △PY Net Sales],
+			        TREATAS({ CurrentSortOrder }, 'Dim_Date'[Month])
+			    )
+			
+			RETURN
+			IF(
+			    CurrentVariance >= 0,
+			    [_05 Base Bar_Q-M/△PY],
+			    BLANK()
+			)
+			```
+		lineageTag: 5366021c-896a-4bf8-a87b-3ef6b9c4e262
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_05B Base Bar_(-) Q-M/△PY' = ```
+			
+			VAR CurrentSortOrder = SELECTEDVALUE('Table_Waterfall'[Sort Order 2])
+			VAR CurrentVariance = 
+			    CALCULATE(
+			        [_03 △PY Net Sales],
+			        TREATAS({ CurrentSortOrder }, 'Dim_Date'[Month])
+			    )
+			
+			RETURN
+			IF(
+			    CurrentVariance < 0,
+			    [_05 Base Bar_Q-M/△PY],
+			    BLANK()
+			)
+			```
+		lineageTag: ea923a40-eda2-4aad-8640-bfc78a7df0cf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_06 Base Bar_Total △PY' = ```
+			
+			VAR SelectedYear = SELECTEDVALUE( Dim_Date[Year] )
+			VAR SelectedHierarchyOrder = SELECTEDVALUE( PHierarchy[PHierarchy Order] )
+			VAR CategoryValue = 
+			    IF(
+			        SelectedHierarchyOrder = 0,  // Quarter hierarchy
+			        SELECTEDVALUE( 'Table_Waterfall'[Category 1] ),
+			        SELECTEDVALUE( 'Table_Waterfall'[Category 2] )  // Month hierarchy
+			    )
+			VAR CurrentMonthlySortOrder = SELECTEDVALUE( 'Table_Waterfall'[Sort Order 2] )
+			VAR CurrentQuarterlySortOrder = SELECTEDVALUE( 'Table_Waterfall'[Sort Order 1] )
+			
+			-- Previous Year Total (respects filtering)
+			VAR PreviousYearValue = 
+			    CALCULATE(
+			        [_01 Net Sales], 
+			        Dim_Date[Year] = SelectedYear - 1
+			    )
+			
+			-- Current Year Total (respects filtering)
+			VAR CurrentYearValue = 
+			    CALCULATE(
+			        [_01 Net Sales], 
+			        Dim_Date[Year] = SelectedYear
+			    )
+			
+			-- Calculate variance
+			VAR VarianceAmount = CurrentYearValue - PreviousYearValue
+			
+			-- Determine base value based on variance direction
+			VAR BaseValue = IF(VarianceAmount > 0, PreviousYearValue, CurrentYearValue)
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    CategoryValue = "Total YoY" && CurrentMonthlySortOrder = 14, BaseValue,
+			    CategoryValue = "Total YoY" && CurrentQuarterlySortOrder = 6, BaseValue,
+			    BLANK()
+			)
+			```
+		lineageTag: af222bcd-6573-4111-9c9a-4b4b6fc0d040
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_01 AC Net Sales' =
+			
+			VAR CurrentYear = SELECTEDVALUE('Dim_Date'[Year])
+			RETURN
+			CALCULATE(
+			    [_01 Net Sales],
+			    Dim_Date[Year] = CurrentYear,
+			    REMOVEFILTERS('Table_Waterfall')
+			)
+		lineageTag: f97806b4-f564-4bb0-81c9-705328f25f64
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_00 Y-Axis Max. Range' = ```
+			
+			VAR SelectedHierarchyOrder = SELECTEDVALUE( 'PHierarchy'[PHierarchy Order] )
+			
+			-- Find highest value from base bars (Running Total)
+			VAR HighestBaseBar = 
+			    IF(
+			        SelectedHierarchyOrder = 0,
+			        MAXX( ALL( 'Table_Waterfall'[Hierarchy 1] ), [_05 Base Bar_Q-M/△PY] ),
+			        MAXX( ALL( 'Table_Waterfall'[Hierarchy 2] ), [_05 Base Bar_Q-M/△PY] )
+			    )
+			
+			-- Find highest AC value (from _01 AC_Waterfall measure)
+			VAR HighestACBar = 
+			    IF(
+			        SelectedHierarchyOrder = 0,
+			        MAXX( ALL( 'Table_Waterfall'[Hierarchy 1] ), [_01 AC_Waterfall] ),
+			        MAXX( ALL( 'Table_Waterfall'[Hierarchy 2] ), [_01 AC_Waterfall] )
+			    )
+			
+			-- Find highest PY value (from _02 PY_Waterfall measure)
+			VAR HighestPYBar = 
+			    IF(
+			        SelectedHierarchyOrder = 0,
+			        MAXX( ALL( 'Table_Waterfall'[Hierarchy 1] ), [_02 PY_Waterfall] ),
+			        MAXX( ALL( 'Table_Waterfall'[Hierarchy 2] ), [_02 PY_Waterfall] )
+			    )
+			
+			-- Find the maximum across all five values
+			VAR HighestValue = 
+			    MAXX(
+			        {
+			            HighestBaseBar,
+			            HighestACBar,
+			            HighestPYBar
+			        },
+			        [Value]
+			    )
+			
+			RETURN
+			    HighestValue * 1.2
+			```
+		lineageTag: cc9d5794-ce0a-4424-b9ba-b071bbd62b48
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_07A Reference Bars_(+) Q-M/△PY Label' = [_03A (+) Q-M/△PY_Waterfall] + [_05A Base Bar_(+) Q-M/△PY]
+		lineageTag: 7079fb37-d932-4f18-a2ce-4b954a1c2e95
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_07B Reference Bars_(+) Total ΔPY Label' =
+			
+			IF(
+			    [_03 △PY Net Sales] > 0,
+			    [_06 Base Bar_Total △PY] + [_04 Total △PY_Waterfall],
+			    BLANK()
+			)
+		lineageTag: 19103f8e-449e-444c-a38b-f350b4b9daa2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_07C Reference Bars_(-) Total ΔPY Label' =
+			
+			IF(
+			    [_03 △PY Net Sales] < 0,
+			    [_06 Base Bar_Total △PY],
+			    BLANK()
+			)
+		lineageTag: 4906fe8f-b5ab-458a-896c-8b42cca5b967
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_04S Total △PY_Waterfall (Signed)' = ```
+			
+			VAR SelectedYear = SELECTEDVALUE( Dim_Date[Year] )
+			VAR SelectedHierarchyOrder = SELECTEDVALUE( PHierarchy[PHierarchy Order] )
+			VAR CategoryValue = 
+			    IF(
+			        SelectedHierarchyOrder = 0,
+			        SELECTEDVALUE( 'Table_Waterfall'[Category 1] ),
+			        SELECTEDVALUE( 'Table_Waterfall'[Category 2] )
+			    )
+			RETURN
+			SWITCH(
+			    CategoryValue,
+			    "Total YoY", 
+			        CALCULATE(
+			            [_03 △PY Net Sales], 
+			            Dim_Date[Year] = SelectedYear
+			        ),
+			    BLANK()
+			)
+			```
+		lineageTag: 99f9ab49-329f-4536-a6cd-eccc08fdad56
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_01 AC_Columns' = ```
+			
+			VAR SelectedYear = SELECTEDVALUE( Dim_Date[Year] )
+			VAR SelectedHierarchyOrder = SELECTEDVALUE( PHierarchy[PHierarchy Order] )
+			VAR CategoryValue = 
+			    IF(
+			        SelectedHierarchyOrder = 0,  // Quarter hierarchy
+			        SELECTEDVALUE( Table_Waterfall[Category 1] ),
+			        SELECTEDVALUE( Table_Waterfall[Category 2] )  // Month hierarchy
+			    )
+			VAR MonthNumber = SELECTEDVALUE( Table_Waterfall[Month Number] )
+			VAR QuarterNumber = SELECTEDVALUE( Table_Waterfall[Quarter Number] )
+			
+			-- Check if period is in filter context
+			VAR IsMonthInFilter = MonthNumber IN VALUES( Dim_Date[Month] )
+			VAR IsQuarterInFilter = QuarterNumber IN VALUES( Dim_Date[Quarter] )
+			
+			-- Current Year Month Value
+			VAR CurrentYearMonth = 
+			    CALCULATE(
+			        [_01 AC Net Sales], 
+			        Dim_Date[Year] = SelectedYear, 
+			        Dim_Date[Month] = MonthNumber
+			    )
+			
+			-- Current Year Quarter Value
+			VAR CurrentYearQuarter = 
+			    CALCULATE(
+			        [_01 AC Net Sales], 
+			        Dim_Date[Year] = SelectedYear, 
+			        Dim_Date[Quarter] = QuarterNumber
+			    )
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    CategoryValue = "Monthly YoY" && IsMonthInFilter, CurrentYearMonth,
+			    CategoryValue = "Quarterly YoY" && IsQuarterInFilter, CurrentYearQuarter,
+			    BLANK()
+			)
+			```
+		displayFolder: Lower Tier
+		lineageTag: 807c63cf-d6dd-4764-9b62-517a3e05e03c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_02 PY_Columns' = ```
+			
+			VAR SelectedYear = SELECTEDVALUE( Dim_Date[Year] )
+			VAR SelectedHierarchyOrder = SELECTEDVALUE( PHierarchy[PHierarchy Order] )
+			VAR CategoryValue = 
+			    IF(
+			        SelectedHierarchyOrder = 0,  // Quarter hierarchy
+			        SELECTEDVALUE(Table_Waterfall[Category 1]),
+			        SELECTEDVALUE(Table_Waterfall[Category 2])  // Month hierarchy
+			    )
+			VAR MonthNumber = SELECTEDVALUE( Table_Waterfall[Month Number] )
+			VAR QuarterNumber = SELECTEDVALUE( Table_Waterfall[Quarter Number] )
+			
+			-- Check if period is in filter context
+			VAR IsMonthInFilter = MonthNumber IN VALUES( Dim_Date[Month] )
+			VAR IsQuarterInFilter = QuarterNumber IN VALUES( Dim_Date[Quarter] )
+			
+			-- Previous Year Month Value
+			VAR PreviousYearMonth = 
+			    CALCULATE(
+			        [_01 AC Net Sales], 
+			        Dim_Date[Year] = SelectedYear - 1, 
+			        Dim_Date[Month] = MonthNumber
+			    )
+			
+			-- Previous Year Quarter Value
+			VAR PreviousYearQuarter = 
+			    CALCULATE(
+			        [_01 AC Net Sales], 
+			        Dim_Date[Year] = SelectedYear - 1, 
+			        Dim_Date[Quarter] = QuarterNumber
+			    )
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    CategoryValue = "Monthly YoY" && IsMonthInFilter, PreviousYearMonth,
+			    CategoryValue = "Quarterly YoY" && IsQuarterInFilter, PreviousYearQuarter,
+			    BLANK()
+			)
+			```
+		displayFolder: Lower Tier
+		lineageTag: b70b002c-3480-4a83-8d1f-97f41e5a0221
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_01A Q-M/△PY%_Pin' = ```
+			
+			VAR SelectedYear = SELECTEDVALUE( Dim_Date[Year] )
+			VAR SelectedHierarchyOrder = SELECTEDVALUE( PHierarchy[PHierarchy Order] )
+			VAR CategoryValue = 
+			    IF(
+			        SelectedHierarchyOrder = 0,  // Quarter hierarchy
+			        SELECTEDVALUE( Table_Waterfall[Category 1] ),
+			        SELECTEDVALUE( Table_Waterfall[Category 2] )  // Month hierarchy
+			    )
+			VAR MonthNumber = SELECTEDVALUE( Table_Waterfall[Month Number] )
+			VAR QuarterNumber = SELECTEDVALUE( Table_Waterfall[Quarter Number] )
+			
+			-- Check if period is in filter context
+			VAR IsMonthInFilter = MonthNumber IN VALUES( Dim_Date[Month] )
+			VAR IsQuarterInFilter = QuarterNumber IN VALUES( Dim_Date[Quarter] )
+			
+			-- Monthly percentage calculation
+			VAR MonthlyPercentage = 
+			    VAR CurrentYearMonth = 
+			        CALCULATE(
+			            [_01 AC Net Sales], 
+			            Dim_Date[Year] = SelectedYear, 
+			            Dim_Date[Month] = MonthNumber
+			        )
+			    VAR PreviousYearMonth = 
+			        CALCULATE(
+			            [_01 AC Net Sales], 
+			            Dim_Date[Year] = SelectedYear - 1, 
+			            Dim_Date[Month] = MonthNumber
+			        )
+			    RETURN DIVIDE( CurrentYearMonth - PreviousYearMonth, PreviousYearMonth )
+			
+			-- Quarterly percentage calculation
+			VAR QuarterlyPercentage = 
+			    VAR CurrentYearQuarter = 
+			        CALCULATE(
+			            [_01 AC Net Sales], 
+			            Dim_Date[Year] = SelectedYear, 
+			            Dim_Date[Quarter] = QuarterNumber
+			        )
+			    VAR PreviousYearQuarter = 
+			        CALCULATE(
+			            [_01 AC Net Sales], 
+			            Dim_Date[Year] = SelectedYear - 1, 
+			            Dim_Date[Quarter] = QuarterNumber
+			        )
+			    RETURN 
+						    DIVIDE( CurrentYearQuarter - PreviousYearQuarter, PreviousYearQuarter )
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    CategoryValue = "Monthly YoY" && IsMonthInFilter, MonthlyPercentage,
+			    CategoryValue = "Quarterly YoY" && IsQuarterInFilter, QuarterlyPercentage,
+			    BLANK()
+			)
+			```
+		displayFolder: Upper Tier
+		lineageTag: 041202ee-ebe0-467a-b755-bc08606625f7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_01B (+) Q-M/△PY%_Pin (Capped Pin)' =
+			
+			VAR _Value = [_01A Q-M/△PY%_Pin]
+			VAR CappedValue =
+			    MIN(1, MAX(-1, _Value))
+			
+			RETURN
+			IF(
+			    CappedValue > 0,
+			    CappedValue
+			)
+		displayFolder: Upper Tier
+		lineageTag: a3abbca6-b0f4-44b1-b6f0-990b6dc8b16c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_01C (-) Q-M/△PY%_Pin (Capped Pin)' =
+			
+			VAR _Value = [_01A Q-M/△PY%_Pin]
+			VAR CappedValue =
+			    MIN(1, MAX(-1, _Value))
+			
+			RETURN
+			IF(
+			    CappedValue < 0,
+			    CappedValue
+			)
+		displayFolder: Upper Tier
+		lineageTag: 81943477-ea8f-40d2-a0db-e12951fbdaf6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_01D Q-M/△PY%_Pin (Pin Head)' =
+			
+			VAR _Value = [_01A Q-M/△PY%_Pin]
+			RETURN
+			IF(
+			    ABS(_Value) <= 1,
+			    _Value
+			)
+		displayFolder: Upper Tier
+		lineageTag: 004c6e31-3250-4c53-affd-c6c0a72bf853
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_01E Q-M/△PY%_Pin (Outlier Indicator)' =
+			
+			VAR _Value = [_01A Q-M/△PY%_Pin]
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    _Value > 1, "▲",
+			    _Value < -1, "▼",
+			    BLANK()
+			)
+		displayFolder: Upper Tier
+		lineageTag: 537ffdfe-fc35-4cc2-b84d-97d51082407b
+
+	measure '_01F Q-M/△PY% (Formatted Label)' = [_01A Q-M/△PY%_Pin] * 100
+		formatString: " +0""%"";-0""%"";0""%"""
+		displayFolder: Upper Tier
+		lineageTag: acc317dd-7f59-44f7-a80c-e8d9f301c983
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure '_01G Total △PY%_Pin' = ```
+			
+			VAR SelectedYear = SELECTEDVALUE( Dim_Date[Year] )
+			VAR SelectedHierarchyOrder = SELECTEDVALUE( PHierarchy[PHierarchy Order] )
+			VAR CategoryValue = 
+			    IF(
+			        SelectedHierarchyOrder = 0,  // Quarter hierarchy
+			        SELECTEDVALUE( Table_Waterfall[Category 1] ),
+			        SELECTEDVALUE( Table_Waterfall[Category 2] )  // Month hierarchy
+			    )
+			RETURN
+			IF(
+			    CategoryValue = "Total YoY",
+			    CALCULATE( [_04 △PY% Net Sales], Dim_Date[Year] = SelectedYear ),
+			    BLANK()
+			)
+			```
+		displayFolder: Upper Tier
+		lineageTag: 92a9473a-acc8-48d6-b87c-00ce64dfdd29
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_01H (+) Total △PY%_Pin (Capped Pin)' =
+			
+			VAR ValuePY = [_01G Total △PY%_Pin]
+			VAR CappedValue =
+			    MIN(1, MAX(-1, ValuePY))
+			
+			RETURN
+			IF(
+			    CappedValue > 0,
+			    CappedValue
+			)
+		displayFolder: Upper Tier
+		lineageTag: 95bdbfce-c342-4d7b-a64a-528f92a4eeda
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_01I (-) Total △PY%_Pin (Capped Pin)' =
+			
+			VAR _Value = [_01G Total △PY%_Pin]
+			VAR CappedValue =
+			    MIN(1, MAX(-1, _Value))
+			
+			RETURN
+			IF(
+			    CappedValue < 0,
+			    CappedValue
+			)
+		displayFolder: Upper Tier
+		lineageTag: 059878e5-9a65-4013-af62-bc14d1b321b6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_01J Total △PY%_Pin (Pin Head)' =
+			
+			VAR _Value = [_01G Total △PY%_Pin]
+			RETURN
+			IF(
+			    ABS(_Value) <= 1,
+			    _Value
+			)
+		displayFolder: Upper Tier
+		lineageTag: 41bc1661-2e41-416e-96df-9b6f204dfc6a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_01K Total △PY%_Pin (Outlier Indicator)' =
+			
+			VAR _Value = [_01G Total △PY%_Pin]
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    _Value > 1, "▲",
+			    _Value < -1, "▼",
+			    BLANK()
+			)
+		displayFolder: Upper Tier
+		lineageTag: 254f0467-b0f2-4109-a8a7-2b755e86309e
+
+	measure '_01L Total △PY% (Formatted Label)' = [_01G Total △PY%_Pin] * 100
+		formatString: " +0""%"";-0""%"";0""%"""
+		displayFolder: Upper Tier
+		lineageTag: 3676dc06-9b8e-4445-94e0-42a5e0fc3c2f
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure '_00Z Zero Line' = 0
+		formatString: 0
+		displayFolder: Upper Tier
+		lineageTag: fbc395a4-4839-4f7e-a3bf-88d31c6905b8
+
+	measure 'ΔPY% Matrix' =
+			
+			DIVIDE( [_03 △PY Net Sales], [_02 PY Net Sales] )
+		lineageTag: 69d205cc-2fb9-47c7-8813-78b3086895a6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition IBCSWaterfall = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

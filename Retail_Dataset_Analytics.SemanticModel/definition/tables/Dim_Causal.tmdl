@@ -1,0 +1,132 @@
+table Dim_Causal
+	lineageTag: 713ff4a9-d09b-42b4-b8a4-7a43fbdd89ff
+
+	measure 'Redeemed Purchases by Display' =
+			
+			CALCULATE(
+			    COUNTROWS(Fact_Sales_GPMargin),
+			    Fact_Sales_GPMargin[Is Redeemed Line] = TRUE,
+			    Fact_Sales_GPMargin[Has Causal Match] = TRUE
+			)
+		formatString: 0
+		lineageTag: ff11fabe-1893-4855-bc14-99a5ee91fc2c
+
+	measure 'Households Contributing' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(Fact_Sales_GPMargin[HOUSEHOLD_KEY]),
+			    Fact_Sales_GPMargin[Is Redeemed Line] = TRUE,
+			    Fact_Sales_GPMargin[Has Causal Match] = TRUE
+			)
+		formatString: 0
+		lineageTag: 686db461-8ef9-4137-a834-4358a4787032
+
+	measure '% of Total Redeemed' =
+			
+			DIVIDE(
+			    [Redeemed Value ($)],
+			    CALCULATE(
+			        [Redeemed Value ($)],
+			        ALL('Aisle Mapping'[Display Code]),
+			        'Aisle Mapping'[Display Code] <> BLANK()
+			    )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: aa3596d5-8a35-4593-94de-ccf1f90393e6
+
+	column PRODUCT_ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 1c917793-1190-44b3-817a-6701126e70ca
+		summarizeBy: count
+		sourceColumn: PRODUCT_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column STORE_ID
+		dataType: int64
+		formatString: 0
+		lineageTag: e6c450e2-36df-4e45-8a89-7a02c5fb4b3b
+		summarizeBy: count
+		sourceColumn: STORE_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column WEEK_NO
+		dataType: int64
+		formatString: 0
+		lineageTag: e7a5262a-c667-4a49-a982-47c97e854d4c
+		summarizeBy: sum
+		sourceColumn: WEEK_NO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DisplayCodes
+		dataType: string
+		lineageTag: a91590c9-9e8e-41e9-86cb-47635f559e50
+		summarizeBy: none
+		sourceColumn: DisplayCodes
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MailerCodes
+		dataType: string
+		lineageTag: 8189507e-69e3-4a74-947b-6b190de4db36
+		summarizeBy: none
+		sourceColumn: MailerCodes
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column HasDisplay
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: fc35a69a-e971-45e5-834a-b4699794daec
+		summarizeBy: none
+		sourceColumn: HasDisplay
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column HasMailer
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b9669e60-ae9d-4f94-85e0-a8971722d93f
+		summarizeBy: none
+		sourceColumn: HasMailer
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CausalKey
+		dataType: string
+		lineageTag: 79f2b28a-ab4a-4363-b9da-a51606872904
+		summarizeBy: none
+		sourceColumn: CausalKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Causal = m
+		mode: import
+		source =
+				let
+				    Source = GoogleBigQuery.Database([Implementation="2.0"]),
+				    #"aerial-garden-503813-r8_Database" = Source{[Name="aerial-garden-503813-r8",Kind="Database"]}[Data],
+				    Retail_Dataset_Schema = #"aerial-garden-503813-r8_Database"{[Name="Retail_Dataset",Kind="Schema"]}[Data],
+				    Dim_Causal_Table = Retail_Dataset_Schema{[Name="Dim_Causal",Kind="Table"]}[Data]
+				in
+				    Dim_Causal_Table
+

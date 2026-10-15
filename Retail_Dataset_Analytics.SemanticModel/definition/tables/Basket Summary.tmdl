@@ -1,0 +1,88 @@
+table 'Basket Summary'
+	lineageTag: 03ca4714-155d-4ce5-8932-e381b1c32286
+
+	column BASKET_ID
+		formatString: 0
+		lineageTag: bbdcf962-757c-48b8-8bc1-8dd83f550ad0
+		summarizeBy: count
+		isNameInferred
+		sourceColumn: Fact_Sales_GPMargin[BASKET_ID]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Basket Value'
+		formatString: 0.00
+		lineageTag: 8c3a9e95-91a1-4a0b-aea1-c9975a37e2ce
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Basket Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Basket Value Bin' =
+			
+			VAR Val = 'Basket Summary'[Basket Value]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        Val < 5, "0-5",
+			        Val < 10, "5-10",
+			        Val < 20, "10-20",
+			        Val < 40, "20-40",
+			        Val < 75, "40-75",
+			        Val < 150, "75-150",
+			        "150+"
+			    )
+		lineageTag: 9a016e97-be95-4d69-ae79-d0001c3082c6
+		summarizeBy: none
+		sortByColumn: 'Bin Sort Order'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Bin Sort Order' = ```
+			
+			SWITCH(TRUE(), 
+			    'Basket Summary'[Basket Value] < 5, 1, 
+			    'Basket Summary'[Basket Value] < 10, 2, 
+			    'Basket Summary'[Basket Value] < 20, 3, 
+			    'Basket Summary'[Basket Value] < 40, 4, 
+			    'Basket Summary'[Basket Value] < 75, 5, 
+			    'Basket Summary'[Basket Value] < 150, 6, 7)
+			```
+		formatString: 0
+		lineageTag: 74a14c57-2a52-4a49-87a4-5613f7f16f36
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column household_key
+		formatString: 0
+		lineageTag: 9a4b0953-319e-4455-b489-6fceb96e1b25
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Fact_Sales_GPMargin[household_key]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Basket Summary' = calculated
+		mode: import
+		source = ```
+				
+				SUMMARIZE(
+				    Fact_Sales_GPMargin, 
+				    Fact_Sales_GPMargin[basket_id], 
+				    Fact_Sales_GPMargin[household_key], 
+				    "Basket Value", SUM(Fact_Sales_GPMargin[sales_value]))
+				
+				// Basket Summary = 
+				// SUMMARIZE(
+				//     Fact_Sales_GPMargin,
+				//     Fact_Sales_GPMargin[basket_id],
+				//     "Basket Value", SUM(Fact_Sales_GPMargin[sales_value])
+				// )
+				
+				
+				```
+
+	annotation PBI_Id = 9261d4bb544943a79008331d71bd8cb2
+

@@ -1,0 +1,35 @@
+table 'RFM Segments'
+	lineageTag: f1423fe8-410c-4712-bbbb-231d2b218c59
+
+	column Segment
+		lineageTag: 18a53b69-16a7-4a92-9b12-b40130511ebb
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Segment]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'RFM Segments' = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "Segment", STRING,
+				    {
+				        {"Champions"},
+				        {"Loyal"},
+				        {"Potential Loyalist"},
+				        {"New Customers"},
+				        {"Promising"},
+				        {"Need Attention"},
+				        {"About to Sleep"},
+				        {"Cannot Lose Them but Losing"},
+				        {"At Risk"},
+				        {"Hibernating Customers"},
+				        {"Lost Customers"},
+				        {"Other"}
+				    }
+				)
+
+	annotation PBI_Id = 09a687561f4b44e8b255591a7d24ae09
+

@@ -1,0 +1,157 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "13bd85fa72817dd433d1",
+  "position": {
+    "x": 280.62857142857149,
+    "y": 163.55428571428567,
+    "z": 1000,
+    "height": 287.03999999999996,
+    "width": 763.19999999999993,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_Product"
+                    }
+                  },
+                  "Property": "DEPARTMENT"
+                }
+              },
+              "queryRef": "Dim_Product.DEPARTMENT",
+              "nativeQueryRef": "DEPARTMENT",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Redeem"
+                    }
+                  },
+                  "Property": "Redeemed Purchases"
+                }
+              },
+              "queryRef": "Table.Redeemed Purchases",
+              "nativeQueryRef": "Redeemed Purchases"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Redeem"
+                    }
+                  },
+                  "Property": "% No Causal Data"
+                }
+              },
+              "queryRef": "Table.% No Causal Data",
+              "nativeQueryRef": "% No Causal Data"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Redeem"
+                    }
+                  },
+                  "Property": "Redeemed - With Causal Data"
+                }
+              },
+              "queryRef": "Table.Redeemed - With Causal Data",
+              "nativeQueryRef": "With Causal Data",
+              "displayName": "With Causal Data"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Redeem"
+                    }
+                  },
+                  "Property": "% Display Only"
+                }
+              },
+              "queryRef": "Table.% On Display (of covered)",
+              "nativeQueryRef": "% Display Only"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Redeem"
+                    }
+                  },
+                  "Property": "% Mailer Only"
+                }
+              },
+              "queryRef": "Table.% On Mailer (of covered)",
+              "nativeQueryRef": "% Mailer Only"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Redeem"
+                    }
+                  },
+                  "Property": "% Both"
+                }
+              },
+              "queryRef": "Table.% Both",
+              "nativeQueryRef": "% Both"
+            }
+          ]
+        }
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "Dim_Product.DEPARTMENT"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_Product"
+                    }
+                  },
+                  "Property": "DEPARTMENT"
+                }
+              }
+            ],
+            "isPinned": true
+          }
+        ],
+        "root": {}
+      }
+    ],
+    "drillFilterOtherVisuals": true
+  }
+}

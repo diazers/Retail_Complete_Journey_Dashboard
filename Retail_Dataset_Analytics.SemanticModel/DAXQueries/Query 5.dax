@@ -1,0 +1,86 @@
+EVALUATE
+ROW(
+    "Total Rows", COUNTROWS(Fact_Sales_GPMargin),
+    "Is Redeemed = TRUE", COUNTROWS(FILTER(Fact_Sales_GPMargin, Fact_Sales_GPMargin[Is Redeemed Line] = TRUE)),
+    "Has Causal Match = TRUE", COUNTROWS(FILTER(Fact_Sales_GPMargin, Fact_Sales_GPMargin[Has Causal Match] = TRUE)),
+    "Both TRUE", COUNTROWS(FILTER(Fact_Sales_GPMargin, Fact_Sales_GPMargin[Is Redeemed Line] = TRUE && Fact_Sales_GPMargin[Has Causal Match] = TRUE))
+)
+
+EVALUATE DISTINCT(Dim_Causal[HasDisplay])
+
+EVALUATE DISTINCT(Dim_Causal[HasMailer])
+
+EVALUATE
+ROW(
+    "Step1: Redeemed only",
+        CALCULATE(COUNTROWS(Fact_Sales_GPMargin), Fact_Sales_GPMargin[Is Redeemed Line] = TRUE),
+    "Step2: + Has Causal Match",
+        CALCULATE(COUNTROWS(Fact_Sales_GPMargin), Fact_Sales_GPMargin[Is Redeemed Line] = TRUE, Fact_Sales_GPMargin[Has Causal Match] = TRUE),
+    "Step3: + HasDisplay=FALSE",
+        CALCULATE(COUNTROWS(Fact_Sales_GPMargin), Fact_Sales_GPMargin[Is Redeemed Line] = TRUE, Fact_Sales_GPMargin[Has Causal Match] = TRUE, Dim_Causal[HasDisplay] = FALSE),
+    "Step4: + HasMailer=FALSE",
+        CALCULATE(COUNTROWS(Fact_Sales_GPMargin), Fact_Sales_GPMargin[Is Redeemed Line] = TRUE, Fact_Sales_GPMargin[Has Causal Match] = TRUE, Dim_Causal[HasDisplay] = FALSE, Dim_Causal[HasMailer] = FALSE)
+
+)
+
+
+
+EVALUATE
+ROW(
+    "Inline Neither",
+    CALCULATE(
+        COUNTROWS(Fact_Sales_GPMargin),
+        Fact_Sales_GPMargin[Is Redeemed Line] = TRUE,
+        Fact_Sales_GPMargin[Has Causal Match] = TRUE,
+        Dim_Causal[HasDisplay] = FALSE,
+        Dim_Causal[HasMailer] = FALSE
+    )
+)
+
+EVALUATE
+ROW(
+    "Rows with BOTH False",
+    COUNTROWS(FILTER(Dim_Causal, Dim_Causal[HasDisplay] = FALSE && Dim_Causal[HasMailer] = FALSE))
+)
+
+
+EVALUATE
+SUMMARIZECOLUMNS(
+    Dim_Causal[HasDisplay],
+    Dim_Causal[HasMailer],
+    "Row Count", COUNTROWS(Dim_Causal)
+)
+
+
+EVALUATE
+FILTER(
+    SUMMARIZECOLUMNS(
+        Dim_Product[DEPARTMENT],
+        "Redeemed Purchases", [Redeemed Purchases],
+        "No Causal Data", [Redeemed - No Causal Data],
+        "On Display", [Redeemed - On Display],
+        "On Mailer", [Redeemed - On Mailer],
+        "Covered", [Redeemed Purchases] - [Redeemed - No Causal Data]
+    ),
+    Dim_Product[DEPARTMENT] IN {"FLORAL", "COSMETICS"}
+)
+
+
+EVALUATE
+ROW(
+    "Display Only", 
+    CALCULATE(COUNTROWS(Fact_Sales_GPMargin),
+        Fact_Sales_GPMargin[Is Redeemed Line] = TRUE,
+        Fact_Sales_GPMargin[Has Causal Match] = TRUE,
+        Dim_Causal[HasDisplay] = TRUE, Dim_Causal[HasMailer] = FALSE),
+    "Mailer Only",
+    CALCULATE(COUNTROWS(Fact_Sales_GPMargin),
+        Fact_Sales_GPMargin[Is Redeemed Line] = TRUE,
+        Fact_Sales_GPMargin[Has Causal Match] = TRUE,
+        Dim_Causal[HasDisplay] = FALSE, Dim_Causal[HasMailer] = TRUE),
+    "Both",
+    CALCULATE(COUNTROWS(Fact_Sales_GPMargin),
+        Fact_Sales_GPMargin[Is Redeemed Line] = TRUE,
+        Fact_Sales_GPMargin[Has Causal Match] = TRUE,
+        Dim_Causal[HasDisplay] = TRUE, Dim_Causal[HasMailer] = TRUE)
+)

@@ -1,0 +1,104 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "09acb8b72404b2c47769",
+  "position": {
+    "x": 110.62972292191435,
+    "y": 107.90931989924432,
+    "z": 3000,
+    "height": 480.12075471698114,
+    "width": 551.60754716981137,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results"
+                    }
+                  },
+                  "Property": "CAMPAIGN"
+                }
+              },
+              "queryRef": "campaign_level_results.CAMPAIGN",
+              "nativeQueryRef": "CAMPAIGN",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results"
+                    }
+                  },
+                  "Property": "Avg Redeemer DiD"
+                }
+              },
+              "queryRef": "campaign_level_results.Avg Redeemer DiD",
+              "nativeQueryRef": "Avg Redeemer DiD"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results"
+                    }
+                  },
+                  "Property": "Avg NonRedeemer DiD"
+                }
+              },
+              "queryRef": "campaign_level_results.Avg NonRedeemer DiD",
+              "nativeQueryRef": "Avg NonRedeemer DiD"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "campaign_level_results"
+                  }
+                },
+                "Property": "Avg Redeemer DiD"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "divider": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

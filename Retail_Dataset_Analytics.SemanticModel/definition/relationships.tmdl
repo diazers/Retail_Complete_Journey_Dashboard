@@ -1,0 +1,84 @@
+relationship AutoDetected_e520fad5-e10a-42db-aaf0-fb540f05095f
+	fromColumn: coupon_redempt.household_key
+	toColumn: hh_demographic.household_key
+
+relationship AutoDetected_7a9b7623-8003-4e1e-bc33-87da5de4019b
+	fromColumn: Fact_Sales_GPMargin.household_key
+	toColumn: hh_demographic.household_key
+
+relationship AutoDetected_ea226f2c-6fc7-478b-9702-d4185e0e5f16
+	fromColumn: campaign_table.household_key
+	toColumn: hh_demographic.household_key
+
+relationship AutoDetected_60def434-d14e-44d5-b0ec-bd356ad04c54
+	fromColumn: coupon.PRODUCT_ID
+	toColumn: Dim_Product.PRODUCT_ID
+
+relationship AutoDetected_c16e136a-5609-4428-a09c-5c60d34de49f
+	fromColumn: Fact_Sales_GPMargin.PRODUCT_ID
+	toColumn: Dim_Product.PRODUCT_ID
+
+relationship AutoDetected_d0740e09-31d7-4865-ad0d-e6a8dbda8214
+	fromColumn: coupon.CAMPAIGN
+	toColumn: campaign_desc.CAMPAIGN
+
+relationship AutoDetected_b3f5c3cf-70db-4358-be51-4bfd1808af3a
+	fromColumn: coupon_redempt.CAMPAIGN
+	toColumn: campaign_desc.CAMPAIGN
+
+relationship AutoDetected_c08a0e86-a8a2-4e18-beb6-c25c6c1caa9b
+	fromColumn: campaign_table.CAMPAIGN
+	toColumn: campaign_desc.CAMPAIGN
+
+relationship AutoDetected_45e59a04-7df1-4dae-ba0c-995e6468a8e4
+	fromColumn: coupon_redempt.DAY
+	toColumn: Dim_Date.DAY
+
+relationship AutoDetected_c7541d87-ed66-43c0-b081-bcb380bd3233
+	fromColumn: Dim_Product.DEPARTMENT
+	toColumn: Dim_Department_Margin.DEPARTMENT
+
+relationship AutoDetected_c6649f3a-9414-484c-bf28-24f096a91c66
+	isActive: false
+	fromColumn: Fact_Sales_GPMargin.DEPARTMENT
+	toColumn: Dim_Department_Margin.DEPARTMENT
+
+relationship 9851aa30-8d6d-e07d-d338-bb079f8892ed
+	fromColumn: Fact_Sales_GPMargin.CausalKey
+	toColumn: Dim_Causal.CausalKey
+
+relationship d70af53d-c3ca-1e0d-1909-4666a0fc197c
+	fromColumn: Fact_Sales_GPMargin.CalendarDate
+	toColumn: Dim_Date.CalendarDate
+
+relationship f4e0daff-dd68-8514-11af-9bf6ce58f106
+	fromColumn: 'Basket Summary'.household_key
+	toColumn: hh_demographic.household_key
+
+relationship 4794863c-893e-8fa9-a5af-94e3db6d16b4
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: 'Aisle Mapping'.'Display Code'
+	toColumn: Dim_Causal.DisplayCodes
+
+relationship a260d252-c9c5-4f8f-be58-aceddd5c4154
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Disconnected Year Table'.YearMonthDate
+	toColumn: LocalDateTable_c28464d3-393b-4aa4-8f2a-efd98f0ef362.Date
+
+relationship 79a2daa4-d4b9-45dd-9349-c560360e7938
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Customer Cohort'.'First Purchase Date'
+	toColumn: LocalDateTable_8d45f4d7-5f13-4ae7-9923-efb95c9d8922.Date
+
+relationship a1f61fca-81a6-47f8-9c75-04505f380f6d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Customer Cohort'.'Cohort Month'
+	toColumn: LocalDateTable_31e4f4ca-a94a-469a-b5a8-09ed7e58b76d.Date
+
+relationship b8863c19-1a9a-63f1-ec34-58fac0be1101
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: campaign_level_results.CAMPAIGN
+	toColumn: campaign_desc.CAMPAIGN
+
