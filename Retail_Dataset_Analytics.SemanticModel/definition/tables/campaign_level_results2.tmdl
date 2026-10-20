@@ -1,0 +1,315 @@
+table campaign_level_results2
+	lineageTag: b76d7dc6-95fa-4a4c-939e-337fb6efa4b3
+
+	measure 'Campaigns Passing All 3' =
+			
+			COUNTROWS( FILTER( campaign_level_results2, campaign_level_results2[Flag Direction] = "✅" && campaign_level_results2[Flag Reliable] = "✅" && campaign_level_results2[Flag Payback] = "✅" ) )
+		formatString: 0
+		lineageTag: d9f66cc3-b350-4ffb-9277-7879efb88344
+
+	measure 'Passing Direction Summary' =
+			
+			VAR PassCount = COUNTROWS( FILTER( campaign_level_results2, campaign_level_results2[Flag Direction] = "✅" ) )
+			VAR FailCount = COUNTROWS( FILTER( campaign_level_results2, campaign_level_results2[Flag Direction] = "❌" ) )
+			RETURN
+			"✅ " & PassCount & "   ❌ " & FailCount
+		lineageTag: b24c4f7a-02db-4269-acbd-0199fe5a608f
+
+	measure 'Passing Reliable Summary' =
+			
+			VAR PassCount = COUNTROWS( FILTER( campaign_level_results2, campaign_level_results2[Flag Reliable] = "✅" ) )
+			VAR FailCount = COUNTROWS( FILTER( campaign_level_results2, campaign_level_results2[Flag Reliable] = "❌" ) )
+			RETURN
+			"✅ " & PassCount & "   ❌ " & FailCount
+		lineageTag: a7599841-61c1-4ddc-a657-957c163ef8c0
+
+	measure 'Avg % Discount to Non-Redeemers' =
+			
+			AVERAGE( campaign_level_results2[% of Discount Spent on Non-Redeemers] )
+		lineageTag: 829b3423-0efb-42e3-b66a-18cd11dac40d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CAMPAIGN
+		dataType: int64
+		formatString: 0
+		lineageTag: 2095609e-8313-4965-81bb-527c98f142a3
+		summarizeBy: none
+		sourceColumn: CAMPAIGN
+
+		annotation SummarizationSetBy = Automatic
+
+	column TYPE
+		dataType: string
+		lineageTag: d1bd9098-3d48-42a7-af6f-0f16603dd12a
+		summarizeBy: none
+		sourceColumn: TYPE
+
+		annotation SummarizationSetBy = Automatic
+
+	column START_DAY
+		dataType: int64
+		formatString: 0
+		lineageTag: 3d3e4969-d495-43c2-91cb-b01e80ed601f
+		summarizeBy: sum
+		sourceColumn: START_DAY
+
+		annotation SummarizationSetBy = Automatic
+
+	column END_DAY
+		dataType: int64
+		formatString: 0
+		lineageTag: 782b0c5b-51e1-4186-8aef-e9e0ac7bf83c
+		summarizeBy: sum
+		sourceColumn: END_DAY
+
+		annotation SummarizationSetBy = Automatic
+
+	column TREATMENT_COUNT
+		dataType: int64
+		formatString: 0
+		lineageTag: 0879b260-5737-4a39-ad2e-c29a3564f768
+		summarizeBy: sum
+		sourceColumn: TREATMENT_COUNT
+
+		annotation SummarizationSetBy = Automatic
+
+	column REDEEMER_COUNT
+		dataType: int64
+		formatString: 0
+		lineageTag: ae1503d8-ef8f-4c6a-9e0c-a2676ebb0c77
+		summarizeBy: sum
+		sourceColumn: REDEEMER_COUNT
+
+		annotation SummarizationSetBy = Automatic
+
+	column NONREDEEMER_COUNT
+		dataType: int64
+		formatString: 0
+		lineageTag: a668bf09-9681-4d73-bf68-37817354175c
+		summarizeBy: sum
+		sourceColumn: NONREDEEMER_COUNT
+
+		annotation SummarizationSetBy = Automatic
+
+	column CONTROL_COUNT
+		dataType: int64
+		formatString: 0
+		lineageTag: 5f5d421a-6154-4df0-b4fd-85f8505bf6e1
+		summarizeBy: sum
+		sourceColumn: CONTROL_COUNT
+
+		annotation SummarizationSetBy = Automatic
+
+	column CONTROL_CHANGE
+		dataType: double
+		lineageTag: 8a0c2d5a-d2f4-4c9b-8bf1-f4ec1abc7b56
+		summarizeBy: sum
+		sourceColumn: CONTROL_CHANGE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REEDEMER_BEFORE
+		dataType: double
+		lineageTag: 3ce5b985-4600-4115-8f0c-9913e8841b09
+		summarizeBy: sum
+		sourceColumn: REEDEMER_BEFORE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REEDEMER_DURING
+		dataType: double
+		lineageTag: dc2f90d8-4dac-415b-a3af-704d26aa38f8
+		summarizeBy: sum
+		sourceColumn: REEDEMER_DURING
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REEDEMER_CHANGE
+		dataType: double
+		lineageTag: e463b6a6-2832-4239-8663-779b76a9fea1
+		summarizeBy: sum
+		sourceColumn: REEDEMER_CHANGE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REDEEMER_DID
+		dataType: double
+		lineageTag: 4071b421-b2b7-4257-b7d9-646f6e854100
+		summarizeBy: count
+		sourceColumn: REDEEMER_DID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REDEEMER_TOTAL_LIFT
+		dataType: double
+		lineageTag: 89c81eee-3f8a-46ae-ba82-770010949144
+		summarizeBy: sum
+		sourceColumn: REDEEMER_TOTAL_LIFT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REDEEMER_DISCOUNT
+		dataType: double
+		lineageTag: 6e4c2184-4499-4ead-8a9f-01d161690827
+		summarizeBy: sum
+		sourceColumn: REDEEMER_DISCOUNT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REDEEMER_RETURN_PER_DOLLAR
+		dataType: double
+		lineageTag: 9145be2a-8f54-4e4a-9866-ed9938aa0e56
+		summarizeBy: sum
+		sourceColumn: REDEEMER_RETURN_PER_DOLLAR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NONREDEEMER_BEFORE
+		dataType: double
+		lineageTag: 02a51b12-b28c-4547-b28c-4fa125883b6b
+		summarizeBy: sum
+		sourceColumn: NONREDEEMER_BEFORE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NONREDEEMER_DURING
+		dataType: double
+		lineageTag: 2f5aafb6-3f2e-4f7a-8d51-9cafa4bd56bf
+		summarizeBy: sum
+		sourceColumn: NONREDEEMER_DURING
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NONREDEEMER_CHANGE
+		dataType: double
+		lineageTag: 022e4c12-4bfe-471e-a613-e2b6821f81bd
+		summarizeBy: sum
+		sourceColumn: NONREDEEMER_CHANGE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NONREDEEMER_DID
+		dataType: double
+		lineageTag: 6f0d43c2-b117-4696-bd9e-0f556aa9cc00
+		summarizeBy: count
+		sourceColumn: NONREDEEMER_DID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NONREDEEMER_TOTAL_LIFT
+		dataType: double
+		lineageTag: c6e89b60-07e3-426a-ba71-4a747dcb839b
+		summarizeBy: sum
+		sourceColumn: NONREDEEMER_TOTAL_LIFT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NONREDEEMER_DISCOUNT
+		dataType: double
+		lineageTag: 11b48fd1-dec1-4380-af6a-0191b335e345
+		summarizeBy: sum
+		sourceColumn: NONREDEEMER_DISCOUNT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NOREDEEMER_RETURN_PER_DOLLAR
+		dataType: double
+		lineageTag: feac311c-53df-413c-9176-51baa4e3b2ab
+		summarizeBy: sum
+		sourceColumn: NOREDEEMER_RETURN_PER_DOLLAR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Lift Differential' = campaign_level_results2[REDEEMER_DID] - campaign_level_results2[NONREDEEMER_DID]
+		lineageTag: 92c61de6-d2aa-4de7-96b1-20e8a8daaab5
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Flag Direction' = IF( 'Campaign_Level_Results2'[REDEEMER_DID] < 0, "❌", "✅")
+		lineageTag: 262ba82e-25a9-42ae-9859-8512e6af3401
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Flag Reliable' = IF( 'Campaign_Level_Results2'[REDEEMER_COUNT] >= 15, "✅", "❌" )
+		lineageTag: f3638e90-182c-475d-8855-95b6b61e3561
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Flag Payback' = IF( 'Campaign_Level_Results2'[REDEEMER_RETURN_PER_DOLLAR] >= 1, "✅", "❌" )
+		lineageTag: 94b9e9a8-c3dc-4bbf-a70e-9821a5c56dc8
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Flag Attribution' = IF( 'Campaign_Level_Results2'[REDEEMER_DID] - 'Campaign_Level_Results2'[NONREDEEMER_DID] > 0, "✅", "❌" )
+		lineageTag: 61526cab-ff61-4207-b2b7-8daefb19d813
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column '% of Discount Spent on Non-Redeemers' =
+			
+			DIVIDE(
+			    ABS( campaign_level_results2[NONREDEEMER_DISCOUNT] ),
+			    ABS( campaign_level_results2[REDEEMER_DISCOUNT] ) + ABS( campaign_level_results2[NONREDEEMER_DISCOUNT] )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: fc120a37-19d7-4db0-9146-9550b739dfff
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Net Result' = campaign_level_results2[REDEEMER_TOTAL_LIFT] - ABS(campaign_level_results2[REDEEMER_DISCOUNT])
+		lineageTag: 95430700-15fe-49e2-a318-f4d5f60a664c
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition campaign_level_results2 = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\diazj\Downloads\archive\campaign_level_results2.csv"), [Delimiter = ";", Columns = 23, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"CAMPAIGN", Int64.Type}, {"TYPE", type text}, {"START_DAY", Int64.Type}, {"END_DAY", Int64.Type}, {"TREATMENT_COUNT", Int64.Type}, {"REDEEMER_COUNT", Int64.Type}, {"NONREDEEMER_COUNT", Int64.Type}, {"CONTROL_COUNT", Int64.Type}, {"CONTROL_CHANGE", type number}, {"REEDEMER_BEFORE", type number}, {"REEDEMER_DURING", type number}, {"REEDEMER_CHANGE", type number}, {"REDEEMER_DID", type number}, {"REDEEMER_TOTAL_LIFT", type number}, {"REDEEMER_DISCOUNT", type number}, {"REDEEMER_RETURN_PER_DOLLAR", type number}, {"NONREDEEMER_BEFORE", type number}, {"NONREDEEMER_DURING", type number}, {"NONREDEEMER_CHANGE", type number}, {"NONREDEEMER_DID", type number}, {"NONREDEEMER_TOTAL_LIFT", type number}, {"NONREDEEMER_DISCOUNT", type number}, {"NOREDEEMER_RETURN_PER_DOLLAR", type number}}, "en-US")
+				in
+				  #"Changed column type"
+

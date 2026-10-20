@@ -143,34 +143,6 @@
           ]
         },
         "howCreated": "User"
-      },
-      {
-        "name": "4c9955738ded643b496e",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Dim_Causal"
-              }
-            },
-            "Property": "Redeemed Purchases by Display"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "26a8a38adbe81c91a934",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "hh_demographic"
-              }
-            },
-            "Property": "HH_COMP_DESC"
-          }
-        },
-        "type": "Categorical"
       }
     ]
   }

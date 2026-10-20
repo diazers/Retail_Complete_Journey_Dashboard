@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "campaign_level_results"
+                      "Entity": "campaign_level_results2"
                     }
                   },
                   "Property": "CAMPAIGN"
                 }
               },
-              "queryRef": "campaign_level_results.CAMPAIGN",
-              "nativeQueryRef": "CAMPAIGN",
+              "queryRef": "campaign_level_results2.CAMPAIGN",
+              "nativeQueryRef": "CAMPAIGN1",
               "active": true
             }
           ]
@@ -36,31 +36,41 @@
           "projections": [
             {
               "field": {
-                "Measure": {
+                "Aggregation": {
                   "Expression": {
-                    "SourceRef": {
-                      "Entity": "campaign_level_results"
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "REDEEMER_DID"
                     }
                   },
-                  "Property": "Avg Redeemer DiD"
+                  "Function": 1
                 }
               },
-              "queryRef": "campaign_level_results.Avg Redeemer DiD",
-              "nativeQueryRef": "Avg Redeemer DiD"
+              "queryRef": "CountNonNull(campaign_level_results2.REDEEMER_DID)",
+              "nativeQueryRef": "Average of REDEEMER_DID"
             },
             {
               "field": {
-                "Measure": {
+                "Aggregation": {
                   "Expression": {
-                    "SourceRef": {
-                      "Entity": "campaign_level_results"
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "NONREDEEMER_DID"
                     }
                   },
-                  "Property": "Avg NonRedeemer DiD"
+                  "Function": 1
                 }
               },
-              "queryRef": "campaign_level_results.Avg NonRedeemer DiD",
-              "nativeQueryRef": "Avg NonRedeemer DiD"
+              "queryRef": "CountNonNull(campaign_level_results2.NONREDEEMER_DID)",
+              "nativeQueryRef": "Average of NONREDEEMER_DID"
             }
           ]
         }
@@ -69,13 +79,18 @@
         "sort": [
           {
             "field": {
-              "Measure": {
+              "Aggregation": {
                 "Expression": {
-                  "SourceRef": {
-                    "Entity": "campaign_level_results"
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "campaign_level_results2"
+                      }
+                    },
+                    "Property": "REDEEMER_DID"
                   }
                 },
-                "Property": "Avg Redeemer DiD"
+                "Function": 1
               }
             },
             "direction": "Descending"

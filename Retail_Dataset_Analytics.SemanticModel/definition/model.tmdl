@@ -9,7 +9,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["hh_demographic","coupon","coupon_redempt","Dim_Date","Dim_Department_Margin","Dim_Product","Fact_Sales_GPMargin","campaign_table","campaign_desc","Dim_Causal","Measure Group","MeasureGroup","IBCSWaterfall","MultiTierBarCharts","RFM","Date Selection","Measure Sel","Moving Average","Pareto1","Redeem","campaign_level_results"]
+annotation PBI_QueryOrder = ["hh_demographic","coupon","coupon_redempt","Dim_Date","Dim_Department_Margin","Dim_Product","Fact_Sales_GPMargin","campaign_table","campaign_desc","Dim_Causal","Measure Group","MeasureGroup","IBCSWaterfall","MultiTierBarCharts","RFM","Date Selection","Measure Sel","Moving Average","Pareto1","Redeem","campaign_level_results2"]
 
 annotation PBI_ProTooling = ["DaxQueryView_Desktop","DevMode"]
 
@@ -45,7 +45,6 @@ ref table 'RFM Segments'
 ref table Granularity
 ref table 'Metric Selector'
 ref table Discount
-ref table campaign_level_results
 ref table 'RFM Metric Selector'
 ref table 'Disconnected Year Table'
 ref table DateTableTemplate_b3d1d619-6f34-4f34-bd7f-a90775193305
@@ -54,6 +53,7 @@ ref table 'Customer Cohort'
 ref table LocalDateTable_8d45f4d7-5f13-4ae7-9923-efb95c9d8922
 ref table 'Cohort Offset'
 ref table LocalDateTable_31e4f4ca-a94a-469a-b5a8-09ed7e58b76d
+ref table campaign_level_results2
 
 ref cultureInfo en-US
 

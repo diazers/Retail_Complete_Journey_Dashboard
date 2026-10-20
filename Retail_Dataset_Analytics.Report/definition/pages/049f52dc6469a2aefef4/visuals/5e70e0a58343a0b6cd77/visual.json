@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
-  "name": "bac0f43b38b2a097ac60",
+  "name": "5e70e0a58343a0b6cd77",
   "position": {
-    "x": 162.94264339152119,
-    "y": 522.4937655860349,
-    "z": 3000,
-    "height": 518.4538653366584,
-    "width": 960.14962593516213,
-    "tabOrder": 3000
+    "x": 289.51237809452363,
+    "y": 452.27306826706678,
+    "z": 6000,
+    "height": 531.49287321830457,
+    "width": 1247.35183795949,
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "scatterChart",
@@ -20,13 +20,13 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "campaign_level_results"
+                      "Entity": "campaign_level_results2"
                     }
                   },
                   "Property": "CAMPAIGN"
                 }
               },
-              "queryRef": "campaign_level_results.CAMPAIGN",
+              "queryRef": "campaign_level_results2.CAMPAIGN",
               "nativeQueryRef": "CAMPAIGN"
             }
           ]
@@ -35,22 +35,17 @@
           "projections": [
             {
               "field": {
-                "Aggregation": {
+                "Column": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "campaign_level_results"
-                        }
-                      },
-                      "Property": "NONREDEEMER_DID"
+                    "SourceRef": {
+                      "Entity": "campaign_level_results2"
                     }
                   },
-                  "Function": 0
+                  "Property": "NONREDEEMER_DID"
                 }
               },
-              "queryRef": "campaign_level_results.NONREDEEMER_DID",
-              "nativeQueryRef": "Sum of NONREDEEMER_DID",
+              "queryRef": "CountNonNull(campaign_level_results2.NONREDEEMER_DID)",
+              "nativeQueryRef": "NONREDEEMER_DID",
               "active": true
             }
           ]
@@ -59,39 +54,75 @@
           "projections": [
             {
               "field": {
-                "Aggregation": {
+                "Column": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "campaign_level_results"
-                        }
-                      },
-                      "Property": "REDEEMER_DID"
+                    "SourceRef": {
+                      "Entity": "campaign_level_results2"
                     }
                   },
-                  "Function": 0
+                  "Property": "REDEEMER_DID"
                 }
               },
-              "queryRef": "campaign_level_results.REDEEMER_DID",
-              "nativeQueryRef": "Sum of REDEEMER_DID"
+              "queryRef": "CountNonNull(campaign_level_results2.REDEEMER_DID)",
+              "nativeQueryRef": "REDEEMER_DID"
             }
           ]
         }
       }
     },
     "objects": {
-      "valueAxis": [
+      "categoryAxis": [
         {
           "properties": {
+            "gridlineAutoScale": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
             "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "roundRange": {
               "expr": {
                 "Literal": {
                   "Value": "true"
                 }
               }
             },
-            "show": {
+            "invertAxis": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "invertAxis": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "roundRange": {
               "expr": {
                 "Literal": {
                   "Value": "true"
@@ -107,47 +138,14 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "markers": [
-        {
-          "properties": {
-            "borderShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "categoryAxis": [
-        {
-          "properties": {
-            "roundRange": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "invertAxis": {
-              "expr": {
-                "Literal": {
                   "Value": "false"
                 }
               }
             },
-            "gridlineShow": {
+            "enableBackground": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             }
@@ -168,6 +166,32 @@
               "expr": {
                 "Literal": {
                   "Value": "'X-Axis Constant Line 1'"
+                }
+              }
+            },
+            "lineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "autoScale": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "dataLabelShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -193,6 +217,32 @@
                   "Value": "'Y-Axis Constant Line 1'"
                 }
               }
+            },
+            "dataLabelShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "dataLabelHorizontalPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'left'"
+                }
+              }
+            },
+            "lineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
             }
           },
           "selector": {
@@ -206,34 +256,14 @@
             "showGradientLegend": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             },
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "showTitle": {
-              "expr": {
-                "Literal": {
                   "Value": "true"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "bubbles": [
-        {
-          "properties": {
-            "markerShape": {
-              "expr": {
-                "Literal": {
-                  "Value": "'circle'"
                 }
               }
             }
@@ -250,29 +280,7 @@
                 }
               }
             },
-            "categoryMin": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
-                }
-              }
-            },
-            "categorySize": {
-              "expr": {
-                "Literal": {
-                  "Value": "150.86380873327255D"
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
-    "visualContainerObjects": {
-      "divider": [
-        {
-          "properties": {
-            "show": {
+            "showLabels": {
               "expr": {
                 "Literal": {
                   "Value": "false"
@@ -282,9 +290,77 @@
           }
         }
       ],
+      "bubbles": [
+        {
+          "properties": {
+            "markerShape": {
+              "expr": {
+                "Literal": {
+                  "Value": "'diamond'"
+                }
+              }
+            },
+            "preventOverflow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "markers": [
+        {
+          "properties": {
+            "rotation": {
+              "expr": {
+                "Literal": {
+                  "Value": "27D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
       "visualTooltip": [
         {
           "properties": {
+            "showTooltipFieldsOnly": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "showSeeDataLayoutToggleButton": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
             "show": {
               "expr": {
                 "Literal": {
@@ -297,58 +373,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "5c2afd023e9ace3532b0",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "campaign_level_results"
-              }
-            },
-            "Property": "REDEEMER_COUNT"
-          }
-        },
-        "type": "Advanced",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "c",
-              "Entity": "campaign_level_results",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "Comparison": {
-                  "ComparisonKind": 2,
-                  "Left": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Source": "c"
-                        }
-                      },
-                      "Property": "REDEEMER_COUNT"
-                    }
-                  },
-                  "Right": {
-                    "Literal": {
-                      "Value": "15L"
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        },
-        "howCreated": "User"
-      }
-    ]
   }
 }

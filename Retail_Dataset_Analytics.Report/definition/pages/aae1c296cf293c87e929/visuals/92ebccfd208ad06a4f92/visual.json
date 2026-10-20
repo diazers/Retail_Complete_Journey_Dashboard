@@ -1,0 +1,633 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "92ebccfd208ad06a4f92",
+  "position": {
+    "x": 164.28571428571431,
+    "y": 232.85714285714286,
+    "z": 0,
+    "height": 800,
+    "width": 1728.5714285714287,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results2"
+                    }
+                  },
+                  "Property": "CAMPAIGN"
+                }
+              },
+              "queryRef": "campaign_level_results2.CAMPAIGN",
+              "nativeQueryRef": "CAMPAIGN"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results2"
+                    }
+                  },
+                  "Property": "TYPE"
+                }
+              },
+              "queryRef": "campaign_level_results2.TYPE",
+              "nativeQueryRef": "TYPE"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results2"
+                    }
+                  },
+                  "Property": "REDEEMER_COUNT"
+                }
+              },
+              "queryRef": "campaign_level_results2.REDEEMER_COUNT",
+              "nativeQueryRef": "Sum of REDEEMER_COUNT"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results2"
+                    }
+                  },
+                  "Property": "START_DAY"
+                }
+              },
+              "queryRef": "campaign_level_results2.START_DAY",
+              "nativeQueryRef": "START_DAY",
+              "displayName": "START_DAY"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results2"
+                    }
+                  },
+                  "Property": "END_DAY"
+                }
+              },
+              "queryRef": "campaign_level_results2.END_DAY",
+              "nativeQueryRef": "END_DAY",
+              "displayName": "END_DAY"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results2"
+                    }
+                  },
+                  "Property": "REDEEMER_DID"
+                }
+              },
+              "queryRef": "campaign_level_results2.REDEEMER_DID",
+              "nativeQueryRef": "REDEEMER_DID"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results2"
+                    }
+                  },
+                  "Property": "NONREDEEMER_DID"
+                }
+              },
+              "queryRef": "CountNonNull(campaign_level_results2.NONREDEEMER_DID)",
+              "nativeQueryRef": "NONREDEEMER_DID"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results2"
+                    }
+                  },
+                  "Property": "REDEEMER_TOTAL_LIFT"
+                }
+              },
+              "queryRef": "Sum(campaign_level_results2.REDEEMER_TOTAL_LIFT)",
+              "nativeQueryRef": "REDEEMER_TOTAL_LIFT"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results2"
+                    }
+                  },
+                  "Property": "NONREDEEMER_TOTAL_LIFT"
+                }
+              },
+              "queryRef": "Sum(campaign_level_results2.NONREDEEMER_TOTAL_LIFT)",
+              "nativeQueryRef": "NONREDEEMER_TOTAL_LIFT"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results2"
+                    }
+                  },
+                  "Property": "REDEEMER_DISCOUNT"
+                }
+              },
+              "queryRef": "Sum(campaign_level_results2.REDEEMER_DISCOUNT)",
+              "nativeQueryRef": "REDEEMER_DISCOUNT"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results2"
+                    }
+                  },
+                  "Property": "NONREDEEMER_DISCOUNT"
+                }
+              },
+              "queryRef": "Sum(campaign_level_results2.NONREDEEMER_DISCOUNT)",
+              "nativeQueryRef": "NONREDEEMER_DISCOUNT"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "Lift Differential"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(campaign_level_results2.Lift Differential)",
+              "nativeQueryRef": "Lift Differential",
+              "displayName": "Lift Differential"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results2"
+                    }
+                  },
+                  "Property": "Flag Direction"
+                }
+              },
+              "queryRef": "campaign_level_results2.Flag Direction",
+              "nativeQueryRef": "Flag Direction"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results2"
+                    }
+                  },
+                  "Property": "Flag Reliable"
+                }
+              },
+              "queryRef": "campaign_level_results2.Flag Reliable",
+              "nativeQueryRef": "Flag Reliable"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results2"
+                    }
+                  },
+                  "Property": "Flag Payback"
+                }
+              },
+              "queryRef": "campaign_level_results2.Flag_Payback",
+              "nativeQueryRef": "Flag Payback"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "campaign_level_results2"
+                    }
+                  },
+                  "Property": "Flag Attribution"
+                }
+              },
+              "queryRef": "campaign_level_results2.Flag_Attribution",
+              "nativeQueryRef": "Flag Attribution"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "% of Discount Spent on Non-Redeemers"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(campaign_level_results2.% of Discount Spent on Non-Redeemers)",
+              "nativeQueryRef": "Discount Spent on Non-Redeemers",
+              "displayName": "Discount Spent on Non-Redeemers"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "Net Result"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(campaign_level_results2.Net Result)",
+              "nativeQueryRef": "Net Result",
+              "displayName": "Net Result"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "general": [
+        {
+          "properties": {}
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "97.84345779266603D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "campaign_level_results2.REDEEMER_COUNT"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "61.50287630623782D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "campaign_level_results2.START_DAY"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "52.83257373326173D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "campaign_level_results2.END_DAY"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "100.36802113423286D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "campaign_level_results2.REDEEMER_DID"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "134.71096624888233D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "CountNonNull(campaign_level_results2.NONREDEEMER_DID)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "108.05017930301243D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sum(campaign_level_results2.REDEEMER_TOTAL_LIFT)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "139.01151386337506D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sum(campaign_level_results2.NONREDEEMER_TOTAL_LIFT)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "103.31074474449547D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sum(campaign_level_results2.REDEEMER_DISCOUNT)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "133.68330150088892D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sum(campaign_level_results2.NONREDEEMER_DISCOUNT)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "95.07243132931688D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sum(campaign_level_results2.Lift Differential)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "82.40089260907405D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "campaign_level_results2.Flag Direction"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "73.46187737410543D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "campaign_level_results2.Flag Reliable"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "80.28528316312624D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "campaign_level_results2.Flag_Payback"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "96.24935466116327D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "campaign_level_results2.Flag_Attribution"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "110.0269938013858D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sum(campaign_level_results2.% of Discount Spent on Non-Redeemers)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "99.4403600469525D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "campaign_level_results2.CAMPAIGN"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
+      ],
+      "columnFormatting": [
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "campaign_level_results2.Flag Direction"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "campaign_level_results2.Flag Reliable"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "campaign_level_results2.Flag_Payback"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "campaign_level_results2.Flag_Attribution"
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "textSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "stylePreset": [
+        {
+          "properties": {
+            "name": {
+              "expr": {
+                "Literal": {
+                  "Value": "'None'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

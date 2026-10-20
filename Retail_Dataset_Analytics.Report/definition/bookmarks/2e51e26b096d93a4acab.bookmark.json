@@ -1,0 +1,472 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
+  "displayName": "Plot Campaign",
+  "name": "2e51e26b096d93a4acab",
+  "options": {
+    "targetVisualNames": [
+      "d7e5da8d9e1617a0be17"
+    ]
+  },
+  "explorationState": {
+    "version": "1.3",
+    "activeSection": "aae1c296cf293c87e929",
+    "sections": {
+      "aae1c296cf293c87e929": {
+        "visualContainers": {
+          "d7e5da8d9e1617a0be17": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "245f28d1eb785717d8c2",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "CAMPAIGN"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "59e7ff3c3174d3d436f1",
+                  "type": "Advanced",
+                  "expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "campaign_level_results2"
+                            }
+                          },
+                          "Property": "NONREDEEMER_DID"
+                        }
+                      },
+                      "Function": 1
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "adbd9524ac175b362c0a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "campaign_level_results2"
+                            }
+                          },
+                          "Property": "REDEEMER_DID"
+                        }
+                      },
+                      "Function": 1
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "scatterChart",
+              "objects": {
+                "merge": {
+                  "zoom": [
+                    {
+                      "properties": {
+                        "categoryMin": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "1D"
+                            }
+                          }
+                        },
+                        "categorySize": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "141.93879025115478D"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "X": [
+                  {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "campaign_level_results2"
+                            }
+                          },
+                          "Property": "NONREDEEMER_DID"
+                        }
+                      },
+                      "Function": 1
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "92ebccfd208ad06a4f92": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "d2590d92c3156c813f39",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "CAMPAIGN"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "51488e500b72cb43ff0c",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "TYPE"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "b6f7b3e4719763a28bd6",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "REDEEMER_COUNT"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "36ebc89bc64cbb073779",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "REDEEMER_DID"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "94f405cf72b46fc29bc9",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "START_DAY"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "802ccdc003595044c40e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "END_DAY"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "4ef083eabf535019ebb1",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "NONREDEEMER_DID"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "b721acab0fbf662cdca5",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "REDEEMER_TOTAL_LIFT"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "84aa729ab9c1d837be08",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "NONREDEEMER_TOTAL_LIFT"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "19d8e174bce5949927c9",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "REDEEMER_DISCOUNT"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "724c72dca0a79fa4b117",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "NONREDEEMER_DISCOUNT"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "e8b0d8cb023fc7df2cd7",
+                  "type": "Advanced",
+                  "expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "campaign_level_results2"
+                            }
+                          },
+                          "Property": "Lift Differential"
+                        }
+                      },
+                      "Function": 0
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "d6e93268a057e2caab3c",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "Flag Direction"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "fd0480dc33a0d33369ea",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "Flag Reliable"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "2d0e93445c962b7d7ae8",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "Flag Payback"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "e70575b7205fe9af8e6d",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "campaign_level_results2"
+                        }
+                      },
+                      "Property": "Flag Attribution"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "2ed8ce15f59dd565a8e7",
+                  "type": "Advanced",
+                  "expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "campaign_level_results2"
+                            }
+                          },
+                          "Property": "% of Discount Spent on Non-Redeemers"
+                        }
+                      },
+                      "Function": 0
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "174a46f9b1dace19d24c",
+                  "type": "Advanced",
+                  "expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "campaign_level_results2"
+                            }
+                          },
+                          "Property": "Net Result"
+                        }
+                      },
+                      "Function": 0
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "tableEx",
+              "objects": {}
+            }
+          },
+          "e6f7b9873ebfb0364a23": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "6dc8611a93d300bd25d1": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "e90cb9e340063d726580": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "43b37a8be550814ad9ca": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "7cd3cc42183d25da3897": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

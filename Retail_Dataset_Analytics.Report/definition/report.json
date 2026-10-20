@@ -31,7 +31,7 @@
           "expanded": {
             "expr": {
               "Literal": {
-                "Value": "true"
+                "Value": "false"
               }
             }
           }
@@ -77,6 +77,11 @@
         {
           "name": "BackgrounBlank9460448801041389.png",
           "path": "BackgrounBlank9460448801041389.png",
+          "type": "Image"
+        },
+        {
+          "name": "BACKGROUND28038287114231583.png",
+          "path": "BACKGROUND28038287114231583.png",
           "type": "Image"
         },
         {

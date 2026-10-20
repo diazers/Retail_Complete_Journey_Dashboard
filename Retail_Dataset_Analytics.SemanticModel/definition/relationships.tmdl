@@ -76,9 +76,9 @@ relationship a1f61fca-81a6-47f8-9c75-04505f380f6d
 	fromColumn: 'Customer Cohort'.'Cohort Month'
 	toColumn: LocalDateTable_31e4f4ca-a94a-469a-b5a8-09ed7e58b76d.Date
 
-relationship b8863c19-1a9a-63f1-ec34-58fac0be1101
+relationship AutoDetected_59b4f757-1cbe-4199-a85c-52d569214f44
 	crossFilteringBehavior: bothDirections
 	fromCardinality: one
-	fromColumn: campaign_level_results.CAMPAIGN
+	fromColumn: campaign_level_results2.CAMPAIGN
 	toColumn: campaign_desc.CAMPAIGN
 

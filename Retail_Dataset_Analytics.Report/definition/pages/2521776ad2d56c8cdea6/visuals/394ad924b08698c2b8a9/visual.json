@@ -165,20 +165,6 @@
           ]
         },
         "howCreated": "User"
-      },
-      {
-        "name": "ad8376d6c2489cc55fd8",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Highlight Selector"
-              }
-            },
-            "Property": "Display Category"
-          }
-        },
-        "type": "Categorical"
       }
     ]
   }

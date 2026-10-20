@@ -4,7 +4,7 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 2724.1525528537363,
+        "x": 5738.515132162298,
         "y": 333.20410444813342
       },
       "nodes": [
@@ -417,19 +417,6 @@
         },
         {
           "location": {
-            "x": 1619.9024284729649,
-            "y": 106.04220482104677
-          },
-          "nodeIndex": "campaign_level_results",
-          "nodeLineageTag": "82e3c18c-b683-49b8-83b8-8ae2962886d0",
-          "size": {
-            "height": 300,
-            "width": 234
-          },
-          "zIndex": 7
-        },
-        {
-          "location": {
             "x": 5963.7367825871879,
             "y": 470.789069263443
           },
@@ -476,6 +463,19 @@
             "width": 234
           },
           "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 7059.7604402908219,
+            "y": 420.789069263443
+          },
+          "nodeIndex": "campaign_level_results2",
+          "nodeLineageTag": "b76d7dc6-95fa-4a4c-939e-337fb6efa4b3",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
         }
       ],
       "name": "All tables",

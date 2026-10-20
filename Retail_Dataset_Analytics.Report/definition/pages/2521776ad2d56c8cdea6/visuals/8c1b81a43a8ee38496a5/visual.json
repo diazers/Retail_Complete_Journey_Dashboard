@@ -378,62 +378,6 @@
             }
           ]
         }
-      },
-      {
-        "name": "d95947bbb0b72db79f69",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Dim_Causal"
-              }
-            },
-            "Property": "Redeemed Purchases by Display"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "ec5c0568974022932bf3",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Dim_Causal"
-              }
-            },
-            "Property": "Households Contributing"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "f967214e360690c2df71",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Redeem"
-              }
-            },
-            "Property": "Redeemed Value ($)"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "2cd9c4b2f86525b82a2a",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Dim_Causal"
-              }
-            },
-            "Property": "% of Total Redeemed"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }
