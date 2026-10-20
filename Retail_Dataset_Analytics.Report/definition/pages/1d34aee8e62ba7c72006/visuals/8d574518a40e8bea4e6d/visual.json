@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "8d574518a40e8bea4e6d",
   "position": {
     "x": 1788.5714285714287,
@@ -145,23 +145,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "82c4e3320a1493e421c4",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "RFM Metric Selector"
-              }
-            },
-            "Property": "MetricName"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

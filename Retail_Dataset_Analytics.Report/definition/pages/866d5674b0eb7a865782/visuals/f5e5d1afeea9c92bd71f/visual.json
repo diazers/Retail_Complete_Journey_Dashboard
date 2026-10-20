@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-  "name": "13bd85fa72817dd433d1",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "f5e5d1afeea9c92bd71f",
   "position": {
-    "x": 280.62857142857149,
-    "y": 163.55428571428567,
-    "z": 1000,
-    "height": 287.03999999999996,
-    "width": 763.19999999999993,
-    "tabOrder": 1000
+    "x": 0,
+    "y": 381.27659574468089,
+    "z": 5000,
+    "height": 338.48024316109422,
+    "width": 880.243161094225,
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "pivotTable",
@@ -152,6 +152,123 @@
         "root": {}
       }
     ],
+    "objects": {
+      "grid": [
+        {
+          "properties": {
+            "textSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "9793302f98251eff9dd2",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim_Product"
+              }
+            },
+            "Property": "DEPARTMENT"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "30e4cdf7a06f5cfb40ad",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Redeem"
+              }
+            },
+            "Property": "Redeemed Purchases"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "dc2eaaafddaab1898bee",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Redeem"
+              }
+            },
+            "Property": "% No Causal Data"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "96b491eae7ec8247f4cd",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Redeem"
+              }
+            },
+            "Property": "Redeemed - With Causal Data"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9de5a5873d70be78fe6e",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Redeem"
+              }
+            },
+            "Property": "% Display Only"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "6fc058518135e681fcf5",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Redeem"
+              }
+            },
+            "Property": "% Mailer Only"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "761fd06183357b3b0e7a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Redeem"
+              }
+            },
+            "Property": "% Both"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

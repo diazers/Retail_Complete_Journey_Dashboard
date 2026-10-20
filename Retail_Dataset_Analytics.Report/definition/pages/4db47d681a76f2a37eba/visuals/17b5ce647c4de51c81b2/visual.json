@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
-  "name": "f9bc59885ac92c015110",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "17b5ce647c4de51c81b2",
   "position": {
-    "x": 43.802281368821291,
-    "y": 440.94296577946767,
-    "z": 1000,
+    "x": 78.784194528875389,
+    "y": 271.36778115501522,
+    "z": 0,
     "height": 279.361216730038,
     "width": 1045.4144486692014,
-    "tabOrder": 1000
+    "tabOrder": 0
   },
   "visual": {
     "visualType": "pivotTable",
@@ -150,5 +150,112 @@
       }
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "f8d7c6faae92cf0c2b25",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Fact_Sales_GPMargin"
+              }
+            },
+            "Property": "Retail Discount Band"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "e725be4ea50ea3667b8d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MeasureGroup"
+              }
+            },
+            "Property": "Profit Margin %"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "94125e5cc5eade996755",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Discount"
+              }
+            },
+            "Property": "Total Discount Given"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "119566389965124c55b2",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Discount"
+              }
+            },
+            "Property": "Foregone Profit from Discounting"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "7ccba0f5d09b25229e13",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MeasureGroup"
+              }
+            },
+            "Property": "Total_Sales"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "29f35307b7d6dd3cd34b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MeasureGroup"
+              }
+            },
+            "Property": "Total_Gross_Profit"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "aa86080b8854b15aad65",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Fact_Sales_GPMargin"
+                  }
+                },
+                "Property": "Retail Discount Band Sort"
+              }
+            },
+            "Function": 3
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

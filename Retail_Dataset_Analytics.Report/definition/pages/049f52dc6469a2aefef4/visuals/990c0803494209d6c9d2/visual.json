@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "990c0803494209d6c9d2",
   "position": {
-    "x": 1422.8571428571429,
-    "y": 225.71428571428572,
+    "x": 1061.2591986917416,
+    "y": 86.345053147996737,
     "z": 0,
-    "height": 682.56,
-    "width": 497.28,
+    "height": 956.07522485690924,
+    "width": 822.63286999182344,
     "tabOrder": 0
   },
   "visual": {
@@ -71,11 +71,11 @@
                       "Entity": "Redeem"
                     }
                   },
-                  "Property": "HouseholdsRedeemed"
+                  "Property": "Households Redeemed"
                 }
               },
               "queryRef": "Table.HouseholdsRedeemed",
-              "nativeQueryRef": "HouseholdsRedeemed"
+              "nativeQueryRef": "Households Redeemed"
             },
             {
               "field": {
@@ -90,6 +90,34 @@
               },
               "queryRef": "coupon_redempt.Household Redemption Rate",
               "nativeQueryRef": "Household Redemption Rate"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Redeem"
+                    }
+                  },
+                  "Property": "Total Redemptions"
+                }
+              },
+              "queryRef": "Redeem.TotalRedemptions",
+              "nativeQueryRef": "Total Redemptions"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Redeem"
+                    }
+                  },
+                  "Property": "AvgRedemptionsPerRedeemer"
+                }
+              },
+              "queryRef": "Redeem.AvgRedemptionsPerRedeemer",
+              "nativeQueryRef": "AvgRedemptionsPerRedeemer"
             }
           ]
         }
@@ -202,11 +230,66 @@
           "selector": {
             "metadata": "Table.Households Targeted"
           }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "107.13371645179107D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Table.HouseholdsRedeemed"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "144.9209328252055D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "coupon_redempt.Household Redemption Rate"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "147.82043310769618D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Redeem.AvgRedemptionsPerRedeemer"
+          }
         }
       ],
       "columnHeaders": [
         {
           "properties": {}
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "textSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "13D"
+                }
+              }
+            }
+          }
         }
       ]
     },
@@ -215,7 +298,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "451e125fcdff3efa4570",
+        "name": "a3ab7f93c30b18a1cab3",
         "field": {
           "Column": {
             "Expression": {
@@ -229,7 +312,7 @@
         "type": "Categorical"
       },
       {
-        "name": "df33d142c87fe25896e7",
+        "name": "c7d53ff7e239fe6f2446",
         "field": {
           "Column": {
             "Expression": {
@@ -243,7 +326,7 @@
         "type": "Advanced"
       },
       {
-        "name": "9da3d76c24988d3a6b68",
+        "name": "a3ff1f47a245926ea1f6",
         "field": {
           "Measure": {
             "Expression": {
@@ -257,7 +340,7 @@
         "type": "Advanced"
       },
       {
-        "name": "f2b222115f41b67d9c64",
+        "name": "f697f7d5b46899646346",
         "field": {
           "Measure": {
             "Expression": {
@@ -265,13 +348,13 @@
                 "Entity": "Redeem"
               }
             },
-            "Property": "HouseholdsRedeemed"
+            "Property": "Households Redeemed"
           }
         },
         "type": "Advanced"
       },
       {
-        "name": "a52639b1c71884601d51",
+        "name": "303e912fdfc66a5375ab",
         "field": {
           "Measure": {
             "Expression": {
@@ -280,6 +363,34 @@
               }
             },
             "Property": "Household Redemption Rate"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "df8b062f90ffd57fbb96",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Redeem"
+              }
+            },
+            "Property": "Total Redemptions"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9691012befc84611891a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Redeem"
+              }
+            },
+            "Property": "AvgRedemptionsPerRedeemer"
           }
         },
         "type": "Advanced"

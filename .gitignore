@@ -4,6 +4,7 @@
 *.abf
 Old Reference/
 Assets/*.pptx
+PBIX/*.pbix
 
 Old Reference/
 Assets/*.pptx

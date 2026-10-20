@@ -1854,17 +1854,21 @@ table MeasureGroup
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure 'Avg Coupon Discount %' = AVERAGE(Fact_Sales_GPMargin[COUPON_DISC])
-		formatString: 0.0000
+	measure 'Avg Coupon Discount' = AVERAGE(Fact_Sales_GPMargin[COUPON_DISC])
+		formatString: \$#,0.0000;(\$#,0.0000);\$#,0.0000
 		lineageTag: de307dbc-bf69-4072-9e8d-dd2bae18a90b
 
-	measure 'Avg Retail Discount %' = AVERAGE(Fact_Sales_GPMargin[RETAIL_DISC])
-		formatString: 0.00
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Avg Retail Discount' = AVERAGE(Fact_Sales_GPMargin[RETAIL_DISC])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
 		lineageTag: d3cdb136-2f13-4966-b9c6-ddc68e7452ad
 
 	measure 'Avg Match Discount %' = AVERAGE(Fact_Sales_GPMargin[COUPON_MATCH_DISC])
-		formatString: 0.0000
+		formatString: \$#,0.0000;(\$#,0.0000);\$#,0.0000
 		lineageTag: 394db9c9-de00-458a-bd71-ed58c4eda765
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	measure 'Profit Margin %' =
 			

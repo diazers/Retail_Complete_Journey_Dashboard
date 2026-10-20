@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "a3152001758b8fd80365",
   "position": {
     "x": 396.60675772825306,
@@ -88,7 +88,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'''hh_demographic''[AGE_DESC]'"
+                                "Value": "'''hh_demographic''[HH_COMP_DESC]'"
                               }
                             }
                           ]
@@ -116,7 +116,7 @@
                                 "0": [
                                   {
                                     "Literal": {
-                                      "Value": "'''hh_demographic''[AGE_DESC]'"
+                                      "Value": "'''hh_demographic''[HH_COMP_DESC]'"
                                     }
                                   }
                                 ]
@@ -140,7 +140,7 @@
                         },
                         "valueMap": [
                           {
-                            "0": "AGE_DESC"
+                            "0": "HH_COMP_DESC"
                           }
                         ]
                       }

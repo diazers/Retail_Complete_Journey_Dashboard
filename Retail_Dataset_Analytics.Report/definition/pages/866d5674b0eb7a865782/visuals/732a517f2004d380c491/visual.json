@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "732a517f2004d380c491",
   "position": {
-    "x": 43.5264483627204,
-    "y": 88.86649874055415,
+    "x": 0,
+    "y": 0,
     "z": 0,
-    "height": 322.82115869017628,
-    "width": 1236.8765743073047,
+    "height": 347.2340425531915,
+    "width": 1204.1337386018238,
     "tabOrder": 0
   },
   "visual": {
@@ -123,11 +123,11 @@
                       "Entity": "MeasureGroup"
                     }
                   },
-                  "Property": "Avg Coupon Discount %"
+                  "Property": "Avg Retail Discount"
                 }
               },
-              "queryRef": "MeasureGroup.Avg Coupon Discount %",
-              "nativeQueryRef": "Avg Coupon Discount %"
+              "queryRef": "MeasureGroup.Avg Retail Discount %",
+              "nativeQueryRef": "Avg Retail Discount"
             },
             {
               "field": {
@@ -137,11 +137,11 @@
                       "Entity": "MeasureGroup"
                     }
                   },
-                  "Property": "Avg Retail Discount %"
+                  "Property": "Avg Coupon Discount"
                 }
               },
-              "queryRef": "MeasureGroup.Avg Retail Discount %",
-              "nativeQueryRef": "Avg Retail Discount %"
+              "queryRef": "MeasureGroup.Avg Coupon Discount %",
+              "nativeQueryRef": "Avg Coupon Discount"
             },
             {
               "field": {
@@ -235,5 +235,159 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "3c4c11c18346fa019336",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim_Product"
+              }
+            },
+            "Property": "DEPARTMENT"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "85ab23e2d1c66d26dd46",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim_Product"
+              }
+            },
+            "Property": "COMMODITY_DESC"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "bc3295ae5c81c7fd9ba3",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MeasureGroup"
+              }
+            },
+            "Property": "Total_Sales"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9bf3577b530363e48555",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Fact_Sales_GPMargin"
+                  }
+                },
+                "Property": "Estimated_Gross_Profit"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4fc0cc5dadb3114a2d47",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MeasureGroup"
+              }
+            },
+            "Property": "Total_COGS"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "256d1e2fbe88e57ec72a",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Fact_Sales_GPMargin"
+                  }
+                },
+                "Property": "List Price"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "8a53dbcdbb706604baf5",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MeasureGroup"
+              }
+            },
+            "Property": "Avg Coupon Discount"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9f3ac3844cd35d09f5bf",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MeasureGroup"
+              }
+            },
+            "Property": "Avg Match Discount %"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4294bb031067d7389ab7",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Discount"
+              }
+            },
+            "Property": "Foregone Profit from Discounting"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "a726863fee082169497a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MeasureGroup"
+              }
+            },
+            "Property": "Avg Retail Discount"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

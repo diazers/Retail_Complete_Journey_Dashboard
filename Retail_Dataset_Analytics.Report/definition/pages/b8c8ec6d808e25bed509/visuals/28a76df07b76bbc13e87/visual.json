@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "28a76df07b76bbc13e87",
   "position": {
     "x": 47.025247995656514,
@@ -364,23 +364,5 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "5b7a0f2a7c4c7b421d0c",
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "93d129b3a4171c66be5e",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Date Selection"
-              }
-            },
-            "Property": "Date Selection"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
-  }
+  "parentGroupName": "5b7a0f2a7c4c7b421d0c"
 }

@@ -1,0 +1,201 @@
+DEFINE
+    VAR CampaignIDText = "18"
+    VAR CampaignIDInt = 18
+
+    VAR TreatmentHH = CALCULATETABLE( VALUES( campaign_table[household_key] ), campaign_table[CAMPAIGN] = CampaignIDText )
+    VAR TreatmentCount = COUNTROWS( TreatmentHH )
+
+    VAR RedeemedHH = 
+        CALCULATETABLE( 
+            VALUES( coupon_redempt[household_key] ), 
+            coupon_redempt[CAMPAIGN] = CampaignIDInt 
+        )
+    VAR RedeemedCount = COUNTROWS( RedeemedHH )
+
+    VAR RedeemedInTreatment = COUNTROWS( INTERSECT( TreatmentHH, RedeemedHH ) )
+
+    VAR TotalRedemptions = 
+        CALCULATE( 
+            COUNTROWS( coupon_redempt ), 
+            coupon_redempt[CAMPAIGN] = CampaignIDInt 
+        )
+
+    VAR RedemptionRate = DIVIDE( RedeemedInTreatment, TreatmentCount )
+    VAR AvgRedemptionsPerRedeemer = DIVIDE( TotalRedemptions, RedeemedInTreatment )
+
+EVALUATE
+    ROW(
+        "Treatment Count", TreatmentCount,
+        "Households That Redeemed", RedeemedInTreatment,
+        "Redemption Rate", RedemptionRate,
+        "Total Coupon Redemptions", TotalRedemptions,
+        "Avg Redemptions per Redeemer", AvgRedemptionsPerRedeemer
+    )
+	
+	
+	
+	
+
+
+DEFINE
+    VAR CampaignIDText = "18"
+    VAR CampaignIDInt = 18
+    VAR CampStart = 587
+    VAR CampEnd = 642
+    VAR CampLength = CampEnd - CampStart + 1
+    VAR BeforeStart = CampStart - CampLength
+    VAR BeforeEnd = CampStart - 1
+
+    VAR TreatmentHH = CALCULATETABLE( VALUES( campaign_table[household_key] ), campaign_table[CAMPAIGN] = CampaignIDText )
+    VAR RedeemedHH = CALCULATETABLE( VALUES( coupon_redempt[household_key] ), coupon_redempt[CAMPAIGN] = CampaignIDInt )
+
+    VAR RedeemerHH = INTERSECT( TreatmentHH, RedeemedHH )
+    VAR NonRedeemerHH = EXCEPT( TreatmentHH, RedeemedHH )
+    VAR AllHH = VALUES( Fact_Sales_GPMargin[household_key] )
+    VAR ControlHH = EXCEPT( AllHH, TreatmentHH )
+
+    VAR RedeemerCount = COUNTROWS( RedeemerHH )
+    VAR NonRedeemerCount = COUNTROWS( NonRedeemerHH )
+    VAR ControlCount = COUNTROWS( ControlHH )
+
+    -- Redeemers
+    VAR RedeemerBefore = DIVIDE( CALCULATE( SUM( Fact_Sales_GPMargin[SALES_VALUE] ), Fact_Sales_GPMargin[household_key] IN RedeemerHH, Fact_Sales_GPMargin[DAY] >= BeforeStart, Fact_Sales_GPMargin[DAY] <= BeforeEnd ), RedeemerCount )
+    VAR RedeemerDuring = DIVIDE( CALCULATE( SUM( Fact_Sales_GPMargin[SALES_VALUE] ), Fact_Sales_GPMargin[household_key] IN RedeemerHH, Fact_Sales_GPMargin[DAY] >= CampStart, Fact_Sales_GPMargin[DAY] <= CampEnd ), RedeemerCount )
+    VAR RedeemerChange = RedeemerDuring - RedeemerBefore
+
+    -- Non-redeemers
+    VAR NonRedeemerBefore = DIVIDE( CALCULATE( SUM( Fact_Sales_GPMargin[SALES_VALUE] ), Fact_Sales_GPMargin[household_key] IN NonRedeemerHH, Fact_Sales_GPMargin[DAY] >= BeforeStart, Fact_Sales_GPMargin[DAY] <= BeforeEnd ), NonRedeemerCount )
+    VAR NonRedeemerDuring = DIVIDE( CALCULATE( SUM( Fact_Sales_GPMargin[SALES_VALUE] ), Fact_Sales_GPMargin[household_key] IN NonRedeemerHH, Fact_Sales_GPMargin[DAY] >= CampStart, Fact_Sales_GPMargin[DAY] <= CampEnd ), NonRedeemerCount )
+    VAR NonRedeemerChange = NonRedeemerDuring - NonRedeemerBefore
+
+    -- Control (baseline for DiD)
+    VAR ControlBefore = DIVIDE( CALCULATE( SUM( Fact_Sales_GPMargin[SALES_VALUE] ), Fact_Sales_GPMargin[household_key] IN ControlHH, Fact_Sales_GPMargin[DAY] >= BeforeStart, Fact_Sales_GPMargin[DAY] <= BeforeEnd ), ControlCount )
+    VAR ControlDuring = DIVIDE( CALCULATE( SUM( Fact_Sales_GPMargin[SALES_VALUE] ), Fact_Sales_GPMargin[household_key] IN ControlHH, Fact_Sales_GPMargin[DAY] >= CampStart, Fact_Sales_GPMargin[DAY] <= CampEnd ), ControlCount )
+    VAR ControlChange = ControlDuring - ControlBefore
+
+    -- DiD per subgroup vs control
+    VAR RedeemerDiD = RedeemerChange - ControlChange
+    VAR NonRedeemerDiD = NonRedeemerChange - ControlChange
+
+    -- Discount given to each subgroup during campaign
+    VAR RedeemerDiscount = CALCULATE( SUM( Fact_Sales_GPMargin[RETAIL_DISC] ) + SUM( Fact_Sales_GPMargin[COUPON_DISC] ) + SUM( Fact_Sales_GPMargin[COUPON_MATCH_DISC] ), Fact_Sales_GPMargin[household_key] IN RedeemerHH, Fact_Sales_GPMargin[DAY] >= CampStart, Fact_Sales_GPMargin[DAY] <= CampEnd )
+    VAR NonRedeemerDiscount = CALCULATE( SUM( Fact_Sales_GPMargin[RETAIL_DISC] ) + SUM( Fact_Sales_GPMargin[COUPON_DISC] ) + SUM( Fact_Sales_GPMargin[COUPON_MATCH_DISC] ), Fact_Sales_GPMargin[household_key] IN NonRedeemerHH, Fact_Sales_GPMargin[DAY] >= CampStart, Fact_Sales_GPMargin[DAY] <= CampEnd )
+
+EVALUATE
+    ROW(
+        "Redeemer Count", RedeemerCount,
+        "Redeemer Before", RedeemerBefore,
+        "Redeemer During", RedeemerDuring,
+        "Redeemer DiD", RedeemerDiD,
+        "Redeemer Total Lift", RedeemerDiD * RedeemerCount,
+        "Redeemer Discount Given", RedeemerDiscount,
+
+        "NonRedeemer Count", NonRedeemerCount,
+        "NonRedeemer Before", NonRedeemerBefore,
+        "NonRedeemer During", NonRedeemerDuring,
+        "NonRedeemer DiD", NonRedeemerDiD,
+        "NonRedeemer Total Lift", NonRedeemerDiD * NonRedeemerCount,
+        "NonRedeemer Discount Given", NonRedeemerDiscount,
+
+        "Control Change (baseline)", ControlChange
+    )
+
+
+
+
+DEFINE
+    VAR CampaignResults =
+        ADDCOLUMNS(
+            campaign_desc,
+            "@RedeemerCount",
+                VAR CampIDText = FORMAT( campaign_desc[CAMPAIGN], "0" )
+                VAR CampIDInt = VALUE( campaign_desc[CAMPAIGN] )
+                VAR TreatmentHH = CALCULATETABLE( VALUES( campaign_table[household_key] ), campaign_table[CAMPAIGN] = CampIDText )
+                VAR RedeemedHH = CALCULATETABLE( VALUES( coupon_redempt[household_key] ), coupon_redempt[CAMPAIGN] = CampIDInt )
+                RETURN COUNTROWS( INTERSECT( TreatmentHH, RedeemedHH ) ),
+
+            "@NonRedeemerCount",
+                VAR CampIDText = FORMAT( campaign_desc[CAMPAIGN], "0" )
+                VAR CampIDInt = VALUE( campaign_desc[CAMPAIGN] )
+                VAR TreatmentHH = CALCULATETABLE( VALUES( campaign_table[household_key] ), campaign_table[CAMPAIGN] = CampIDText )
+                VAR RedeemedHH = CALCULATETABLE( VALUES( coupon_redempt[household_key] ), coupon_redempt[CAMPAIGN] = CampIDInt )
+                RETURN COUNTROWS( EXCEPT( TreatmentHH, RedeemedHH ) ),
+
+            "@RedeemerDiD",
+                VAR CampIDText = FORMAT( campaign_desc[CAMPAIGN], "0" )
+                VAR CampIDInt = VALUE( campaign_desc[CAMPAIGN] )
+                VAR CampStart = campaign_desc[START_DAY]
+                VAR CampEnd = campaign_desc[END_DAY]
+                VAR BeforeStart = CampStart - ( CampEnd - CampStart + 1 )
+                VAR BeforeEnd = CampStart - 1
+                VAR TreatmentHH = CALCULATETABLE( VALUES( campaign_table[household_key] ), campaign_table[CAMPAIGN] = CampIDText )
+                VAR RedeemedHH = CALCULATETABLE( VALUES( coupon_redempt[household_key] ), coupon_redempt[CAMPAIGN] = CampIDInt )
+                VAR RedeemerHH = INTERSECT( TreatmentHH, RedeemedHH )
+                VAR ControlHH = EXCEPT( VALUES( Fact_Sales_GPMargin[household_key] ), TreatmentHH )
+                VAR RedeemerCnt = COUNTROWS( RedeemerHH )
+                VAR ControlCnt = COUNTROWS( ControlHH )
+                VAR RedBefore = DIVIDE( CALCULATE( SUM( Fact_Sales_GPMargin[SALES_VALUE] ), Fact_Sales_GPMargin[household_key] IN RedeemerHH, Fact_Sales_GPMargin[DAY] >= BeforeStart, Fact_Sales_GPMargin[DAY] <= BeforeEnd ), RedeemerCnt )
+                VAR RedDuring = DIVIDE( CALCULATE( SUM( Fact_Sales_GPMargin[SALES_VALUE] ), Fact_Sales_GPMargin[household_key] IN RedeemerHH, Fact_Sales_GPMargin[DAY] >= CampStart, Fact_Sales_GPMargin[DAY] <= CampEnd ), RedeemerCnt )
+                VAR CtrlBefore = DIVIDE( CALCULATE( SUM( Fact_Sales_GPMargin[SALES_VALUE] ), Fact_Sales_GPMargin[household_key] IN ControlHH, Fact_Sales_GPMargin[DAY] >= BeforeStart, Fact_Sales_GPMargin[DAY] <= BeforeEnd ), ControlCnt )
+                VAR CtrlDuring = DIVIDE( CALCULATE( SUM( Fact_Sales_GPMargin[SALES_VALUE] ), Fact_Sales_GPMargin[household_key] IN ControlHH, Fact_Sales_GPMargin[DAY] >= CampStart, Fact_Sales_GPMargin[DAY] <= CampEnd ), ControlCnt )
+                RETURN ( RedDuring - RedBefore ) - ( CtrlDuring - CtrlBefore ),
+
+            "@NonRedeemerDiD",
+                VAR CampIDText = FORMAT( campaign_desc[CAMPAIGN], "0" )
+                VAR CampIDInt = VALUE( campaign_desc[CAMPAIGN] )
+                VAR CampStart = campaign_desc[START_DAY]
+                VAR CampEnd = campaign_desc[END_DAY]
+                VAR BeforeStart = CampStart - ( CampEnd - CampStart + 1 )
+                VAR BeforeEnd = CampStart - 1
+                VAR TreatmentHH = CALCULATETABLE( VALUES( campaign_table[household_key] ), campaign_table[CAMPAIGN] = CampIDText )
+                VAR RedeemedHH = CALCULATETABLE( VALUES( coupon_redempt[household_key] ), coupon_redempt[CAMPAIGN] = CampIDInt )
+                VAR NonRedeemerHH = EXCEPT( TreatmentHH, RedeemedHH )
+                VAR ControlHH = EXCEPT( VALUES( Fact_Sales_GPMargin[household_key] ), TreatmentHH )
+                VAR NonRedCnt = COUNTROWS( NonRedeemerHH )
+                VAR ControlCnt = COUNTROWS( ControlHH )
+                VAR NonRedBefore = DIVIDE( CALCULATE( SUM( Fact_Sales_GPMargin[SALES_VALUE] ), Fact_Sales_GPMargin[household_key] IN NonRedeemerHH, Fact_Sales_GPMargin[DAY] >= BeforeStart, Fact_Sales_GPMargin[DAY] <= BeforeEnd ), NonRedCnt )
+                VAR NonRedDuring = DIVIDE( CALCULATE( SUM( Fact_Sales_GPMargin[SALES_VALUE] ), Fact_Sales_GPMargin[household_key] IN NonRedeemerHH, Fact_Sales_GPMargin[DAY] >= CampStart, Fact_Sales_GPMargin[DAY] <= CampEnd ), NonRedCnt )
+                VAR CtrlBefore = DIVIDE( CALCULATE( SUM( Fact_Sales_GPMargin[SALES_VALUE] ), Fact_Sales_GPMargin[household_key] IN ControlHH, Fact_Sales_GPMargin[DAY] >= BeforeStart, Fact_Sales_GPMargin[DAY] <= BeforeEnd ), ControlCnt )
+                VAR CtrlDuring = DIVIDE( CALCULATE( SUM( Fact_Sales_GPMargin[SALES_VALUE] ), Fact_Sales_GPMargin[household_key] IN ControlHH, Fact_Sales_GPMargin[DAY] >= CampStart, Fact_Sales_GPMargin[DAY] <= CampEnd ), ControlCnt )
+                RETURN ( NonRedDuring - NonRedBefore ) - ( CtrlDuring - CtrlBefore ),
+
+            "@RedeemerDiscount",
+                VAR CampIDText = FORMAT( campaign_desc[CAMPAIGN], "0" )
+                VAR CampIDInt = VALUE( campaign_desc[CAMPAIGN] )
+                VAR CampStart = campaign_desc[START_DAY]
+                VAR CampEnd = campaign_desc[END_DAY]
+                VAR TreatmentHH = CALCULATETABLE( VALUES( campaign_table[household_key] ), campaign_table[CAMPAIGN] = CampIDText )
+                VAR RedeemedHH = CALCULATETABLE( VALUES( coupon_redempt[household_key] ), coupon_redempt[CAMPAIGN] = CampIDInt )
+                VAR RedeemerHH = INTERSECT( TreatmentHH, RedeemedHH )
+                RETURN CALCULATE( SUM( Fact_Sales_GPMargin[RETAIL_DISC] ) + SUM( Fact_Sales_GPMargin[COUPON_DISC] ) + SUM( Fact_Sales_GPMargin[COUPON_MATCH_DISC] ), Fact_Sales_GPMargin[household_key] IN RedeemerHH, Fact_Sales_GPMargin[DAY] >= CampStart, Fact_Sales_GPMargin[DAY] <= CampEnd ),
+
+            "@NonRedeemerDiscount",
+                VAR CampIDText = FORMAT( campaign_desc[CAMPAIGN], "0" )
+                VAR CampIDInt = VALUE( campaign_desc[CAMPAIGN] )
+                VAR CampStart = campaign_desc[START_DAY]
+                VAR CampEnd = campaign_desc[END_DAY]
+                VAR TreatmentHH = CALCULATETABLE( VALUES( campaign_table[household_key] ), campaign_table[CAMPAIGN] = CampIDText )
+                VAR RedeemedHH = CALCULATETABLE( VALUES( coupon_redempt[household_key] ), coupon_redempt[CAMPAIGN] = CampIDInt )
+                VAR NonRedeemerHH = EXCEPT( TreatmentHH, RedeemedHH )
+                RETURN CALCULATE( SUM( Fact_Sales_GPMargin[RETAIL_DISC] ) + SUM( Fact_Sales_GPMargin[COUPON_DISC] ) + SUM( Fact_Sales_GPMargin[COUPON_MATCH_DISC] ), Fact_Sales_GPMargin[household_key] IN NonRedeemerHH, Fact_Sales_GPMargin[DAY] >= CampStart, Fact_Sales_GPMargin[DAY] <= CampEnd )
+        )
+
+    VAR CampaignFinal =
+        ADDCOLUMNS(
+            CampaignResults,
+            "@RedeemerTotalLift", [@RedeemerDiD] * [@RedeemerCount],
+            "@NonRedeemerTotalLift", [@NonRedeemerDiD] * [@NonRedeemerCount]
+        )
+
+EVALUATE
+    GROUPBY(
+        CampaignFinal,
+        [DESCRIPTION],
+        "Campaign Count", COUNTX( CURRENTGROUP(), [DESCRIPTION] ),
+        "Total Redeemer Count", SUMX( CURRENTGROUP(), [@RedeemerCount] ),
+        "Total NonRedeemer Count", SUMX( CURRENTGROUP(), [@NonRedeemerCount] ),
+        "Total Redeemer Lift", SUMX( CURRENTGROUP(), [@RedeemerTotalLift] ),
+        "Total NonRedeemer Lift", SUMX( CURRENTGROUP(), [@NonRedeemerTotalLift] ),
+        "Total Redeemer Discount", SUMX( CURRENTGROUP(), [@RedeemerDiscount] ),
+        "Total NonRedeemer Discount", SUMX( CURRENTGROUP(), [@NonRedeemerDiscount] )
+    )
