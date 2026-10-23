@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "721a0e02e98d503fd6a6",
   "position": {
-    "x": 185.71428571428572,
-    "y": 98.571428571428584,
+    "x": 543.31831150293,
+    "y": 90.6638437196333,
     "z": 7000,
     "height": 121.42857142857143,
     "width": 252.85714285714286,
@@ -27,11 +27,58 @@
                 }
               },
               "queryRef": "campaign_level_results2.Passing Direction Summary",
-              "nativeQueryRef": "Passing Direction Summary"
+              "nativeQueryRef": "Passing Direction",
+              "displayName": "Passing Direction"
             }
           ]
         }
       }
+    },
+    "objects": {
+      "layout": [
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'middle'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "label": [
+        {
+          "properties": {
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'aboveValue'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Direction Card'"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "drillFilterOtherVisuals": true
   }

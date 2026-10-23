@@ -7,20 +7,55 @@ table campaign_level_results2
 		formatString: 0
 		lineageTag: d9f66cc3-b350-4ffb-9277-7879efb88344
 
-	measure 'Passing Direction Summary' =
+	measure 'Passing Direction Summary' = ```
 			
-			VAR PassCount = COUNTROWS( FILTER( campaign_level_results2, campaign_level_results2[Flag Direction] = "✅" ) )
-			VAR FailCount = COUNTROWS( FILTER( campaign_level_results2, campaign_level_results2[Flag Direction] = "❌" ) )
+			VAR TotalPass = CALCULATE( COUNTROWS( campaign_level_results2 ), campaign_level_results2[Flag Direction] = "✅", ALL( campaign_level_results2[Flag Direction] ) )
+			VAR TotalFail = CALCULATE( COUNTROWS( campaign_level_results2 ), campaign_level_results2[Flag Direction] = "❌", ALL( campaign_level_results2[Flag Direction] ) )
+			
+			-- Check what is currently selected in the slicer
+			VAR CurrentSelection = VALUES( campaign_level_results2[Flag Direction] )
+			VAR IsPassSelected = "✅" IN CurrentSelection && NOT("❌" IN CurrentSelection)
+			VAR IsFailSelected = "❌" IN CurrentSelection && NOT("✅" IN CurrentSelection)
+			
+			VAR PassDisplay = IF( IsFailSelected, "--", TotalPass )
+			VAR FailDisplay = IF( IsPassSelected, "--", TotalFail )
+			
 			RETURN
-			"✅ " & PassCount & "   ❌ " & FailCount
+			"✅ " & PassDisplay & "   ❌ " & FailDisplay
+			
+			
+			
+			// Passing Direction Summary = 
+			// VAR PassCount = COUNTROWS( FILTER( campaign_level_results2, campaign_level_results2[Flag Direction] = "✅" ) )
+			// VAR FailCount = COUNTROWS( FILTER( campaign_level_results2, campaign_level_results2[Flag Direction] = "❌" ) )
+			// RETURN
+			// "✅ " & PassCount & "   ❌ " & FailCount
+			```
 		lineageTag: b24c4f7a-02db-4269-acbd-0199fe5a608f
 
-	measure 'Passing Reliable Summary' =
+	measure 'Passing Reliable Summary' = ```
 			
-			VAR PassCount = COUNTROWS( FILTER( campaign_level_results2, campaign_level_results2[Flag Reliable] = "✅" ) )
-			VAR FailCount = COUNTROWS( FILTER( campaign_level_results2, campaign_level_results2[Flag Reliable] = "❌" ) )
+			VAR TotalPass = CALCULATE( COUNTROWS( campaign_level_results2 ), campaign_level_results2[Flag Reliable] = "✅", ALL( campaign_level_results2[Flag Reliable] ) )
+			VAR TotalFail = CALCULATE( COUNTROWS( campaign_level_results2 ), campaign_level_results2[Flag Reliable] = "❌", ALL( campaign_level_results2[Flag Reliable] ) )
+			
+			-- Check what is currently selected in the slicer
+			VAR CurrentSelection = VALUES( campaign_level_results2[Flag Reliable] )
+			VAR IsPassSelected = "✅" IN CurrentSelection && NOT("❌" IN CurrentSelection)
+			VAR IsFailSelected = "❌" IN CurrentSelection && NOT("✅" IN CurrentSelection)
+			
+			VAR PassDisplay = IF( IsFailSelected, "--", TotalPass )
+			VAR FailDisplay = IF( IsPassSelected, "--", TotalFail )
+			
 			RETURN
-			"✅ " & PassCount & "   ❌ " & FailCount
+			"✅ " & PassDisplay & "   ❌ " & FailDisplay
+			
+			
+			// Passing Reliable Summary = 
+			// VAR PassCount = COUNTROWS( FILTER( campaign_level_results2, campaign_level_results2[Flag Reliable] = "✅" ) )
+			// VAR FailCount = COUNTROWS( FILTER( campaign_level_results2, campaign_level_results2[Flag Reliable] = "❌" ) )
+			// RETURN
+			// "✅ " & PassCount & "   ❌ " & FailCount
+			```
 		lineageTag: a7599841-61c1-4ddc-a657-957c163ef8c0
 
 	measure 'Avg % Discount to Non-Redeemers' =
@@ -29,6 +64,51 @@ table campaign_level_results2
 		lineageTag: 829b3423-0efb-42e3-b66a-18cd11dac40d
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Passing Payback Summary' = ```
+			
+			VAR TotalPass = CALCULATE( COUNTROWS( campaign_level_results2 ), campaign_level_results2[Flag Payback] = "✅", ALL( campaign_level_results2[Flag Payback] ) )
+			VAR TotalFail = CALCULATE( COUNTROWS( campaign_level_results2 ), campaign_level_results2[Flag Payback] = "❌", ALL( campaign_level_results2[Flag Payback] ) )
+			
+			-- Check what is currently selected in the slicer
+			VAR CurrentSelection = VALUES( campaign_level_results2[Flag Payback] )
+			VAR IsPassSelected = "✅" IN CurrentSelection && NOT("❌" IN CurrentSelection)
+			VAR IsFailSelected = "❌" IN CurrentSelection && NOT("✅" IN CurrentSelection)
+			
+			VAR PassDisplay = IF( IsFailSelected, "--", TotalPass )
+			VAR FailDisplay = IF( IsPassSelected, "--", TotalFail )
+			
+			RETURN
+			"✅ " & PassDisplay & "   ❌ " & FailDisplay
+			
+			// Passing Payback Summary = 
+			// VAR PassCount = COUNTROWS( FILTER( campaign_level_results2, campaign_level_results2[Flag Payback] = "✅" ) )
+			// VAR FailCount = COUNTROWS( FILTER( campaign_level_results2, campaign_level_results2[Flag Payback] = "❌" ) )
+			// RETURN
+			// "✅ " & PassCount & "   ❌ " & FailCount
+			```
+		lineageTag: ce2f7347-0e6b-4d77-ab89-f196986f38f5
+
+	measure 'Passing Attribution Summary' =
+			
+			VAR TotalPass = CALCULATE( COUNTROWS( campaign_level_results2 ), campaign_level_results2[Flag Attribution] = "✅", ALL( campaign_level_results2[Flag Attribution] ) )
+			VAR TotalFail = CALCULATE( COUNTROWS( campaign_level_results2 ), campaign_level_results2[Flag Attribution] = "❌", ALL( campaign_level_results2[Flag Attribution] ) )
+			
+			-- Check what is currently selected in the slicer
+			VAR CurrentSelection = VALUES( campaign_level_results2[Flag Attribution] )
+			VAR IsPassSelected = "✅" IN CurrentSelection && NOT("❌" IN CurrentSelection)
+			VAR IsFailSelected = "❌" IN CurrentSelection && NOT("✅" IN CurrentSelection)
+			
+			VAR PassDisplay = IF( IsFailSelected, "--", TotalPass )
+			VAR FailDisplay = IF( IsPassSelected, "--", TotalFail )
+			
+			RETURN
+			"✅ " & PassDisplay & "   ❌ " & FailDisplay
+		lineageTag: a0ab6d86-906d-4e50-ad36-ca51fab5de4c
+
+	measure 'Quadrant Count' = COUNTROWS( campaign_level_results2 )
+		formatString: 0
+		lineageTag: a8e3f286-a778-4ad7-b5ad-47148075920f
 
 	column CAMPAIGN
 		dataType: int64
@@ -277,7 +357,7 @@ table campaign_level_results2
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Flag Attribution' = IF( 'Campaign_Level_Results2'[REDEEMER_DID] - 'Campaign_Level_Results2'[NONREDEEMER_DID] > 0, "✅", "❌" )
+	column 'Flag Attribution' = IF( 'Campaign_Level_Results2'[REDEEMER_DID] > 'Campaign_Level_Results2'[NONREDEEMER_DID], "✅", "❌" )
 		lineageTag: 61526cab-ff61-4207-b2b7-8daefb19d813
 		summarizeBy: none
 
@@ -302,6 +382,19 @@ table campaign_level_results2
 		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Quadrant =
+			
+			SWITCH( TRUE(),
+			    campaign_level_results2[REDEEMER_DID] > 0 && campaign_level_results2[NONREDEEMER_DID] < 0, "Attributable Pattern",
+			    campaign_level_results2[REDEEMER_DID] > 0 && campaign_level_results2[NONREDEEMER_DID] >= 0, "Broad Movement",
+			    campaign_level_results2[REDEEMER_DID] <= 0 && campaign_level_results2[NONREDEEMER_DID] > 0, "Broad Decline",
+			    "Backfire Pattern"
+			)
+		lineageTag: 1f05d065-55b5-4b8c-890c-35d3a89ab1a5
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
 
 	partition campaign_level_results2 = m
 		mode: import

@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "48fadba4b79bb7f25455",
   "position": {
-    "x": 438.57142857142861,
-    "y": 98.571428571428584,
-    "z": 8000,
-    "height": 121.42857142857143,
-    "width": 257.14285714285717,
+    "x": 781.97854612632625,
+    "y": 90.818432032318313,
+    "z": 10000,
+    "height": 120.82885648503455,
+    "width": 244.60475825019188,
     "tabOrder": 8000
   },
   "visual": {
@@ -27,11 +27,45 @@
                 }
               },
               "queryRef": "campaign_level_results2.Passing Reliable Summary",
-              "nativeQueryRef": "Passing Reliable Summary"
+              "nativeQueryRef": "Passing Reliable",
+              "displayName": "Passing Reliable"
             }
           ]
         }
       }
+    },
+    "objects": {
+      "label": [
+        {
+          "properties": {
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'aboveValue'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Reliable Card'"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "drillFilterOtherVisuals": true
   }

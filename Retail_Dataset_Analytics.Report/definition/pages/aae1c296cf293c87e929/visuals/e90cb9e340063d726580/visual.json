@@ -172,7 +172,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'SUMMARY'"
+                  "Value": "'DISPLAY'"
                 }
               }
             },
@@ -230,7 +230,7 @@
             "navigationSection": {
               "expr": {
                 "Literal": {
-                  "Value": "'b8c8ec6d808e25bed509'"
+                  "Value": "'2521776ad2d56c8cdea6'"
                 }
               }
             }

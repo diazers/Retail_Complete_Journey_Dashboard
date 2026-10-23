@@ -32781,9 +32781,620 @@ cultureInfo en-US
 			          }
 			        }
 			      ]
+			    },
+			    "campaign_level_results_2.campaigns_passing_all_3": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "campaign_level_results2",
+			          "ConceptualProperty": "Campaigns Passing All 3"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "campaigns passing all 3": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "campaign_level_results_2.passing_direction_summary": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "campaign_level_results2",
+			          "ConceptualProperty": "Passing Direction Summary"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "passing direction summary": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "summary": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "direction summary": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "passing direction synopsis": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "passing direction explanation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "passing direction extraction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "passing direction summarisation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "direction synopsis": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "direction explanation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "direction extraction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "direction summarisation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "passing direction review": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "passing direction abstract": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "Passing Direction": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "campaign_level_results_2.passing_reliable_summary": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "campaign_level_results2",
+			          "ConceptualProperty": "Passing Reliable Summary"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "passing reliable summary": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "passing reliable synopsis": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "passing reliable explanation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "passing reliable extraction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "passing reliable summarisation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "passing reliable review": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "passing reliable abstract": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "passing reliable outline": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "passing reliable overview": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "passing reliable paraphrase": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "passing reliable recap": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "Passing Reliable": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "campaign_level_results_2.avg__discount_to_nonredeemers": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "campaign_level_results2",
+			          "ConceptualProperty": "Avg % Discount to Non-Redeemers"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "avg % discount to non-redeemers": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "avg % discount to non redeemers": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        }
+			      ]
+			    },
+			    "campaign_level_results_2.passing_payback_summary": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "campaign_level_results2",
+			          "ConceptualProperty": "Passing Payback Summary"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "passing payback summary": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "summary": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "payback summary": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "passing payback synopsis": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "passing payback explanation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "passing payback extraction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "passing payback summarisation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "payback synopsis": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "payback explanation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "payback extraction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "payback summarisation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "passing payback review": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "passing payback abstract": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "Passing Payback": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "campaign_level_results_2.passing_attribution_summary": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "campaign_level_results2",
+			          "ConceptualProperty": "Passing Attribution Summary"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "passing attribution summary": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "summary": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "attribution summary": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "passing attribution synopsis": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "passing attribution explanation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "passing attribution extraction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "passing attribution summarisation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "attribution synopsis": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "attribution explanation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "attribution extraction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "attribution summarisation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "passing attribution review": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "passing attribution abstract": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "Passing Attribution": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
 			    }
 			  },
 			  "Relationships": {
+			    "customer_cohort_first_purchase_date_date_hierarchy_has_customer_cohort_first_purchase_date_quarter": {
+			      "Binding": {
+			        "ConceptualEntity": "Customer Cohort"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "customer_cohort.first_purchase_date.date_hierarchy": {
+			          "Target": {
+			            "Entity": "customer_cohort.first_purchase_date.date_hierarchy"
+			          }
+			        },
+			        "customer_cohort.first_purchase_date.quarter": {
+			          "Target": {
+			            "Entity": "customer_cohort.first_purchase_date.quarter"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "customer_cohort.first_purchase_date.date_hierarchy"
+			            },
+			            "Object": {
+			              "Role": "customer_cohort.first_purchase_date.quarter"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "first_purchase_date_hierarchies_have_first_purchase_quarters"
+			        }
+			      ]
+			    },
 			    "customer_cohort_first_purchase_date_date_hierarchy_has_customer_cohort_first_purchase_date_year": {
 			      "Binding": {
 			        "ConceptualEntity": "Customer Cohort"
@@ -33716,6 +34327,204 @@ cultureInfo en-US
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "dim_products_have_coupons"
+			        }
+			      ]
+			    },
+			    "campaign_level_results_2_has_passing_attribution_summary": {
+			      "Binding": {
+			        "ConceptualEntity": "campaign_level_results2"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "campaign_level_results_2": {
+			          "Target": {
+			            "Entity": "campaign_level_results_2"
+			          }
+			        },
+			        "campaign_level_results_2.passing_attribution_summary": {
+			          "Target": {
+			            "Entity": "campaign_level_results_2.passing_attribution_summary"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "campaign_level_results_2"
+			            },
+			            "Object": {
+			              "Role": "campaign_level_results_2.passing_attribution_summary"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "campaign_level_results_2_have_passing_attribution_summary"
+			        }
+			      ]
+			    },
+			    "campaign_level_results_2_has_passing_payback_summary": {
+			      "Binding": {
+			        "ConceptualEntity": "campaign_level_results2"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "campaign_level_results_2": {
+			          "Target": {
+			            "Entity": "campaign_level_results_2"
+			          }
+			        },
+			        "campaign_level_results_2.passing_payback_summary": {
+			          "Target": {
+			            "Entity": "campaign_level_results_2.passing_payback_summary"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "campaign_level_results_2"
+			            },
+			            "Object": {
+			              "Role": "campaign_level_results_2.passing_payback_summary"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "campaign_level_results_2_have_passing_payback_summary"
+			        }
+			      ]
+			    },
+			    "campaign_level_results_2_has_avg__discount_to_nonredeemers": {
+			      "Binding": {
+			        "ConceptualEntity": "campaign_level_results2"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "campaign_level_results_2": {
+			          "Target": {
+			            "Entity": "campaign_level_results_2"
+			          }
+			        },
+			        "campaign_level_results_2.avg__discount_to_nonredeemers": {
+			          "Target": {
+			            "Entity": "campaign_level_results_2.avg__discount_to_nonredeemers"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "campaign_level_results_2"
+			            },
+			            "Object": {
+			              "Role": "campaign_level_results_2.avg__discount_to_nonredeemers"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "campaign_level_results_2_have_avg__discount_to_nonredeemers"
+			        }
+			      ]
+			    },
+			    "campaign_level_results_2_has_passing_reliable_summary": {
+			      "Binding": {
+			        "ConceptualEntity": "campaign_level_results2"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "campaign_level_results_2": {
+			          "Target": {
+			            "Entity": "campaign_level_results_2"
+			          }
+			        },
+			        "campaign_level_results_2.passing_reliable_summary": {
+			          "Target": {
+			            "Entity": "campaign_level_results_2.passing_reliable_summary"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "campaign_level_results_2"
+			            },
+			            "Object": {
+			              "Role": "campaign_level_results_2.passing_reliable_summary"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "campaign_level_results_2_have_passing_reliable_summary"
+			        }
+			      ]
+			    },
+			    "campaign_level_results_2_has_passing_direction_summary": {
+			      "Binding": {
+			        "ConceptualEntity": "campaign_level_results2"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "campaign_level_results_2": {
+			          "Target": {
+			            "Entity": "campaign_level_results_2"
+			          }
+			        },
+			        "campaign_level_results_2.passing_direction_summary": {
+			          "Target": {
+			            "Entity": "campaign_level_results_2.passing_direction_summary"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "campaign_level_results_2"
+			            },
+			            "Object": {
+			              "Role": "campaign_level_results_2.passing_direction_summary"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "campaign_level_results_2_have_passing_direction_summary"
+			        }
+			      ]
+			    },
+			    "campaign_level_results_2_has_campaigns_passing_all_3": {
+			      "Binding": {
+			        "ConceptualEntity": "campaign_level_results2"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "campaign_level_results_2": {
+			          "Target": {
+			            "Entity": "campaign_level_results_2"
+			          }
+			        },
+			        "campaign_level_results_2.campaigns_passing_all_3": {
+			          "Target": {
+			            "Entity": "campaign_level_results_2.campaigns_passing_all_3"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "campaign_level_results_2"
+			            },
+			            "Object": {
+			              "Role": "campaign_level_results_2.campaigns_passing_all_3"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "campaign_level_results_2_have_campaigns_passing_all_3"
 			        }
 			      ]
 			    },
@@ -51330,39 +52139,6 @@ cultureInfo en-US
 			          "State": "Generated",
 			          "Weight": 0.75,
 			          "ID": "demographic_selectors_select"
-			        }
-			      ]
-			    },
-			    "customer_cohort_first_purchase_date_date_hierarchy_has_customer_cohort_first_purchase_date_quarter": {
-			      "Binding": {
-			        "ConceptualEntity": "Customer Cohort"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "customer_cohort.first_purchase_date.date_hierarchy": {
-			          "Target": {
-			            "Entity": "customer_cohort.first_purchase_date.date_hierarchy"
-			          }
-			        },
-			        "customer_cohort.first_purchase_date.quarter": {
-			          "Target": {
-			            "Entity": "customer_cohort.first_purchase_date.quarter"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "customer_cohort.first_purchase_date.date_hierarchy"
-			            },
-			            "Object": {
-			              "Role": "customer_cohort.first_purchase_date.quarter"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "first_purchase_date_hierarchies_have_first_purchase_quarters"
 			        }
 			      ]
 			    },

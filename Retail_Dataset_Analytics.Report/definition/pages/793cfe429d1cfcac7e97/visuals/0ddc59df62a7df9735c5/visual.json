@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "0ddc59df62a7df9735c5",
   "position": {
     "x": 164.28927680798006,
@@ -23,13 +23,13 @@
                       "Entity": "hh_demographic"
                     }
                   },
-                  "Property": "HOMEOWNER_DESC"
+                  "Property": "INCOME_DESC"
                 }
               },
-              "queryRef": "hh_demographic.HOMEOWNER_DESC",
-              "nativeQueryRef": "HOMEOWNER_DESC",
+              "queryRef": "hh_demographic.INCOME_DESC",
+              "nativeQueryRef": "INCOME_DESC",
               "active": true,
-              "displayName": "HOMEOWNER_DESC"
+              "displayName": "INCOME_DESC"
             }
           ],
           "fieldParameters": [
@@ -107,7 +107,7 @@
                     "Entity": "hh_demographic"
                   }
                 },
-                "Property": "HOMEOWNER_DESC"
+                "Property": "INCOME_DESC"
               }
             },
             "direction": "Ascending"
@@ -764,8 +764,7 @@
               }
             }
           ]
-        },
-        "howCreated": "User"
+        }
       }
     ]
   }

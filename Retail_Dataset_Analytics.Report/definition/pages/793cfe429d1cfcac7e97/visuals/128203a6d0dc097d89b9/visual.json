@@ -75,7 +75,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'''hh_demographic''[HOMEOWNER_DESC]'"
+                                "Value": "'''hh_demographic''[INCOME_DESC]'"
                               }
                             }
                           ]
@@ -103,7 +103,7 @@
                                 "0": [
                                   {
                                     "Literal": {
-                                      "Value": "'''hh_demographic''[HOMEOWNER_DESC]'"
+                                      "Value": "'''hh_demographic''[INCOME_DESC]'"
                                     }
                                   }
                                 ]
@@ -127,7 +127,7 @@
                         },
                         "valueMap": [
                           {
-                            "0": "HOMEOWNER_DESC"
+                            "0": "INCOME_DESC"
                           }
                         ]
                       }
