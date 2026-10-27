@@ -4,8 +4,7 @@
   "name": "fefc6bc2ca10eb55d476",
   "options": {
     "targetVisualNames": [],
-    "suppressData": true,
-    "preserveNewVisualVisibility": true
+    "suppressData": true
   },
   "explorationState": {
     "version": "1.3",
