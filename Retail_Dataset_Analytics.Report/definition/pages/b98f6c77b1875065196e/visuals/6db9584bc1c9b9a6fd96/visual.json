@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "6db9584bc1c9b9a6fd96",
   "position": {
-    "x": 811.42857142857144,
-    "y": 527.14285714285722,
-    "z": 7000,
-    "height": 518.57142857142856,
-    "width": 1037.1428571428571,
+    "x": 811.91097467382974,
+    "y": 577.62087490406759,
+    "z": 6000,
+    "height": 468.58019953952419,
+    "width": 1037.3599386032233,
     "tabOrder": 6000
   },
   "visual": {
@@ -23,11 +23,11 @@
                       "Entity": "Dim_Date"
                     }
                   },
-                  "Property": "MonthName"
+                  "Property": "YearMonth"
                 }
               },
-              "queryRef": "Dim_Date.MonthName",
-              "nativeQueryRef": "MonthName",
+              "queryRef": "Dim_Date.YearMonth",
+              "nativeQueryRef": "YearMonth",
               "active": true
             }
           ]
@@ -54,30 +54,15 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Dim_Product"
+                      "Entity": "Dim_Department_Margin"
                     }
                   },
                   "Property": "DEPARTMENT"
                 }
               },
-              "queryRef": "Dim_Product.DEPARTMENT",
+              "queryRef": "Dim_Department_Margin.DEPARTMENT",
               "nativeQueryRef": "DEPARTMENT",
               "active": true
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Dim_Product"
-                    }
-                  },
-                  "Property": "COMMODITY_DESC"
-                }
-              },
-              "queryRef": "Dim_Product.COMMODITY_DESC",
-              "nativeQueryRef": "COMMODITY_DESC",
-              "active": false
             }
           ]
         },
@@ -88,14 +73,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "MeasureGroup"
+                      "Entity": "Metric Selector"
                     }
                   },
-                  "Property": "AOV"
+                  "Property": "_Selected Current"
                 }
               },
-              "queryRef": "MeasureGroup.AOV",
-              "nativeQueryRef": "AOV"
+              "queryRef": "Metric Selector._Selected Current",
+              "nativeQueryRef": "_Selected Current"
             }
           ]
         }
@@ -128,26 +113,7 @@
           },
           {
             "queryRefs": [
-              "Dim_Product.DEPARTMENT"
-            ],
-            "isCollapsed": true,
-            "identityKeys": [
-              {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Dim_Product"
-                    }
-                  },
-                  "Property": "DEPARTMENT"
-                }
-              }
-            ],
-            "isPinned": true
-          },
-          {
-            "queryRefs": [
-              "Dim_Product.COMMODITY_DESC"
+              "Dim_Department_Margin.DEPARTMENT"
             ],
             "isCollapsed": true,
             "isPinned": true
@@ -160,16 +126,6 @@
                 {
                   "Literal": {
                     "Value": "'National'"
-                  }
-                }
-              ],
-              "isToggled": true
-            },
-            {
-              "identityValues": [
-                {
-                  "Literal": {
-                    "Value": "'Private'"
                   }
                 }
               ],
@@ -187,6 +143,26 @@
               "expr": {
                 "Literal": {
                   "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTotals": [
+        {
+          "properties": {
+            "rowSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "columnSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }

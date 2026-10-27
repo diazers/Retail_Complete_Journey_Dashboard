@@ -33359,42 +33359,51 @@ cultureInfo en-US
 			          }
 			        }
 			      ]
-			    }
-			  },
-			  "Relationships": {
-			    "customer_cohort_first_purchase_date_date_hierarchy_has_customer_cohort_first_purchase_date_quarter": {
-			      "Binding": {
-			        "ConceptualEntity": "Customer Cohort"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "customer_cohort.first_purchase_date.date_hierarchy": {
-			          "Target": {
-			            "Entity": "customer_cohort.first_purchase_date.date_hierarchy"
-			          }
-			        },
-			        "customer_cohort.first_purchase_date.quarter": {
-			          "Target": {
-			            "Entity": "customer_cohort.first_purchase_date.quarter"
-			          }
+			    },
+			    "campaign_level_results_2.quadrant": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "campaign_level_results2",
+			          "ConceptualProperty": "Quadrant"
 			        }
 			      },
-			      "Phrasings": [
+			      "State": "Generated",
+			      "Terms": [
 			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "customer_cohort.first_purchase_date.date_hierarchy"
-			            },
-			            "Object": {
-			              "Role": "customer_cohort.first_purchase_date.quarter"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "first_purchase_date_hierarchies_have_first_purchase_quarters"
+			          "quadrant": {
+			            "State": "Generated"
+			          }
 			        }
 			      ]
 			    },
+			    "campaign_level_results_2.quadrant_count": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "campaign_level_results2",
+			          "ConceptualProperty": "Quadrant Count"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "quadrant count": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "quadrant amount": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        }
+			      ]
+			    }
+			  },
+			  "Relationships": {
 			    "customer_cohort_first_purchase_date_date_hierarchy_has_customer_cohort_first_purchase_date_year": {
 			      "Binding": {
 			        "ConceptualEntity": "Customer Cohort"
@@ -34327,6 +34336,105 @@ cultureInfo en-US
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "dim_products_have_coupons"
+			        }
+			      ]
+			    },
+			    "campaign_level_results_2_has_quadrant_count": {
+			      "Binding": {
+			        "ConceptualEntity": "campaign_level_results2"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "campaign_level_results_2": {
+			          "Target": {
+			            "Entity": "campaign_level_results_2"
+			          }
+			        },
+			        "campaign_level_results_2.quadrant_count": {
+			          "Target": {
+			            "Entity": "campaign_level_results_2.quadrant_count"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "campaign_level_results_2"
+			            },
+			            "Object": {
+			              "Role": "campaign_level_results_2.quadrant_count"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "campaign_level_results_2_have_quadrant_count"
+			        }
+			      ]
+			    },
+			    "campaign_level_results_2_has_quadrant": {
+			      "Binding": {
+			        "ConceptualEntity": "campaign_level_results2"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "campaign_level_results_2": {
+			          "Target": {
+			            "Entity": "campaign_level_results_2"
+			          }
+			        },
+			        "campaign_level_results_2.quadrant": {
+			          "Target": {
+			            "Entity": "campaign_level_results_2.quadrant"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "campaign_level_results_2"
+			            },
+			            "Object": {
+			              "Role": "campaign_level_results_2.quadrant"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "campaign_level_results_2_have_quadrants"
+			        },
+			        {
+			          "Verb": {
+			            "Subject": {
+			              "Role": "campaign_level_results_2.quadrant"
+			            },
+			            "Verbs": [
+			              {
+			                "quadrate": {
+			                  "State": "Generated"
+			                }
+			              }
+			            ],
+			            "Object": {
+			              "Role": "campaign_level_results_2"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.75,
+			          "ID": "quadrants_quadrate_campaign_level_results_2"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "campaign_level_results_2.quadrant"
+			            },
+			            "Object": {
+			              "Role": "campaign_level_results_2"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "quadrants_have_campaign_level_results_2"
 			        }
 			      ]
 			    },
@@ -52139,6 +52247,39 @@ cultureInfo en-US
 			          "State": "Generated",
 			          "Weight": 0.75,
 			          "ID": "demographic_selectors_select"
+			        }
+			      ]
+			    },
+			    "customer_cohort_first_purchase_date_date_hierarchy_has_customer_cohort_first_purchase_date_quarter": {
+			      "Binding": {
+			        "ConceptualEntity": "Customer Cohort"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "customer_cohort.first_purchase_date.date_hierarchy": {
+			          "Target": {
+			            "Entity": "customer_cohort.first_purchase_date.date_hierarchy"
+			          }
+			        },
+			        "customer_cohort.first_purchase_date.quarter": {
+			          "Target": {
+			            "Entity": "customer_cohort.first_purchase_date.quarter"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "customer_cohort.first_purchase_date.date_hierarchy"
+			            },
+			            "Object": {
+			              "Role": "customer_cohort.first_purchase_date.quarter"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "first_purchase_date_hierarchies_have_first_purchase_quarters"
 			        }
 			      ]
 			    },

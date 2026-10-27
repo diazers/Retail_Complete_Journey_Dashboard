@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "0d37156bf96250fe2ebf",
   "position": {
-    "x": 164.28927680798006,
-    "y": 467.28179551122196,
-    "z": 7000,
-    "height": 569.62593516209472,
-    "width": 758.15461346633413,
-    "tabOrder": 7000
+    "x": 163.71638141809291,
+    "y": 467.38386308068459,
+    "z": 6000,
+    "height": 569.04645476772612,
+    "width": 759.16870415647918,
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "decompositionTreeVisual",
@@ -231,6 +231,28 @@
               "expr": {
                 "Literal": {
                   "Value": "100L"
+                }
+              }
+            },
+            "positiveBarColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FF6900'"
+                    }
+                  }
+                }
+              }
+            },
+            "negativeBarColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFC399'"
+                    }
+                  }
                 }
               }
             }

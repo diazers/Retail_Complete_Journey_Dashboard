@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "394ad924b08698c2b8a9",
   "position": {
-    "x": 1641.0022516386339,
+    "x": 0,
     "y": 0,
-    "z": 6000,
-    "height": 79.898089171974519,
-    "width": 231.54140127388536,
-    "tabOrder": 6000
+    "z": 1000,
+    "height": 64.666666666666686,
+    "width": 205.80399619410085,
+    "tabOrder": 0
   },
   "visual": {
     "visualType": "slicer",
@@ -89,7 +89,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'3 - Front End Cap'"
+                                "Value": "'4 - Mid Aisle End Cap'"
                               }
                             }
                           ]
@@ -98,6 +98,65 @@
                     }
                   }
                 ]
+              }
+            }
+          }
+        }
+      ],
+      "header": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "items": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
               }
             }
           }
@@ -111,6 +170,7 @@
     },
     "drillFilterOtherVisuals": true
   },
+  "parentGroupName": "aafe14061d20744bf292",
   "filterConfig": {
     "filters": [
       {

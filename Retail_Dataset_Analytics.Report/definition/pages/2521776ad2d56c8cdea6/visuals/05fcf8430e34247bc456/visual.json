@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "05fcf8430e34247bc456",
   "position": {
-    "x": 1641.0022516386339,
+    "x": 0.19600380589914299,
     "y": 0,
-    "z": 1000,
-    "height": 80.729483282674778,
-    "width": 243.16109422492403,
+    "z": 0,
+    "height": 65.333333333333343,
+    "width": 205.80399619410085,
     "tabOrder": 1000
   },
   "visual": {
@@ -86,7 +86,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'3 - Front End Cap'"
+                                "Value": "'4 - Mid Aisle End Cap'"
                               }
                             }
                           ]
@@ -95,6 +95,114 @@
                     }
                   }
                 ]
+              }
+            },
+            "orientation": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "header": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "titleWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "spacing": [
+        {
+          "properties": {
+            "spaceAbovePlotArea": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            },
+            "spaceAboveDivider": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
+                }
+              }
+            },
+            "spaceAboveSubtitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
               }
             }
           }
@@ -108,6 +216,7 @@
     },
     "drillFilterOtherVisuals": true
   },
+  "parentGroupName": "aafe14061d20744bf292",
   "filterConfig": {
     "filters": [
       {

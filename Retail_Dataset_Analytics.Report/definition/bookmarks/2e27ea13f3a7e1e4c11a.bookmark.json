@@ -1,0 +1,1035 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
+  "displayName": "Filter Close RFM",
+  "name": "2e27ea13f3a7e1e4c11a",
+  "options": {
+    "targetVisualNames": [],
+    "suppressData": true,
+    "preserveNewVisualVisibility": true
+  },
+  "explorationState": {
+    "version": "1.3",
+    "activeSection": "1d34aee8e62ba7c72006",
+    "sections": {
+      "1d34aee8e62ba7c72006": {
+        "filters": {
+          "byExpr": [
+            {
+              "name": "14310af15a9d1e2a86b4",
+              "type": "Advanced",
+              "filter": {
+                "Version": 2,
+                "From": [
+                  {
+                    "Name": "h",
+                    "Entity": "hh_demographic",
+                    "Type": 0
+                  }
+                ],
+                "Where": [
+                  {
+                    "Condition": {
+                      "Not": {
+                        "Expression": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Column": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "h"
+                                  }
+                                },
+                                "Property": "household_key"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "null"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "expression": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "hh_demographic"
+                    }
+                  },
+                  "Property": "household_key"
+                }
+              },
+              "howCreated": 1
+            }
+          ]
+        },
+        "visualContainers": {
+          "198a85a0cfe808d0974a": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "264cc4690b1dec31678d": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "343f0272cccaa4aa5580": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "8ecfd4f3c3ce5ac22001": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "b361a250217a023ba6c4": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "420913c010950003c98b",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "r",
+                        "Entity": "RFM",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "r"
+                                  }
+                                },
+                                "Property": "_07 Is Selected Segment"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "1L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_07 Is Selected Segment"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "ad507ecafdf46dd1d4fd",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "hh_demographic"
+                        }
+                      },
+                      "Property": "household_key"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "dece7aa279fff3ea99da",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_06 RFM Segment Sort Order"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "a60bff378a1d16f1780e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_05 RFM Customer Segment"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "032493772ae686f3279a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_00 Customer Names & Totals"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f70499afc0dc8aa5ea7e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_02 PY_Recency"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "faadf28abc0367dbd416",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_01 AC_Recency"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "c794ec2d58d2cf5339f1",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_03 △PY_Recency"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "e8fa700044b85216be85",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_02 PY_Frequency"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "2c8a031a98b943ad9f4c",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_01 AC_Frequency"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "59452a1de675cdbe354e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_03 △PY_Frequency"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "450f3fba806d6c61b745",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_04 △PY%_Frequency"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "dc01623a5e44aba4fc45",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_02 PY_Monetary"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "0ff0779dcb9678413836",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_01 AC_Monetary"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "54650060588e0cc6900e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_03 △PY_Monetary"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "b26e824634977630fc95",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_04 △PY%_Monetary"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_00 Customer Names & Totals"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "hh_demographic"
+                        }
+                      },
+                      "Property": "household_key"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "0763425c8d57e3d25b32": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "1637620097876d4b73aa": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "1c17d285ad00480893b8": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "21cf0551247b6c484894": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "2a3febf02a79c6606b10": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "350dd3e1904029c9c8a3": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "4f5d99d40d26c9e5e88c": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "54d9cef3293d596a3992": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "80ed2bec020bb07d6d5c": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "a282e555092b1ddb7047": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "ae7d1ac16259183a565a": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "e65ec4da70a421371170": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "4510034dc75e9443c345": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "199277f2ee09ddb9b8bd",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM Segments"
+                        }
+                      },
+                      "Property": "Segment"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "29a44a36d1ac4e9acbbd",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_06 Customer Count by Segment PY"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "271283412c4618a84762",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_06 Customer Count by Segment"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "da3194dd87057bd31d64",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_09 Avg Monetary per Customer PY"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "aa4e2d575d8aaeb28da9",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_09 Avg Monetary per Customer"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "3401f8fcf42d275c4c64",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_08 Monetary by Segment PY"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "bb398de4125e9758013b",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_08 Monetary by Segment"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "d778f5dad40ceb38f3a2",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_10 Monetary % of Total"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_08 Monetary by Segment"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM Segments"
+                        }
+                      },
+                      "Property": "Segment"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "52dea8ab61389b388ceb": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "8d574518a40e8bea4e6d": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "242b07deb4fef293f334",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM Metric Selector"
+                        }
+                      },
+                      "Property": "MetricName"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "r",
+                                "Entity": "RFM Metric Selector",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "r"
+                                            }
+                                          },
+                                          "Property": "MetricName"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "'Avg Monetary per Customer'"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Basic'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM Metric Selector"
+                        }
+                      },
+                      "Property": "MetricName"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "b7703f18e8d148fe1f4c": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "c1d875971e510ba1306e": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "c618a2fbc615101cb4bb": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "ccffe43f075db8d09a2d": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "922254f1178e54f97174",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM Segments"
+                        }
+                      },
+                      "Property": "Segment"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "8de6ad34eb085b680804",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_RFM Selected Current"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "9bb026f775265157e69a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_RFM Selected PY"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "clusteredBarChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM"
+                        }
+                      },
+                      "Property": "_RFM Selected Current"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "RFM Segments"
+                        }
+                      },
+                      "Property": "Segment"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "d0190ed87cf8a9cff45e": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "d982ae44a903a71491b6": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "490c404d3feba248d072": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "bfa9c0e453fbde2ad9ac": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "bdc8e1efb12e93a1c1ed",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Date"
+                        }
+                      },
+                      "Property": "Year"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "d",
+                                "Entity": "Dim_Date",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "d"
+                                            }
+                                          },
+                                          "Property": "Year"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "2025L"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Date"
+                        }
+                      },
+                      "Property": "Year"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "aac2abca0acc20237fd2": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "5b292f2e855e9f10dfb7": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          }
+        },
+        "visualContainerGroups": {
+          "fb08fbdd51662330c8b4": {
+            "isHidden": true
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

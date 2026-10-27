@@ -1,0 +1,2061 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
+  "displayName": "Filter Close IBCS",
+  "name": "79f274065ffe27b4ee4d",
+  "options": {
+    "targetVisualNames": [],
+    "suppressData": true,
+    "preserveNewVisualVisibility": true
+  },
+  "explorationState": {
+    "version": "1.11",
+    "activeSection": "6b3a2742453036a43497",
+    "sections": {
+      "6b3a2742453036a43497": {
+        "visualContainers": {
+          "02228ac0d223ae065480": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "0febca97c23c62c0c7dc",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Product"
+                        }
+                      },
+                      "Property": "COMMODITY_DESC"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Product"
+                        }
+                      },
+                      "Property": "COMMODITY_DESC"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "32890565eec1a6a52331": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "39e1a899fe4565d439c5": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "3c23d72cc3b9881b8657": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "377d2883459b72bd64f5",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Date"
+                        }
+                      },
+                      "Property": "YearMonthDate"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "7f7878b70fdae3cca8f2",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Disconnected Year Table"
+                        }
+                      },
+                      "Property": "_03 Historical Period Value"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "eb3b5d71c67202605106",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Disconnected Year Table"
+                        }
+                      },
+                      "Property": "_03 Latest Period Value"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "be3c17f7f3a9fd3bc375",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Disconnected Year Table"
+                        }
+                      },
+                      "Property": "_03 Selected Period Value"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "cc70ffb3ced2c7c23858",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Disconnected Year Table"
+                        }
+                      },
+                      "Property": "Slope Graph"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "lineChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Date"
+                        }
+                      },
+                      "Property": "YearMonthDate"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Date"
+                        }
+                      },
+                      "Property": "YearMonthDate"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "3c5ef3f9ec82a93d011f": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "44c9d4ab023b90973894": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "49d7f6ac043122cc09e5",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Date"
+                        }
+                      },
+                      "Property": "Year"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "d",
+                                "Entity": "Dim_Date",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "d"
+                                            }
+                                          },
+                                          "Property": "Year"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "2025L"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Date"
+                        }
+                      },
+                      "Property": "Year"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "338d9e3c06ccc4a5ee80": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "669fa78d112c06606e28",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Table_Waterfall"
+                        }
+                      },
+                      "Property": "Hierarchy 2"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "0ddabf033f8996223431",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_00 Baseline"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "5649fd1f1aed7fe319b1",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_02 PY_Waterfall"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "20e09879ba1dcbcd4859",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_05A Base Bar_(+) Q-M/△PY"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "18c26614635c63065287",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_03A (+) Q-M/△PY_Waterfall"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "4180aa5bcf32a9a82873",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_05B Base Bar_(-) Q-M/△PY"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "96c6a0e2b9993f5161e8",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_03B (-) Q-M/△PY_Waterfall"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f72bb82e60d7341a976e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_01 AC_Waterfall"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "d9bfebaf77d468d8bb24",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_06 Base Bar_Total △PY"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "e58f49871440f3e26e38",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_04A (+) Total △PY_Waterfall"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "e4d8e964a4a1dacfc042",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_04B (-) Total △PY_Waterfall"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "columnChart",
+              "objects": {},
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Table_Waterfall"
+                        }
+                      },
+                      "Property": "Hierarchy 2"
+                    }
+                  }
+                ]
+              },
+              "projections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Table_Waterfall"
+                        }
+                      },
+                      "Property": "Hierarchy 2"
+                    }
+                  }
+                ],
+                "Y": [
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_00 Baseline"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_02 PY_Waterfall"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_05A Base Bar_(+) Q-M/△PY"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_03A (+) Q-M/△PY_Waterfall"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_05B Base Bar_(-) Q-M/△PY"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_03B (-) Q-M/△PY_Waterfall"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_01 AC_Waterfall"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_06 Base Bar_Total △PY"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_04A (+) Total △PY_Waterfall"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_04B (-) Total △PY_Waterfall"
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "Category": [
+                  {
+                    "expr": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PHierarchy"
+                          }
+                        },
+                        "Property": "PHierarchy"
+                      }
+                    },
+                    "index": 0,
+                    "length": 1
+                  }
+                ]
+              }
+            }
+          },
+          "64cec1d01a54abcd2ba7": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "c119fa732b4b3f84cecc",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Table_Waterfall"
+                        }
+                      },
+                      "Property": "Hierarchy 2"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "538cfcdc2e710beb0326",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_00 Baseline"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "ffc3537c300513b1f19c",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_02 PY_Columns"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "775e5cdf3f6f6c5d6a97",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_01 AC_Columns"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "clusteredColumnChart",
+              "objects": {},
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Table_Waterfall"
+                        }
+                      },
+                      "Property": "Hierarchy 2"
+                    }
+                  }
+                ]
+              },
+              "projections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Table_Waterfall"
+                        }
+                      },
+                      "Property": "Hierarchy 2"
+                    }
+                  }
+                ],
+                "Y": [
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_00 Baseline"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_02 PY_Columns"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_01 AC_Columns"
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "Category": [
+                  {
+                    "expr": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PHierarchy"
+                          }
+                        },
+                        "Property": "PHierarchy"
+                      }
+                    },
+                    "index": 0,
+                    "length": 1
+                  }
+                ]
+              }
+            }
+          },
+          "6c125c998d02894bba4a": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "3b829ab55519678bb59d",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Table_Waterfall"
+                        }
+                      },
+                      "Property": "Hierarchy 2"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "e17b65723443b9f6fb49",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_00 Baseline"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "c7e7c58e6da7ad22a6bd",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_01D Q-M/△PY%_Pin (Pin Head)"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "9efb0073b450ea48b6dc",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_01B (+) Q-M/△PY%_Pin (Capped Pin)"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "988e4e5084bfed164752",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_01C (-) Q-M/△PY%_Pin (Capped Pin)"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "5cf7fc7e00c6ea116219",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_01J Total △PY%_Pin (Pin Head)"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "061f083a86c2ed5720f5",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_01H (+) Total △PY%_Pin (Capped Pin)"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f3040a94fbc4ef7d5ee4",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_01I (-) Total △PY%_Pin (Capped Pin)"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "fd1d1ec5da3cc10077f5",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_00Z Zero Line"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "lineClusteredColumnComboChart",
+              "objects": {},
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Table_Waterfall"
+                        }
+                      },
+                      "Property": "Hierarchy 2"
+                    }
+                  }
+                ]
+              },
+              "projections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Table_Waterfall"
+                        }
+                      },
+                      "Property": "Hierarchy 2"
+                    }
+                  }
+                ],
+                "Y": [
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_00 Baseline"
+                    }
+                  }
+                ],
+                "Y2": [
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_01D Q-M/△PY%_Pin (Pin Head)"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_01B (+) Q-M/△PY%_Pin (Capped Pin)"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_01C (-) Q-M/△PY%_Pin (Capped Pin)"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_01J Total △PY%_Pin (Pin Head)"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_01H (+) Total △PY%_Pin (Capped Pin)"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_01I (-) Total △PY%_Pin (Capped Pin)"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_00Z Zero Line"
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "Category": [
+                  {
+                    "expr": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PHierarchy"
+                          }
+                        },
+                        "Property": "PHierarchy"
+                      }
+                    },
+                    "index": 0,
+                    "length": 1
+                  }
+                ]
+              }
+            }
+          },
+          "d996d7e0e6338310b90d": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "b57a40a04dfcc8a741da",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Table_Waterfall"
+                        }
+                      },
+                      "Property": "Hierarchy 2"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "59fe8cdbb0cf7d662af8",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_02 PY_Waterfall"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "bec2533ca68febd44004",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_07A Reference Bars_(+) Q-M/△PY Label"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "47e8d08046e46449a0d8",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_05B Base Bar_(-) Q-M/△PY"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "d2999eff5ae0a9685147",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_01 AC_Waterfall"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "a62a6bf513e2bfdbdeb5",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_07B Reference Bars_(+) Total ΔPY Label"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "692bf2292b28808576fd",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_07C Reference Bars_(-) Total ΔPY Label"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "eacea5313899e59b77aa",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_00 Baseline"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "clusteredColumnChart",
+              "objects": {},
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Table_Waterfall"
+                        }
+                      },
+                      "Property": "Hierarchy 2"
+                    }
+                  }
+                ]
+              },
+              "projections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Table_Waterfall"
+                        }
+                      },
+                      "Property": "Hierarchy 2"
+                    }
+                  }
+                ],
+                "Y": [
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_02 PY_Waterfall"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_07A Reference Bars_(+) Q-M/△PY Label"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_05B Base Bar_(-) Q-M/△PY"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_01 AC_Waterfall"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_07B Reference Bars_(+) Total ΔPY Label"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_07C Reference Bars_(-) Total ΔPY Label"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_00 Baseline"
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "Category": [
+                  {
+                    "expr": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PHierarchy"
+                          }
+                        },
+                        "Property": "PHierarchy"
+                      }
+                    },
+                    "index": 0,
+                    "length": 1
+                  }
+                ]
+              }
+            }
+          },
+          "6e007b8f81a1a9584d01": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "87a6ab1412ab9d32b89c": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "9e35c2281dcfb0093782": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "a01525840d0d1868423d": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "ab5808ee5b154a0f0788",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Date"
+                        }
+                      },
+                      "Property": "Quarter"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "6c4ff5fd3710b64443f6",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Date"
+                        }
+                      },
+                      "Property": "MonthName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "23b1157c844edcf40015",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_02 PY Net Sales"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "9f70f3a952adefe93fd2",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_01 AC Net Sales"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "637d9087938833e9c647",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "_03 △PY Net Sales"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "9c69c1926057f595ff98",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "IBCSWaterfall"
+                        }
+                      },
+                      "Property": "ΔPY% Matrix"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Date"
+                        }
+                      },
+                      "Property": "MonthName"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Date"
+                        }
+                      },
+                      "Property": "Quarter"
+                    }
+                  },
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Date"
+                        }
+                      },
+                      "Property": "MonthName"
+                    }
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Rows"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "Dim_Date.Quarter"
+                      ],
+                      "isCollapsed": true,
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "Dim_Date"
+                              }
+                            },
+                            "Property": "Quarter"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "Dim_Date.MonthName"
+                      ],
+                      "isCollapsed": true,
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "Dim_Date"
+                              }
+                            },
+                            "Property": "MonthName"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": [],
+                    "children": [
+                      {
+                        "identityValues": [
+                          {
+                            "Literal": {
+                              "Value": "1L"
+                            }
+                          }
+                        ],
+                        "isToggled": true
+                      },
+                      {
+                        "identityValues": [
+                          {
+                            "Literal": {
+                              "Value": "2L"
+                            }
+                          }
+                        ],
+                        "isToggled": true
+                      },
+                      {
+                        "identityValues": [
+                          {
+                            "Literal": {
+                              "Value": "3L"
+                            }
+                          }
+                        ],
+                        "isToggled": true
+                      },
+                      {
+                        "identityValues": [
+                          {
+                            "Literal": {
+                              "Value": "4L"
+                            }
+                          }
+                        ],
+                        "isToggled": true
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "af095286b72db94f8aed": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "20960039090701bb60c4",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Disconnected Year Table"
+                        }
+                      },
+                      "Property": "YearMonthDate"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "d",
+                                "Entity": "Disconnected Year Table",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "And": {
+                                    "Left": {
+                                      "Comparison": {
+                                        "ComparisonKind": 2,
+                                        "Left": {
+                                          "Column": {
+                                            "Expression": {
+                                              "SourceRef": {
+                                                "Source": "d"
+                                              }
+                                            },
+                                            "Property": "YearMonthDate"
+                                          }
+                                        },
+                                        "Right": {
+                                          "Literal": {
+                                            "Value": "datetime'2024-03-11T00:00:00'"
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "Right": {
+                                      "Comparison": {
+                                        "ComparisonKind": 3,
+                                        "Left": {
+                                          "Column": {
+                                            "Expression": {
+                                              "SourceRef": {
+                                                "Source": "d"
+                                              }
+                                            },
+                                            "Property": "YearMonthDate"
+                                          }
+                                        },
+                                        "Right": {
+                                          "Literal": {
+                                            "Value": "datetime'2025-07-22T00:00:00'"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "startDate": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "datetime'2024-03-11T00:00:00'"
+                            }
+                          }
+                        },
+                        "endDate": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "datetime'2025-07-21T00:00:00'"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Between'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Disconnected Year Table"
+                        }
+                      },
+                      "Property": "YearMonthDate"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Disconnected Year Table"
+                        }
+                      },
+                      "Property": "YearMonthDate"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "c7c60ee2973521ec86a5": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "cf011a8c2ed1c470e644": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "e6fb21377c9312ec01c1": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "3777dec60579bc46a7a8",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Product"
+                        }
+                      },
+                      "Property": "DEPARTMENT"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "2a50048b16cbb72278ae",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Product"
+                        }
+                      },
+                      "Property": "SUB_COMMODITY_DESC"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f44c961fd150702d171b",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "MultiTierBarCharts"
+                        }
+                      },
+                      "Property": "_01 Grouped Bar (AC & PY)"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "3eb6183ce7ff56045f71",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "MultiTierBarCharts"
+                        }
+                      },
+                      "Property": "_02 Absolute Variance Bar (△PY)"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "a05b7ffbd6b7fd743148",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "MultiTierBarCharts"
+                        }
+                      },
+                      "Property": "_03 Relative Variance Bar (△PY%)"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "MultiTierBarCharts"
+                        }
+                      },
+                      "Property": "_03 Relative Variance Bar (△PY%)"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Product"
+                        }
+                      },
+                      "Property": "DEPARTMENT"
+                    }
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Rows"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "Dim_Product.DEPARTMENT"
+                      ],
+                      "isCollapsed": true,
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "Dim_Product"
+                              }
+                            },
+                            "Property": "DEPARTMENT"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "Dim_Product.SUB_COMMODITY_DESC"
+                      ],
+                      "isCollapsed": true,
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": []
+                  }
+                }
+              ]
+            }
+          },
+          "fa15d609a0c8a1be7454": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "9353f84cbead48a2fc5b",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PHierarchy"
+                        }
+                      },
+                      "Property": "PHierarchy"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "p",
+                                "Entity": "PHierarchy",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "p"
+                                            }
+                                          },
+                                          "Property": "PHierarchy Fields"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "'''Table_Waterfall''[Hierarchy 2]'"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Basic'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PHierarchy"
+                        }
+                      },
+                      "Property": "PHierarchy"
+                    }
+                  }
+                ]
+              },
+              "cachedFilterDisplayItems": [
+                {
+                  "id": {
+                    "scopeId": {
+                      "Comparison": {
+                        "ComparisonKind": 0,
+                        "Left": {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "PHierarchy"
+                              }
+                            },
+                            "Property": "PHierarchy Fields"
+                          }
+                        },
+                        "Right": {
+                          "Literal": {
+                            "Value": "'''Table_Waterfall''[Hierarchy 2]'"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "displayName": "Month"
+                }
+              ]
+            }
+          },
+          "48af74fdd6ace8933f32": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "ed268503f5af0b2a03f2": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "225ade85ab94c5dcc157": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          }
+        },
+        "visualContainerGroups": {
+          "cb7588bee2f73711e117": {
+            "isHidden": true
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

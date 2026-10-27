@@ -4,10 +4,10 @@
   "position": {
     "x": 991.54034229828846,
     "y": 540,
-    "z": 4000,
+    "z": 2000,
     "height": 464.74327628361857,
     "width": 877.9951100244499,
-    "tabOrder": 4000
+    "tabOrder": 2000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -86,6 +86,25 @@
         ],
         "isDefaultSort": true
       }
+    },
+    "objects": {
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFC399'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "drillFilterOtherVisuals": true
   },

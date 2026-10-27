@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "732a517f2004d380c491",
   "position": {
-    "x": 0,
-    "y": 0,
+    "x": 250.00000000000003,
+    "y": 85.714285714285722,
     "z": 0,
-    "height": 347.2340425531915,
-    "width": 1204.1337386018238,
+    "height": 531.42857142857144,
+    "width": 1670,
     "tabOrder": 0
   },
   "visual": {
@@ -51,6 +51,26 @@
           "projections": [
             {
               "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Fact_Sales_GPMargin"
+                        }
+                      },
+                      "Property": "List Price"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Fact_Sales_GPMargin.List Price)",
+              "nativeQueryRef": "List Price",
+              "displayName": "List Price"
+            },
+            {
+              "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
@@ -61,7 +81,8 @@
                 }
               },
               "queryRef": "MeasureGroup.Total_Sales",
-              "nativeQueryRef": "Total_Sales"
+              "nativeQueryRef": "Sales",
+              "displayName": "Sales"
             },
             {
               "field": {
@@ -80,7 +101,8 @@
                 }
               },
               "queryRef": "Sum(Fact_Sales_GPMargin.Estimated_Gross_Profit)",
-              "nativeQueryRef": "Sum of Estimated_Gross_Profit1"
+              "nativeQueryRef": "Profit",
+              "displayName": "Profit"
             },
             {
               "field": {
@@ -94,26 +116,8 @@
                 }
               },
               "queryRef": "MeasureGroup.Total_COGS",
-              "nativeQueryRef": "Total_COGS"
-            },
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Fact_Sales_GPMargin"
-                        }
-                      },
-                      "Property": "List Price"
-                    }
-                  },
-                  "Function": 0
-                }
-              },
-              "queryRef": "Sum(Fact_Sales_GPMargin.List Price)",
-              "nativeQueryRef": "Sum of List Price"
+              "nativeQueryRef": "COGS",
+              "displayName": "COGS"
             },
             {
               "field": {
@@ -218,7 +222,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "106.57430460458686D"
+                  "Value": "109.25191946284687D"
                 }
               }
             }
@@ -226,11 +230,38 @@
           "selector": {
             "metadata": "Sum(Fact_Sales_GPMargin.Estimated_Gross_Profit)"
           }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "157.00001579804749D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Discount.Foregone Profit from Discounting"
+          }
         }
       ],
       "columnHeaders": [
         {
           "properties": {}
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "textSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "14D"
+                }
+              }
+            }
+          }
         }
       ]
     },

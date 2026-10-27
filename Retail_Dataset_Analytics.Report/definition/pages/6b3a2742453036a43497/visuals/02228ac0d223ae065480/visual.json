@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "02228ac0d223ae065480",
   "position": {
-    "x": 17.142857142857142,
-    "y": 842.85714285714289,
+    "x": 54.333333333333343,
+    "y": 104.33333333333337,
     "z": 2000,
-    "height": 68.571428571428569,
-    "width": 121.42857142857143,
-    "tabOrder": 3000
+    "height": 70,
+    "width": 211.66666666666669,
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "slicer",
@@ -65,8 +65,55 @@
             }
           }
         }
+      ],
+      "items": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "drillFilterOtherVisuals": true
-  }
+  },
+  "parentGroupName": "cb7588bee2f73711e117"
 }

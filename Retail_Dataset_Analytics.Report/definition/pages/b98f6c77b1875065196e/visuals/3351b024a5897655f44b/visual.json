@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "3351b024a5897655f44b",
   "position": {
-    "x": 171.6510454217736,
-    "y": 254.70800288392212,
-    "z": 5000,
-    "height": 771.04542177361213,
-    "width": 580.01441961067053,
-    "tabOrder": 12000
+    "x": 171.12299465240642,
+    "y": 294.33155080213908,
+    "z": 4000,
+    "height": 730.69518716577545,
+    "width": 580.10695187165777,
+    "tabOrder": 7000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -120,5 +120,39 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "e070cfab5c017dea6b26",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "hh_demographic"
+              }
+            },
+            "Property": "AGE_DESC"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
   }
 }

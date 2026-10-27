@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "e0b98195f99d3ef9711f",
   "position": {
-    "x": 65.777777777777771,
-    "y": 305.77777777777777,
+    "x": 152.85714285714286,
+    "y": 645.71428571428578,
     "z": 3000,
-    "height": 186.74772036474164,
-    "width": 1045.5927051671733,
+    "height": 250.00000000000003,
+    "width": 834.28571428571433,
     "tabOrder": 3000
   },
   "visual": {
@@ -148,6 +148,98 @@
           }
         ]
       }
+    },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "128D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Discount.Foregone Profit from Discounting"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "99D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Discount.Total Discount Given"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "81.66666666666667D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "MeasureGroup.Profit Margin %"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "99D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "MeasureGroup.Total_Sales"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "128.66666666666669D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sum(Fact_Sales_GPMargin.Retail Discount Band Sort)"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "textSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "drillFilterOtherVisuals": true
   }

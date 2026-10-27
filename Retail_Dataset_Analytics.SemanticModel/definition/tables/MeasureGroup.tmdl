@@ -1657,7 +1657,7 @@ table MeasureGroup
 			        CurrentSales,
 			        CALCULATE([Total_Sales], ALL(hh_demographic))
 			    )
-			VAR BarColor = "#118DFF"
+			VAR BarColor = "#FF6900"
 			RETURN
 			    "data:image/svg+xml;utf8," &
 			    "<svg xmlns='http://www.w3.org/2000/svg' width='420' height='24'>" &
@@ -1873,9 +1873,8 @@ table MeasureGroup
 	measure 'Profit Margin %' =
 			
 			DIVIDE([Total_Gross_Profit], [Total_Sales], 0)
+		formatString: 0.00%;-0.00%;0.00%
 		lineageTag: 7f740434-6406-496b-83d2-02c89d1779eb
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	partition MeasureGroup = m
 		mode: import

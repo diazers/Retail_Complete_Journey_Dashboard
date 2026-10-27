@@ -118,6 +118,9 @@ table Redeem
 			        "#FFFFFF", 
 			        IF(SELECTEDVALUE('Aisle Mapping'[Display Code]) = SelCode, "#FFD700")
 			    )
+			
+			// #FFC399
+			// #FFD700
 			```
 		lineageTag: ee9d26fd-28c9-4ba1-ba00-2e249081316f
 

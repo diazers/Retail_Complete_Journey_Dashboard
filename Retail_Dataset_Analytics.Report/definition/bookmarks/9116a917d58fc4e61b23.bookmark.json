@@ -3,7 +3,9 @@
   "displayName": "Bookmark 2",
   "name": "9116a917d58fc4e61b23",
   "options": {
-    "targetVisualNames": []
+    "targetVisualNames": [
+      "423e6f2be58f967ba44d"
+    ]
   },
   "explorationState": {
     "version": "1.11",
@@ -11,7 +13,7 @@
     "sections": {
       "b98f6c77b1875065196e": {
         "visualContainers": {
-          "02ff55324506dfa918fa": {
+          "064cbf7f2f45ef09f775": {
             "singleVisual": {
               "visualType": "actionButton",
               "objects": {}
@@ -21,7 +23,7 @@
             "filters": {
               "byExpr": [
                 {
-                  "name": "c590f91a881a61f0f013",
+                  "name": "20207b1630810907da0d",
                   "type": "Advanced",
                   "expression": {
                     "Column": {
@@ -36,7 +38,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "e70d527ca4dfc691ccb8",
+                  "name": "aa531a535af6146502f4",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -51,7 +53,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "4a468c4ff605fd98e5ad",
+                  "name": "a5a92ab4133dc6905649",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -113,11 +115,151 @@
               }
             }
           },
+          "3351b024a5897655f44b": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "e070cfab5c017dea6b26",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "hh_demographic"
+                        }
+                      },
+                      "Property": "AGE_DESC"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "61a754f9fbc944edde76",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "hh_demographic"
+                        }
+                      },
+                      "Property": "HH_COMP_DESC"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "db42bd665651db662e00",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Metric Selector"
+                        }
+                      },
+                      "Property": "_Selected Current"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "clusteredBarChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Metric Selector"
+                        }
+                      },
+                      "Property": "_Selected Current"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "hh_demographic"
+                        }
+                      },
+                      "Property": "HH_COMP_DESC"
+                    }
+                  }
+                ]
+              },
+              "projections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "hh_demographic"
+                        }
+                      },
+                      "Property": "HH_COMP_DESC"
+                    }
+                  }
+                ],
+                "Y": [
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Metric Selector"
+                        }
+                      },
+                      "Property": "_Selected Current"
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "Category": [
+                  {
+                    "expr": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Demographic Selector"
+                          }
+                        },
+                        "Property": "Demographic Selector"
+                      }
+                    },
+                    "index": 0,
+                    "length": 1
+                  }
+                ]
+              }
+            }
+          },
+          "3cb4a0429d3081bb5b52": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "423e6f2be58f967ba44d": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
           "45d802b0004b3be7c045": {
             "filters": {
               "byExpr": [
                 {
-                  "name": "828b537dcd58de8a1dd7",
+                  "name": "3568788c661fd4be5fe3",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -248,628 +390,23 @@
               }
             }
           },
-          "58a6876f3cd076c0e429": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "52faabc95ca94199cb8f",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Date"
-                        }
-                      },
-                      "Property": "CalendarDate"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "749f412a0d187cc1ef3e",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Metric Selector"
-                        }
-                      },
-                      "Property": "_Selected Current"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "84c770003b30eb68b49b",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Metric Selector"
-                        }
-                      },
-                      "Property": "_Selected Previous"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "lineChart",
-              "objects": {},
-              "activeProjections": {
-                "Category": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Date"
-                        }
-                      },
-                      "Property": "CalendarDate"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "69c6d5d434a60968045a": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "bba381129735c5d41fca",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Metric Selector"
-                        }
-                      },
-                      "Property": "MetricName"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "advancedSlicerVisual",
-              "objects": {
-                "merge": {
-                  "general": [
-                    {
-                      "properties": {
-                        "filter": {
-                          "filter": {
-                            "Version": 2,
-                            "From": [
-                              {
-                                "Name": "m",
-                                "Entity": "Metric Selector",
-                                "Type": 0
-                              }
-                            ],
-                            "Where": [
-                              {
-                                "Condition": {
-                                  "In": {
-                                    "Expressions": [
-                                      {
-                                        "Column": {
-                                          "Expression": {
-                                            "SourceRef": {
-                                              "Source": "m"
-                                            }
-                                          },
-                                          "Property": "MetricName"
-                                        }
-                                      }
-                                    ],
-                                    "Values": [
-                                      [
-                                        {
-                                          "Literal": {
-                                            "Value": "'AOV'"
-                                          }
-                                        }
-                                      ]
-                                    ]
-                                  }
-                                }
-                              }
-                            ]
-                          }
-                        }
-                      }
-                    }
-                  ],
-                  "selection": [
-                    {
-                      "properties": {
-                        "strictSingleSelect": {
-                          "expr": {
-                            "Literal": {
-                              "Value": "true"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "6db9584bc1c9b9a6fd96": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "4afb20e2b72f86dc717a",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Date"
-                        }
-                      },
-                      "Property": "MonthName"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "611c785382a335dc4f20",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Product"
-                        }
-                      },
-                      "Property": "BRAND"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "8b87e512b0181c6f4aac",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Product"
-                        }
-                      },
-                      "Property": "DEPARTMENT"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "3bff32241c4273ca1c62",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Product"
-                        }
-                      },
-                      "Property": "COMMODITY_DESC"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "d386e18c16b65b641ca6",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "MeasureGroup"
-                        }
-                      },
-                      "Property": "AOV"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "pivotTable",
-              "objects": {},
-              "activeProjections": {
-                "Columns": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Date"
-                        }
-                      },
-                      "Property": "MonthName"
-                    }
-                  }
-                ],
-                "Rows": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Product"
-                        }
-                      },
-                      "Property": "BRAND"
-                    }
-                  },
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Product"
-                        }
-                      },
-                      "Property": "DEPARTMENT"
-                    }
-                  }
-                ]
-              },
-              "expansionStates": [
-                {
-                  "roles": [
-                    "Rows"
-                  ],
-                  "levels": [
-                    {
-                      "queryRefs": [
-                        "Dim_Product.BRAND"
-                      ],
-                      "isCollapsed": true,
-                      "identityKeys": [
-                        {
-                          "Column": {
-                            "Expression": {
-                              "SourceRef": {
-                                "Entity": "Dim_Product"
-                              }
-                            },
-                            "Property": "BRAND"
-                          }
-                        }
-                      ],
-                      "isPinned": true
-                    },
-                    {
-                      "queryRefs": [
-                        "Dim_Product.DEPARTMENT"
-                      ],
-                      "isCollapsed": true,
-                      "identityKeys": [
-                        {
-                          "Column": {
-                            "Expression": {
-                              "SourceRef": {
-                                "Entity": "Dim_Product"
-                              }
-                            },
-                            "Property": "DEPARTMENT"
-                          }
-                        }
-                      ],
-                      "isPinned": true
-                    },
-                    {
-                      "queryRefs": [
-                        "Dim_Product.COMMODITY_DESC"
-                      ],
-                      "isCollapsed": true,
-                      "isPinned": true
-                    }
-                  ],
-                  "root": {
-                    "identityValues": [],
-                    "children": [
-                      {
-                        "identityValues": [
-                          {
-                            "Literal": {
-                              "Value": "'National'"
-                            }
-                          }
-                        ],
-                        "isToggled": true
-                      },
-                      {
-                        "identityValues": [
-                          {
-                            "Literal": {
-                              "Value": "'Private'"
-                            }
-                          }
-                        ],
-                        "isToggled": true
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          },
-          "bfcb9122a1cc51b97f72": {
-            "singleVisual": {
-              "visualType": "textbox",
-              "objects": {}
-            }
-          },
-          "ca60b729ee2e9d177db9": {
+          "4e67bfa6300ad67096d8": {
             "singleVisual": {
               "visualType": "actionButton",
               "objects": {}
             }
           },
-          "ce7506b0112d19b287af": {
+          "4ea0eaba73d80747ac93": {
             "singleVisual": {
               "visualType": "actionButton",
               "objects": {}
-            }
-          },
-          "d423170707d928413edc": {
-            "singleVisual": {
-              "visualType": "actionButton",
-              "objects": {}
-            }
-          },
-          "f914445650a11e0dc93a": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "8c558f9e012d9190ab64",
-                  "type": "Advanced",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Fact_Sales_GPMargin"
-                        }
-                      },
-                      "Property": "Hour"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "dc8b9f2d9a38fc78fb4d",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Metric Selector"
-                        }
-                      },
-                      "Property": "_Selected Current"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "clusteredColumnChart",
-              "objects": {},
-              "orderBy": [
-                {
-                  "Direction": 2,
-                  "Expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Metric Selector"
-                        }
-                      },
-                      "Property": "_Selected Current"
-                    }
-                  }
-                }
-              ],
-              "activeProjections": {
-                "Category": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Fact_Sales_GPMargin"
-                        }
-                      },
-                      "Property": "Hour"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "ff79ea4988525abd1766": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "157148cc274c0fe6594e",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Date"
-                        }
-                      },
-                      "Property": "DayName"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "c7220ced464f9b22b987",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Metric Selector"
-                        }
-                      },
-                      "Property": "_Selected Current"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "clusteredColumnChart",
-              "objects": {},
-              "activeProjections": {
-                "Category": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Date"
-                        }
-                      },
-                      "Property": "DayName"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "3351b024a5897655f44b": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "4e1b0141b80216c681b0",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Metric Selector"
-                        }
-                      },
-                      "Property": "_Selected Current"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "dd21de663000ef48a78a",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "hh_demographic"
-                        }
-                      },
-                      "Property": "HH_COMP_DESC"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "clusteredBarChart",
-              "objects": {},
-              "orderBy": [
-                {
-                  "Direction": 2,
-                  "Expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Metric Selector"
-                        }
-                      },
-                      "Property": "_Selected Current"
-                    }
-                  }
-                }
-              ],
-              "activeProjections": {
-                "Category": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "hh_demographic"
-                        }
-                      },
-                      "Property": "HH_COMP_DESC"
-                    }
-                  }
-                ]
-              },
-              "projections": {
-                "Category": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "hh_demographic"
-                        }
-                      },
-                      "Property": "HH_COMP_DESC"
-                    }
-                  }
-                ],
-                "Y": [
-                  {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Metric Selector"
-                        }
-                      },
-                      "Property": "_Selected Current"
-                    }
-                  }
-                ]
-              },
-              "parameters": {
-                "Category": [
-                  {
-                    "expr": {
-                      "Column": {
-                        "Expression": {
-                          "SourceRef": {
-                            "Entity": "Demographic Selector"
-                          }
-                        },
-                        "Property": "Demographic Selector"
-                      }
-                    },
-                    "index": 0,
-                    "length": 1
-                  }
-                ]
-              }
             }
           },
           "51638875db5a2e3db92d": {
             "filters": {
               "byExpr": [
                 {
-                  "name": "1dcde5872e5dcddea67e",
+                  "name": "b6c684334072c7890b59",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -994,6 +531,163 @@
               ]
             }
           },
+          "58a6876f3cd076c0e429": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "5c8949e1e14df909e031",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Date"
+                        }
+                      },
+                      "Property": "CalendarDate"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "9e57fc408ff12f579656",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Metric Selector"
+                        }
+                      },
+                      "Property": "_Selected Current"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "eb9292a1b41f332538a8",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Metric Selector"
+                        }
+                      },
+                      "Property": "_Selected Previous"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "lineChart",
+              "objects": {},
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Date"
+                        }
+                      },
+                      "Property": "CalendarDate"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "69c6d5d434a60968045a": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "0d991e291e2254a110f2",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Metric Selector"
+                        }
+                      },
+                      "Property": "MetricName"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "advancedSlicerVisual",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "m",
+                                "Entity": "Metric Selector",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "m"
+                                            }
+                                          },
+                                          "Property": "MetricName"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "'AOV'"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
           "6bc6eedc761216172f42": {
             "singleVisual": {
               "visualType": "actionButton",
@@ -1003,13 +697,163 @@
               }
             }
           },
-          "75654a13585aa9979965": {
+          "6db9584bc1c9b9a6fd96": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "9114de7cd0d31b2f4bd7",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Date"
+                        }
+                      },
+                      "Property": "YearMonth"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "2638e5d0b608bcd18486",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Product"
+                        }
+                      },
+                      "Property": "BRAND"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "de0c2501ee0f0316c6e1",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Department_Margin"
+                        }
+                      },
+                      "Property": "DEPARTMENT"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "873c73b78afee6242aad",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Metric Selector"
+                        }
+                      },
+                      "Property": "_Selected Current"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
             "singleVisual": {
-              "visualType": "actionButton",
-              "objects": {}
+              "visualType": "pivotTable",
+              "objects": {},
+              "activeProjections": {
+                "Columns": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Date"
+                        }
+                      },
+                      "Property": "YearMonth"
+                    }
+                  }
+                ],
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Product"
+                        }
+                      },
+                      "Property": "BRAND"
+                    }
+                  },
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Department_Margin"
+                        }
+                      },
+                      "Property": "DEPARTMENT"
+                    }
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Rows"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "Dim_Product.BRAND"
+                      ],
+                      "isCollapsed": true,
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "Dim_Product"
+                              }
+                            },
+                            "Property": "BRAND"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "Dim_Department_Margin.DEPARTMENT"
+                      ],
+                      "isCollapsed": true,
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": null,
+                    "children": [
+                      {
+                        "identityValues": [
+                          {
+                            "Literal": {
+                              "Value": "'National'"
+                            }
+                          }
+                        ],
+                        "isToggled": true
+                      }
+                    ]
+                  }
+                }
+              ]
             }
           },
-          "423e6f2be58f967ba44d": {
+          "75654a13585aa9979965": {
             "singleVisual": {
               "visualType": "actionButton",
               "objects": {}
@@ -1019,6 +863,135 @@
             "singleVisual": {
               "visualType": "actionButton",
               "objects": {}
+            }
+          },
+          "eace207ae81e714e3a4e": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "f914445650a11e0dc93a": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "18d6cf4a7b764b2815a4",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Fact_Sales_GPMargin"
+                        }
+                      },
+                      "Property": "Hour"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "ae42d21f4c5187ac3a8c",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Metric Selector"
+                        }
+                      },
+                      "Property": "_Selected Current"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "clusteredColumnChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Metric Selector"
+                        }
+                      },
+                      "Property": "_Selected Current"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Fact_Sales_GPMargin"
+                        }
+                      },
+                      "Property": "Hour"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "ff79ea4988525abd1766": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "851af9fa1751f0128af2",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Date"
+                        }
+                      },
+                      "Property": "DayName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "5d748c040336f3852d38",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Metric Selector"
+                        }
+                      },
+                      "Property": "_Selected Current"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "clusteredColumnChart",
+              "objects": {},
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Date"
+                        }
+                      },
+                      "Property": "DayName"
+                    }
+                  }
+                ]
+              }
             }
           }
         }
